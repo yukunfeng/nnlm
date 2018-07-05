@@ -12,7 +12,7 @@ import torchtext
 import spacy
 
 
-def create_lm_dataset():
+def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len):
     """create language modeling dataset.
     :returns: iterators for train, test and valid dataset
 
@@ -27,19 +27,19 @@ def create_lm_dataset():
         tokenize=tokenize
     )
 
-    wikitext_dir = os.path.expanduser("~/common_corpus/")
+    wikitext_dir = os.path.expanduser(resources_dir)
     train, valid, test = torchtext.datasets.WikiText2.splits(
         text_field=TEXT,
         root=wikitext_dir
     )
 
-    vectors_dir = os.path.expanduser("~/common_corpus/")
-    TEXT.build_vocab(train, vectors="glove.6B.50d", vectors_cache=vectors_dir)
+    vectors_dir = os.path.expanduser(resources_dir)
+    TEXT.build_vocab(train, vectors=vector_type, vectors_cache=vectors_dir)
 
     train_iter, val_iter, test_iter = torchtext.data.BPTTIterator.splits(
         (train, valid, test),
-        batch_size=5,
-        bptt_len=3,
+        batch_size=batch_size,
+        bptt_len=bptt_len,
         device=-1,
         repeat=False
     )
@@ -51,4 +51,9 @@ def create_lm_dataset():
 
 if __name__ == "__main__":
     #  unit test
-    create_lm_dataset()
+    create_lm_dataset(
+        resources_dir="",
+        vector_type="",
+        batch_size="",
+        bptt_len=""
+    )

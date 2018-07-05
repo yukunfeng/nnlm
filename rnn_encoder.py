@@ -7,8 +7,6 @@ import torch.nn.functional as F
 from torch.nn.utils.rnn import pack_padded_sequence as pack
 from torch.nn.utils.rnn import pad_packed_sequence as unpack
 
-from encoder import EncoderBase
-
 
 class RNNEncoder(nn.Module):
     """ A generic recurrent neural network encoder.
@@ -33,7 +31,6 @@ class RNNEncoder(nn.Module):
         self.embeddings = nn.Embedding(vocab_size, word_dim)
 
         self.rnn = getattr(nn, rnn_type)(
-            rnn_type,
             input_size=word_dim,
             hidden_size=hidden_size,
             num_layers=num_layers,

@@ -38,11 +38,12 @@ def train(opt):
         num_layers=opt.num_layers,
         vocab_size=opt.vocab_size,
         word_dim=opt.word_dim,
-        hidden_size=opt.hidden_size,
+        hidden_size=opt.word_dim,
         dropout=opt.dropout
     )
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr = 0.01)
+    optimizer = optim.SGD(model.parameters(), lr=0.01)
+    exit(0)
     train_iter, test_iter, val_iter = dataset.create_lm_dataset()
     for batch_train in train_iter:
         optimizer.zero_grad()
@@ -60,3 +61,4 @@ if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
     logger.info("It's a test")
+    train(opt)
