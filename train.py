@@ -9,6 +9,7 @@ Description : training
 
 import argparse
 import opts
+import torch
 import torch.nn as nn
 import torch.optim as optim
 from utils.utils import get_logger
@@ -32,29 +33,46 @@ def parse_args():
 
 def train(opt):
     """training given opt"""
+    TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
+        resources_dir=opt.resources_dir,
+        vector_type=opt.vector_type,
+        batch_size=opt.batch_size,
+        bptt_len=opt.bptt_len,
+        device=opt.device
+    )
+    device = torch.device(opt.device)
+
+    vocab_size = TEXT.vocab.vectors.size(0)
+    word_dim = TEXT.vocab.vectors.size(1)
     model = NNLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
-        vocab_size=opt.vocab_size,
-        word_dim=opt.word_dim,
-        hidden_size=opt.word_dim,
+        vocab_size=vocab_size,
+        word_dim=word_dim,
+        hidden_size=word_dim,
         dropout=opt.dropout
-    )
+    ).to(device)
+    model.rnn_encoder.embeddings.weight = nn.Parameter(TEXT.vocab.vectors)
+    model.rnn_encoder.embeddings.weight.requries_grad =\
+        opt.input_embeddings_trainable
+
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.01)
-    exit(0)
-    train_iter, test_iter, val_iter = dataset.create_lm_dataset()
+    optimizer = optim.SGD(model.parameters(), lr=opt.lr)
+    total_loss = 0
     for batch_train in train_iter:
         optimizer.zero_grad()
-        text, target = batch_train.text, batch_train.target
+        text = batch_train.text.to(device)
+        target = batch_train.target.to(device)
         prediction = model(text)
         loss = criterion(
-            prediction.view(-1, model.vocab_size),
+            prediction.view(-1, vocab_size),
             target.view(-1)
         )
         loss.backward()
+        total_loss += loss.item()
         optimizer.step()
+        print(loss.item())
 
 
 if __name__ == "__main__":

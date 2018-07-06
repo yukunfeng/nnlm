@@ -34,7 +34,7 @@ class NNLM(nn.Module):
         out = out.view(
             memory_bank.size(0),
             memory_bank.size(1),
-            memory_bank.size(2)
+            -1
         )
         return out
 

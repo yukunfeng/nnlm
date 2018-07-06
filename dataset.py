@@ -12,7 +12,7 @@ import torchtext
 import spacy
 
 
-def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len):
+def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device):
     """create language modeling dataset.
     :returns: iterators for train, test and valid dataset
 
@@ -34,19 +34,20 @@ def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len):
     )
 
     vectors_dir = os.path.expanduser(resources_dir)
-    TEXT.build_vocab(train, vectors=vector_type, vectors_cache=vectors_dir)
+    TEXT.build_vocab(
+        train,
+        vectors=vector_type,
+        vectors_cache=vectors_dir
+    )
 
     train_iter, val_iter, test_iter = torchtext.data.BPTTIterator.splits(
         (train, valid, test),
         batch_size=batch_size,
         bptt_len=bptt_len,
-        device=-1,
+        device=device,
         repeat=False
     )
-    for batch in train_iter:
-        print(batch.text)
-        break
-    return (train_iter, test_iter, val_iter)
+    return (TEXT, train_iter, test_iter, val_iter)
 
 
 if __name__ == "__main__":
@@ -55,5 +56,6 @@ if __name__ == "__main__":
         resources_dir="",
         vector_type="",
         batch_size="",
-        bptt_len=""
+        bptt_len="",
+        device=""
     )
