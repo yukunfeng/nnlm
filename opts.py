@@ -20,13 +20,13 @@ def preprocess_opts(parser):
     group = parser.add_argument_group('Data')
 
     group.add_argument('-resources_dir',
-                       default='~/common_corpus',
+                       default='~/common_corpus/',
                        help="where wiki.. glove are")
     group.add_argument('-vector_type',
                        default="glove.6B.50d",
                        help="E.g., glove.6b.300d")
     group.add_argument('-batch_size', type=int,
-                       default=64,
+                       default=5,
                        help="batch size")
     group.add_argument('-bptt_len', type=int,
                        default=10,
@@ -41,7 +41,7 @@ def preprocess_opts(parser):
         help="whether train inputembeddings"
     )
     group.add_argument('-lr', default=0.01, help="learning rate")
-    group.add_argument('-rnn_type', default='rnn', help="type")
+    group.add_argument('-rnn_type', default='RNN', help="type")
     group.add_argument('-bidirectional', default=False, type=bool)
     group.add_argument(
         '-num_layers',
@@ -49,18 +49,7 @@ def preprocess_opts(parser):
         type=int,
         help="number of layers"
     )
-    group.add_argument(
-        '-vocab_size',
-        required=True,
-        help="vocab_size",
-        type=int
-    )
-    group.add_argument(
-        '-word_dim',
-        required=True,
-        help="word_dim",
-        type=int
-    )
+
     group.add_argument(
         '-dropout',
         default=0.0,

@@ -13,6 +13,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from utils.utils import get_logger
+from utils.utils import word_ids_to_sentence
 from nnlm import NNLM
 import dataset
 
