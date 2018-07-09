@@ -54,7 +54,7 @@ def train(opt, logger=None):
         hidden_size=word_dim,
         dropout=opt.dropout
     ).to(device)
-    model.rnn_encoder.embeddings.weight = nn.Parameter(TEXT.vocab.vectors)
+    model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.rnn_encoder.embeddings.weight.requries_grad =\
         opt.input_embeddings_trainable
 
