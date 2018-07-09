@@ -40,6 +40,7 @@ def preprocess_opts(parser):
         type=bool,
         help="whether train inputembeddings"
     )
+    group.add_argument('-epoch', default=30, help="epoch")
     group.add_argument('-lr', default=0.01, help="learning rate")
     group.add_argument('-rnn_type', default='RNN', help="type")
     group.add_argument('-bidirectional', default=False, type=bool)

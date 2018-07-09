@@ -32,7 +32,7 @@ def parse_args():
     return opt
 
 
-def train(opt):
+def train(opt, logger=None):
     """training given opt"""
     TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
         resources_dir=opt.resources_dir,
@@ -60,24 +60,39 @@ def train(opt):
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=opt.lr)
-    total_loss = 0
-    for batch_train in train_iter:
-        optimizer.zero_grad()
-        text = batch_train.text.to(device)
-        target = batch_train.target.to(device)
-        prediction = model(text)
-        loss = criterion(
-            prediction.view(-1, vocab_size),
-            target.view(-1)
-        )
-        loss.backward()
-        total_loss += loss.item()
-        optimizer.step()
-        print(loss.item())
+
+    for epoch in range(1, opt.epoch + 1):
+        if logger:
+            logger.info("To start {} epoch".format(epoch))
+        total_loss = 0
+        batch_count = 0
+        for batch_train in train_iter:
+            optimizer.zero_grad()
+            text = batch_train.text.to(device)
+            target = batch_train.target.to(device)
+            prediction = model(text)
+            loss = criterion(
+                prediction.view(-1, vocab_size),
+                target.view(-1)
+            )
+            loss.backward()
+
+            current_batch_loss = loss.item() * prediction.size(0)\
+                                             * prediction.size(1)
+            batch_count += 1
+            total_loss += current_batch_loss
+            average_batch_loss = total_loss / batch_count
+            logger_info = "current batch:{}".format(batch_count)
+            logger_info += "current_batch_loss: {} ".format(current_batch_loss)
+            logger_info += "average_batch_loss:{} ".format(average_batch_loss)
+            if logger:
+                logger.info(logger_info)
+
+            optimizer.step()
 
 
 if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
     logger.info("It's a test")
-    train(opt)
+    train(opt, logger)
