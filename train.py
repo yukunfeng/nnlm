@@ -65,8 +65,7 @@ def train(opt, logger=None):
         if logger:
             logger.info("To start {} epoch".format(epoch))
         total_loss = 0
-        batch_count = 0
-        for batch_train in train_iter:
+        for batch_count, batch_train in enumerate(train_iter, 1):
             optimizer.zero_grad()
             text = batch_train.text.to(device)
             target = batch_train.target.to(device)
@@ -77,14 +76,12 @@ def train(opt, logger=None):
             )
             loss.backward()
 
-            current_batch_loss = loss.item() * prediction.size(0)\
-                                             * prediction.size(1)
-            batch_count += 1
-            total_loss += current_batch_loss
-            average_batch_loss = total_loss / batch_count
-            logger_info = "current batch:{}".format(batch_count)
-            logger_info += "current_batch_loss: {} ".format(current_batch_loss)
-            logger_info += "average_batch_loss:{} ".format(average_batch_loss)
+            current_bptt_loss = loss.item() * prediction.size(0)
+            total_loss += current_bptt_loss
+            average_bptt_loss = total_loss / batch_count
+            logger_info = "current batch:{} ".format(batch_count)
+            logger_info += "current_bptt_loss: {} ".format(current_bptt_loss)
+            logger_info += "average_bptt_loss:{} ".format(average_bptt_loss)
             if logger:
                 logger.info(logger_info)
 
@@ -93,7 +90,7 @@ def train(opt, logger=None):
         # Doing validation
         with torch.no_grad():
             val_loss = 0
-            for batch_val in val_iter:
+            for batch_val_count, batch_val in enumerate(val_iter, 1):
                 text = batch_val.text.to(device)
                 target = batch_val.target.to(device)
                 prediction = model(text)
@@ -101,13 +98,17 @@ def train(opt, logger=None):
                     prediction.view(-1, vocab_size),
                     target.view(-1)
                 )
-                current_batch_loss = loss.item() * prediction.size(0)\
-                                                 * prediction.size(1)
-
+                current_bptt_loss = loss.item() * prediction.size(0)
+                val_loss += current_bptt_loss
+            if logger:
+                average_bptt_loss = val_loss / batch_val_count
+                logger_info = "val "\
+                    "average_bptt_loss:{}".format(average_bptt_loss)
+                logger.info(logger_info)
 
 
 if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
-    logger.info("It's a test")
+    logger.info("Start training...")
     train(opt, logger)
