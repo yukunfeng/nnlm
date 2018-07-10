@@ -82,11 +82,14 @@ def train(opt, logger=None):
             logger_info = "current batch:{} ".format(batch_count)
             logger_info += "current_bptt_loss: {} ".format(current_bptt_loss)
             logger_info += "average_bptt_loss:{} ".format(average_bptt_loss)
-            if logger:
-                logger.info(logger_info)
 
             optimizer.step()
 
+        if logger:
+            average_bptt_loss = total_loss / batch_count
+            logger_info = "epoch:{}"\
+                " average_bptt_loss:{}".format(epoch, average_bptt_loss)
+            logger.info(logger_info)
         # Doing validation
         with torch.no_grad():
             val_loss = 0
