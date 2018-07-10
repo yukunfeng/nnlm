@@ -26,7 +26,7 @@ def preprocess_opts(parser):
                        default="glove.6B.50d",
                        help="E.g., glove.6b.300d")
     group.add_argument('-batch_size', type=int,
-                       default=256,
+                       default=20,
                        help="batch size")
     group.add_argument('-bptt_len', type=int,
                        default=10,
@@ -42,7 +42,7 @@ def preprocess_opts(parser):
     )
     group.add_argument('-epoch', default=30, help="epoch")
     group.add_argument('-lr', default=0.1, help="learning rate")
-    group.add_argument('-rnn_type', default='RNN', help="type")
+    group.add_argument('-rnn_type', default='GRU', help="type")
     group.add_argument('-bidirectional', default=False, type=bool)
     group.add_argument(
         '-num_layers',

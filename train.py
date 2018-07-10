@@ -8,6 +8,7 @@ Description : training
 """
 
 import argparse
+import math
 import opts
 import torch
 import torch.nn as nn
@@ -59,7 +60,7 @@ def train(opt, logger=None):
         opt.input_embeddings_trainable
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=opt.lr)
+    optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
 
     for epoch in range(1, opt.epoch + 1):
         if logger:
@@ -76,19 +77,13 @@ def train(opt, logger=None):
             )
             loss.backward()
 
-            current_bptt_loss = loss.item() * prediction.size(0)
-            total_loss += current_bptt_loss
-            average_bptt_loss = total_loss / batch_count
-            logger_info = "current batch:{} ".format(batch_count)
-            logger_info += "current_bptt_loss: {} ".format(current_bptt_loss)
-            logger_info += "average_bptt_loss:{} ".format(average_bptt_loss)
-
+            total_loss += loss.item()
             optimizer.step()
 
         if logger:
-            average_bptt_loss = total_loss / batch_count
+            average_word_loss = total_loss / batch_count
             logger_info = "epoch:{}"\
-                " average_bptt_loss:{}".format(epoch, average_bptt_loss)
+                " average_word_loss:{}".format(epoch, average_word_loss)
             logger.info(logger_info)
         # Doing validation
         with torch.no_grad():
@@ -101,12 +96,12 @@ def train(opt, logger=None):
                     prediction.view(-1, vocab_size),
                     target.view(-1)
                 )
-                current_bptt_loss = loss.item() * prediction.size(0)
-                val_loss += current_bptt_loss
+                val_loss += loss.item()
             if logger:
-                average_bptt_loss = val_loss / batch_val_count
-                logger_info = "val "\
-                    "average_bptt_loss:{}".format(average_bptt_loss)
+                average_word_loss = val_loss / batch_val_count
+                ppl = math.exp(average_word_loss)
+                logger_info = "val average_word_loss:"\
+                    "{} ppl:{}".format(average_word_loss, ppl)
                 logger.info(logger_info)
 
 
