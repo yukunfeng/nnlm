@@ -90,6 +90,21 @@ def train(opt, logger=None):
 
             optimizer.step()
 
+        # Doing validation
+        with torch.no_grad():
+            val_loss = 0
+            for batch_val in val_iter:
+                text = batch_val.text.to(device)
+                target = batch_val.target.to(device)
+                prediction = model(text)
+                loss = criterion(
+                    prediction.view(-1, vocab_size),
+                    target.view(-1)
+                )
+                current_batch_loss = loss.item() * prediction.size(0)\
+                                                 * prediction.size(1)
+
+
 
 if __name__ == "__main__":
     opt = parse_args()
