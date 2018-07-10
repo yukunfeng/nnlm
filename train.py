@@ -9,6 +9,7 @@ Description : training
 
 import argparse
 import math
+import time
 import opts
 import torch
 import torch.nn as nn
@@ -62,9 +63,28 @@ def train(opt, logger=None):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
 
-    for epoch in range(1, opt.epoch + 1):
-        if logger:
-            logger.info("To start {} epoch".format(epoch))
+    def evaluation(data_iter):
+        """do evaluation on data_iter
+        return: average_word_loss"""
+        model.eval()
+        with torch.no_grad():
+            eval_total_loss = 0
+            for batch_count, batch_data in enumerate(data_iter, 1):
+                text = batch_data.text.to(device)
+                target = batch_data.target.to(device)
+                prediction = model(text)
+                loss = criterion(
+                    prediction.view(-1, vocab_size),
+                    target.view(-1))
+                eval_total_loss += loss.item()
+            return (eval_total_loss / batch_count)
+
+    # Keep track of history ppl on val dataset
+    val_ppls = []
+    for epoch in range(1, int(opt.epoch) + 1):
+        start_time = time.time()
+        # Turn on training mode which enables dropout.
+        model.train()
         total_loss = 0
         for batch_count, batch_train in enumerate(train_iter, 1):
             optimizer.zero_grad()
@@ -80,29 +100,38 @@ def train(opt, logger=None):
             total_loss += loss.item()
             optimizer.step()
 
-        if logger:
-            average_word_loss = total_loss / batch_count
-            logger_info = "epoch:{}"\
-                " average_word_loss:{}".format(epoch, average_word_loss)
-            logger.info(logger_info)
+        # All xx_loss means loss per word on xx dataset
+        train_loss = total_loss / batch_count
+
         # Doing validation
-        with torch.no_grad():
-            val_loss = 0
-            for batch_val_count, batch_val in enumerate(val_iter, 1):
-                text = batch_val.text.to(device)
-                target = batch_val.target.to(device)
-                prediction = model(text)
-                loss = criterion(
-                    prediction.view(-1, vocab_size),
-                    target.view(-1)
-                )
-                val_loss += loss.item()
+        val_loss = evaluation(val_iter)
+        val_ppl = math.exp(val_loss)
+        val_ppls.append(val_ppl)
+
+        elapsed = time.time() - start_time
+        start_time = time.time()
+
+        if logger:
+            logger.info('| epoch {:3d} | train_loss {:5.2f} '
+                        '| val_ppl {:8.2f} | time {:5.1f}s'.format(
+                            epoch,
+                            train_loss,
+                            val_ppl,
+                            elapsed))
+
+        # Saving model
+        if epoch % opt.every_n_epoch_save == 0:
             if logger:
-                average_word_loss = val_loss / batch_val_count
-                ppl = math.exp(average_word_loss)
-                logger_info = "val average_word_loss:"\
-                    "{} ppl:{}".format(average_word_loss, ppl)
-                logger.info(logger_info)
+                logger.info("start to save model on {}".format(opt.save))
+            with open(opt.save, 'wb') as save_fh:
+                torch.save(model, save_fh)
+
+    # Doing evaluation on test data
+    test_loss = evaluation(test_iter)
+    test_ppl = math.exp(test_loss)
+    
+    if logger:
+        logger.info("test_ppl: {:5.1f}".format(test_ppl)) 
 
 
 if __name__ == "__main__":

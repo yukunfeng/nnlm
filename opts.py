@@ -40,9 +40,16 @@ def preprocess_opts(parser):
         type=bool,
         help="whether train inputembeddings"
     )
-    group.add_argument('-epoch', default=30, help="epoch")
-    group.add_argument('-lr', default=0.1, help="learning rate")
-    group.add_argument('-rnn_type', default='GRU', help="type")
+    group.add_argument('-save', default="nnlm.model", help="the saving path")
+    group.add_argument(
+        '-every_n_epoch_save',
+        default=4,
+        type=int,
+        help="every this epoch saving model"
+    )
+    group.add_argument('-epoch', default=30, help="epoch", type=int)
+    group.add_argument('-lr', default=0.1, help="learning rate", type=float)
+    group.add_argument('-rnn_type', default='GRU', help="type", type=str)
     group.add_argument('-bidirectional', default=False, type=bool)
     group.add_argument(
         '-num_layers',
