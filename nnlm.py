@@ -7,6 +7,7 @@ Description : NN-based LM
 """
 
 from __future__ import division
+import torch
 import torch.nn as nn
 from rnn_encoder import RNNEncoder
 
@@ -26,15 +27,31 @@ class NNLM(nn.Module):
             hidden_size,
             dropout=0.0
         )
-        self.out = nn.Linear(hidden_size, vocab_size)
 
-    def forward(self, src, lengths=None):
+    def forward(self, src, target=None, lengths=None):
         _, memory_bank = self.rnn_encoder(src, lengths)
-        out = self.out(memory_bank.view(-1, self.hidden_size))
-        out = out.view(
-            memory_bank.size(0),
-            memory_bank.size(1),
-            -1
-        )
-        return out
+        if self.training:
+            if target is None:
+                raise Exception("target is none in training")
+            memory_bank = memory_bank.view(-1, self.hidden_size)
+            indexs = target.view(-1)
+            target_embeddings = torch.index_select(self.rnn_encoder.embeddings.weight, 0, indexs)
+            out = torch.bmm(
+                memory_bank.view(-1, 1, self.hidden_size),
+                target_embeddings.view(-1, self.hidden_size, 1)
+            )
+            out = out.view(-1)
+            out = out.view(target.size(0), target.size(1))
+            return out
+        else:
+            out = torch.mm(
+                memory_bank.view(-1, self.hidden_size),
+                self.rnn_encoder.embeddings.weight.t()
+            )
+            out = out.view(
+                memory_bank.size(0),
+                memory_bank.size(1),
+                -1
+            )
+            return out
 

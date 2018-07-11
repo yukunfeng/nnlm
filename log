@@ -31,3 +31,6 @@
 [2018-07-11 12:19:00,652 INFO] | epoch   4 | train_loss  5.10 | val_ppl   175.43 | time  51.8s
 [2018-07-11 12:19:00,652 INFO] start to save model on nnlm.model
 [2018-07-11 12:19:03,120 INFO] test_ppl: 161.4
+[2018-07-11 17:06:41,967 INFO] Start training...
+[2018-07-11 17:06:41,968 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=4, every_n_epoch_save=4, input_embeddings_trainable=True, log_file='log', lr=1.0, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=True, vector_type='glove.6B.100d')
+[2018-07-11 17:06:54,421 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt

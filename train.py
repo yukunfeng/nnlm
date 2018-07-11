@@ -60,11 +60,7 @@ def train(opt, logger=None):
     model.rnn_encoder.embeddings.weight.requries_grad =\
         opt.input_embeddings_trainable
 
-    if opt.tied:
-        model.out.weight = model.rnn_encoder.embeddings.weight
-
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
 
     def evaluation(data_iter):
         """do evaluation on data_iter
@@ -79,6 +75,7 @@ def train(opt, logger=None):
                 loss = criterion(
                     prediction.view(-1, vocab_size),
                     target.view(-1))
+                print(loss)
                 eval_total_loss += loss.item()
             return (eval_total_loss / batch_count)
 
@@ -90,18 +87,16 @@ def train(opt, logger=None):
         model.train()
         total_loss = 0
         for batch_count, batch_train in enumerate(train_iter, 1):
-            optimizer.zero_grad()
+            model.zero_grad()
             text = batch_train.text.to(device)
             target = batch_train.target.to(device)
-            prediction = model(text)
-            loss = criterion(
-                prediction.view(-1, vocab_size),
-                target.view(-1)
-            )
+            loss = torch.mean(-model(text, target))
             loss.backward()
 
             total_loss += loss.item()
-            optimizer.step()
+            for param in model.parameters():
+                # see doc torch.add
+                param.data.add_(-opt.lr, param.grad.data)
 
         # All xx_loss means loss per word on xx dataset
         train_loss = total_loss / batch_count
