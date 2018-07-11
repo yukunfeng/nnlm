@@ -23,7 +23,7 @@ def preprocess_opts(parser):
                        default='~/common_corpus/',
                        help="where wiki.. glove are")
     group.add_argument('-vector_type',
-                       default="glove.6B.50d",
+                       default="glove.6B.100d",
                        help="E.g., glove.6b.300d")
     group.add_argument('-batch_size', type=int,
                        default=20,
@@ -47,6 +47,12 @@ def preprocess_opts(parser):
         type=int,
         help="every this epoch saving model"
     )
+    group.add_argument('-seed', default=0, help="random seed", type=int)
+    group.add_argument(
+        '-tied', default=True,
+        help="tied input and output embedding",
+        type=bool
+    )
     group.add_argument('-epoch', default=30, help="epoch", type=int)
     group.add_argument('-lr', default=0.1, help="learning rate", type=float)
     group.add_argument('-rnn_type', default='GRU', help="type", type=str)
@@ -66,7 +72,5 @@ def preprocess_opts(parser):
     )
 
     group = parser.add_argument_group('Logging')
-    group.add_argument('-report_every', type=int, default=100000,
-                       help="Report status every this many sentences")
-    group.add_argument('-log_file', type=str, default="",
+    group.add_argument('-log_file', type=str, default="log",
                        help="Output logs to a file under this path.")

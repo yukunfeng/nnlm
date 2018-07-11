@@ -29,7 +29,7 @@ def parse_args():
     opts.preprocess_opts(parser)
 
     opt = parser.parse_args()
-    #  torch.manual_seed(opt.seed)
+    torch.manual_seed(opt.seed)
 
     return opt
 
@@ -59,6 +59,9 @@ def train(opt, logger=None):
     model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.rnn_encoder.embeddings.weight.requries_grad =\
         opt.input_embeddings_trainable
+
+    if opt.tied:
+        model.out.weight = model.rnn_encoder.embeddings.weight
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
@@ -138,4 +141,5 @@ if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
     logger.info("Start training...")
+    logger.info(opt)
     train(opt, logger)
