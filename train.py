@@ -58,7 +58,7 @@ def train(opt, logger=None):
     ).to(device)
     model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.rnn_encoder.embeddings.weight.requries_grad =\
-        opt.input_embeddings_trainable
+        bool(opt.input_embeddings_trainable)
 
     criterion = nn.CrossEntropyLoss()
 
@@ -75,7 +75,6 @@ def train(opt, logger=None):
                 loss = criterion(
                     prediction.view(-1, vocab_size),
                     target.view(-1))
-                print(loss)
                 eval_total_loss += loss.item()
             return (eval_total_loss / batch_count)
 
