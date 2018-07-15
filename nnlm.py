@@ -9,6 +9,7 @@ Description : NN-based LM
 from __future__ import division
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from rnn_encoder import RNNEncoder
 
 
@@ -30,12 +31,14 @@ class NNLM(nn.Module):
 
     def forward(self, src, target=None, lengths=None):
         _, memory_bank = self.rnn_encoder(src, lengths)
+        memory_bank = memory_bank.view(-1, self.hidden_size)
+        memory_bank = F.normalize(memory_bank)
         if self.training:
             if target is None:
                 raise Exception("target is none in training")
-            memory_bank = memory_bank.view(-1, self.hidden_size)
             indexs = target.view(-1)
             target_embeddings = torch.index_select(self.rnn_encoder.embeddings.weight, 0, indexs)
+            target_embeddings = F.normalize(target_embeddings)
             out = torch.bmm(
                 memory_bank.view(-1, 1, self.hidden_size),
                 target_embeddings.view(-1, self.hidden_size, 1)
@@ -44,13 +47,14 @@ class NNLM(nn.Module):
             out = out.view(target.size(0), target.size(1))
             return out
         else:
+            normed_out_weight = F.normalize(self.rnn_encoder.embeddings.weight)
             out = torch.mm(
-                memory_bank.view(-1, self.hidden_size),
-                self.rnn_encoder.embeddings.weight.t()
+                memory_bank,
+                normed_out_weight.t()
             )
             out = out.view(
-                memory_bank.size(0),
-                memory_bank.size(1),
+                src.size(0),
+                src.size(1),
                 -1
             )
             return out
