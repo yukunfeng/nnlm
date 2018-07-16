@@ -13,7 +13,7 @@ import spacy
 from spacy.symbols import ORTH
 
 
-def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device):
+def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device, logger=None):
     """create language modeling dataset.
     :returns: iterators for train, test and valid dataset
 
@@ -38,6 +38,11 @@ def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device):
         text_field=TEXT,
         root=wikitext_dir
     )
+
+    if logger:
+        logger.info(f"train token: {len(train.examples[0].text)}")
+        logger.info(f"test token: {len(test.examples[0].text)}")
+        logger.info(f"valid token: {len(valid.examples[0].text)}")
 
     vectors_dir = os.path.expanduser(resources_dir)
 

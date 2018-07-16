@@ -34,3 +34,19 @@
 [2018-07-11 17:06:41,967 INFO] Start training...
 [2018-07-11 17:06:41,968 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=4, every_n_epoch_save=4, input_embeddings_trainable=True, log_file='log', lr=1.0, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=True, vector_type='glove.6B.100d')
 [2018-07-11 17:06:54,421 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-07-16 18:08:17,015 INFO] Start training...
+[2018-07-16 18:08:17,015 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=8, input_embeddings_trainable=1, log_file='log', lr=0.5, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=True, vector_type='glove.6B.100d')
+[2018-07-16 18:08:29,051 INFO] train token: 2127402
+[2018-07-16 18:08:29,051 INFO] test token: 250140
+[2018-07-16 18:08:29,051 INFO] valid token: 221606
+[2018-07-16 18:08:29,457 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-07-16 18:09:00,315 INFO] | epoch   1 | train_loss -0.32 | val_loss    -0.35 | time  26.4s
+[2018-07-16 18:09:28,651 INFO] | epoch   2 | train_loss -0.35 | val_loss    -0.37 | time  28.3s
+[2018-07-16 18:09:58,235 INFO] | epoch   3 | train_loss -0.37 | val_loss    -0.38 | time  29.6s
+[2018-07-16 18:10:26,995 INFO] | epoch   4 | train_loss -0.39 | val_loss    -0.39 | time  28.8s
+[2018-07-16 18:10:57,192 INFO] | epoch   5 | train_loss -0.39 | val_loss    -0.40 | time  30.2s
+[2018-07-16 18:11:19,866 INFO] | epoch   6 | train_loss -0.40 | val_loss    -0.40 | time  22.7s
+[2018-07-16 18:11:48,228 INFO] | epoch   7 | train_loss -0.40 | val_loss    -0.41 | time  28.4s
+[2018-07-16 18:12:19,429 INFO] | epoch   8 | train_loss -0.41 | val_loss    -0.41 | time  31.2s
+[2018-07-16 18:12:19,430 INFO] start to save model on nnlm.model
+[2018-07-16 18:12:20,747 INFO] test_loss:  -0.4

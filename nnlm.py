@@ -32,13 +32,27 @@ class NNLM(nn.Module):
     def forward(self, src, target=None, lengths=None):
         _, memory_bank = self.rnn_encoder(src, lengths)
         memory_bank = memory_bank.view(-1, self.hidden_size)
-        memory_bank = F.normalize(memory_bank)
-        if self.training:
+
+        # Norm vector
+        # see https://pytorch.org/docs/master/_modules/torch/nn/functional.html#normalize
+        memory_bank_norm = memory_bank.norm(
+            2, 1, True
+        ).clamp(min=1e-12).expand_as(memory_bank).detach()
+        memory_bank = memory_bank / memory_bank_norm
+
+        #  if self.training:
+        if True:
             if target is None:
                 raise Exception("target is none in training")
             indexs = target.view(-1)
+
+            # Norm vector
             target_embeddings = torch.index_select(self.rnn_encoder.embeddings.weight, 0, indexs)
-            target_embeddings = F.normalize(target_embeddings)
+            target_embeddings_norm = target_embeddings.norm(
+                2, 1, True
+            ).clamp(min=1e-12).expand_as(target_embeddings).detach()
+            target_embeddings = target_embeddings / target_embeddings_norm
+
             out = torch.bmm(
                 memory_bank.view(-1, 1, self.hidden_size),
                 target_embeddings.view(-1, self.hidden_size, 1)
@@ -46,16 +60,16 @@ class NNLM(nn.Module):
             out = out.view(-1)
             out = out.view(target.size(0), target.size(1))
             return out
-        else:
-            normed_out_weight = F.normalize(self.rnn_encoder.embeddings.weight)
-            out = torch.mm(
-                memory_bank,
-                normed_out_weight.t()
-            )
-            out = out.view(
-                src.size(0),
-                src.size(1),
-                -1
-            )
-            return out
+
+            #  normed_out_weight = F.normalize(self.rnn_encoder.embeddings.weight)
+            #  out = torch.mm(
+                #  memory_bank,
+                #  normed_out_weight.t()
+            #  )
+            #  out = out.view(
+                #  src.size(0),
+                #  src.size(1),
+                #  -1
+            #  )
+            #  return out
 

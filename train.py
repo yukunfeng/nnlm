@@ -41,7 +41,8 @@ def train(opt, logger=None):
         vector_type=opt.vector_type,
         batch_size=opt.batch_size,
         bptt_len=opt.bptt_len,
-        device=opt.device
+        device=opt.device,
+        logger=logger
     )
     device = torch.device(opt.device)
 
@@ -60,8 +61,6 @@ def train(opt, logger=None):
     model.rnn_encoder.embeddings.weight.requries_grad =\
         bool(opt.input_embeddings_trainable)
 
-    criterion = nn.CrossEntropyLoss()
-
     def evaluation(data_iter):
         """do evaluation on data_iter
         return: average_word_loss"""
@@ -71,15 +70,10 @@ def train(opt, logger=None):
             for batch_count, batch_data in enumerate(data_iter, 1):
                 text = batch_data.text.to(device)
                 target = batch_data.target.to(device)
-                prediction = model(text)
-                loss = criterion(
-                    prediction.view(-1, vocab_size),
-                    target.view(-1))
+                loss = torch.mean(-model(text, target))
                 eval_total_loss += loss.item()
             return (eval_total_loss / batch_count)
 
-    # Keep track of history ppl on val dataset
-    val_ppls = []
     for epoch in range(1, int(opt.epoch) + 1):
         start_time = time.time()
         # Turn on training mode which enables dropout.
@@ -102,18 +96,16 @@ def train(opt, logger=None):
 
         # Doing validation
         val_loss = evaluation(val_iter)
-        val_ppl = math.exp(val_loss)
-        val_ppls.append(val_ppl)
 
         elapsed = time.time() - start_time
         start_time = time.time()
 
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
-                        '| val_ppl {:8.2f} | time {:5.1f}s'.format(
+                        '| val_loss {:8.2f} | time {:5.1f}s'.format(
                             epoch,
                             train_loss,
-                            val_ppl,
+                            val_loss,
                             elapsed))
 
         # Saving model
@@ -125,10 +117,8 @@ def train(opt, logger=None):
 
     # Doing evaluation on test data
     test_loss = evaluation(test_iter)
-    test_ppl = math.exp(test_loss)
-    
     if logger:
-        logger.info("test_ppl: {:5.1f}".format(test_ppl)) 
+        logger.info("test_loss: {:5.1f}".format(test_loss)) 
 
 
 if __name__ == "__main__":
