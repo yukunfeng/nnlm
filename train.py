@@ -41,7 +41,8 @@ def train(opt, logger=None):
         vector_type=opt.vector_type,
         batch_size=opt.batch_size,
         bptt_len=opt.bptt_len,
-        device=opt.device
+        device=opt.device,
+        logger=logger
     )
     device = torch.device(opt.device)
 
