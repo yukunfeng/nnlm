@@ -49,11 +49,11 @@ def preprocess_opts(parser):
     )
     group.add_argument('-seed', default=0, help="random seed", type=int)
     group.add_argument(
-        '-tied', default=True,
+        '-tied', default=False,
         help="tied input and output embedding",
         type=bool
     )
-    group.add_argument('-epoch', default=30, help="epoch", type=int)
+    group.add_argument('-epoch', default=8, help="epoch", type=int)
     group.add_argument('-lr', default=0.1, help="learning rate", type=float)
     group.add_argument('-rnn_type', default='GRU', help="type", type=str)
     group.add_argument('-bidirectional', default=False, type=bool)

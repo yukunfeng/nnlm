@@ -14,8 +14,7 @@ import opts
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from utils.utils import get_logger
-from utils.utils import word_ids_to_sentence
+from utils.utils import *
 from nnlm import NNLM
 import dataset
 
@@ -133,6 +132,13 @@ def train(opt, logger=None):
     # Doing evaluation on test data
     test_loss = evaluation(test_iter)
     test_ppl = math.exp(test_loss)
+
+    # saving output embeddings
+    save_word_embedding(
+        TEXT.vocab.itos,
+        model.out.weight.data,
+        "output_emb.txt"
+    )
     
     if logger:
         logger.info("test_ppl: {:5.1f}".format(test_ppl)) 
