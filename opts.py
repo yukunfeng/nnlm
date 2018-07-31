@@ -12,9 +12,11 @@ def preprocess_opts(parser):
     """ Pre-procesing options """
     # Device
     group = parser.add_argument_group('Device')
-    group.add_argument('-device',
-                       default="cpu",
-                       help="e.g., cpu or cuda:1")
+    group.add_argument(
+        '-device',
+        default="cuda:0",
+        help="e.g., cpu or cuda:1"
+    )
 
     # Data options
     group = parser.add_argument_group('Data')
@@ -43,7 +45,7 @@ def preprocess_opts(parser):
     group.add_argument('-save', default="nnlm.model", help="the saving path")
     group.add_argument(
         '-every_n_epoch_save',
-        default=4,
+        default=40,
         type=int,
         help="every this epoch saving model"
     )
@@ -51,10 +53,10 @@ def preprocess_opts(parser):
     group.add_argument(
         '-tied', default=False,
         help="tied input and output embedding",
-        type=bool
+        action='store_true'
     )
     group.add_argument('-epoch', default=8, help="epoch", type=int)
-    group.add_argument('-lr', default=0.1, help="learning rate", type=float)
+    group.add_argument('-lr', default=0.5, help="learning rate", type=float)
     group.add_argument('-rnn_type', default='GRU', help="type", type=str)
     group.add_argument('-bidirectional', default=False, type=bool)
     group.add_argument(

@@ -60,6 +60,8 @@ def train(opt, logger=None):
     model.rnn_encoder.embeddings.weight.requries_grad =\
         bool(opt.input_embeddings_trainable)
 
+    model.out.weight.data.copy_(TEXT.vocab.vectors)
+    model.out.weight.requries_grad = False
     if opt.tied:
         model.out.weight = model.rnn_encoder.embeddings.weight
 
@@ -132,16 +134,23 @@ def train(opt, logger=None):
     # Doing evaluation on test data
     test_loss = evaluation(test_iter)
     test_ppl = math.exp(test_loss)
+    if logger:
+        logger.info("test_ppl: {:5.1f}".format(test_ppl))
 
     # saving output embeddings
-    save_word_embedding(
-        TEXT.vocab.itos,
-        model.out.weight.data,
-        "output_emb.txt"
-    )
-    
-    if logger:
-        logger.info("test_ppl: {:5.1f}".format(test_ppl)) 
+    #  save_word_embedding(
+        #  TEXT.vocab.itos,
+        #  model.out.weight.data,
+        #  "random_start_output_emb.txt"
+    #  )
+
+    # saving input embeddings
+    #  save_word_embedding(
+        #  TEXT.vocab.itos,
+        #  model.rnn_encoder.embeddings.weight.data,
+        #  "random_start_input_emb.txt"
+    #  )
+
 
 
 if __name__ == "__main__":
