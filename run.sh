@@ -9,5 +9,5 @@
 
 # python ./train.py  -device "cuda:0" -log ""
 # python ./train.py  -device "cuda:0" -seed 2
-python ./train.py  -device "cuda:1"
+python ./train.py  -device "cuda:0"
 # python ./train.py  -device "cuda:0" -not_update_input_emb

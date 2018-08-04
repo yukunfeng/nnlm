@@ -68,6 +68,19 @@ def train(opt, logger=None):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
 
+    def evaluation_similarity(data_iter):
+        """do evaluation on data_iter
+        return: average_word_cosine"""
+        model.eval()
+        with torch.no_grad():
+            eval_total_loss = 0
+            for batch_count, batch_data in enumerate(data_iter, 1):
+                text = batch_data.text.to(device)
+                target = batch_data.target.to(device)
+                loss = torch.mean(-model.forward_similarity(text, target))
+                eval_total_loss += loss.item()
+            return eval_total_loss / batch_count
+
     def evaluation(data_iter):
         """do evaluation on data_iter
         return: average_word_loss"""
@@ -82,7 +95,7 @@ def train(opt, logger=None):
                     prediction.view(-1, vocab_size),
                     target.view(-1))
                 eval_total_loss += loss.item()
-            return (eval_total_loss / batch_count)
+            return eval_total_loss / batch_count
 
     # Keep track of history ppl on val dataset
     val_ppls = []
@@ -109,8 +122,10 @@ def train(opt, logger=None):
         train_loss = total_loss / batch_count
 
         # Doing validation
-        val_loss = evaluation(val_iter)
-        val_ppl = math.exp(val_loss)
+        val_loss = evaluation_similarity(val_iter)
+        val_ppl = val_loss
+        #  val_loss = evaluation(val_iter)
+        #  val_ppl = math.exp(val_loss)
         val_ppls.append(val_ppl)
 
         elapsed = time.time() - start_time
@@ -132,8 +147,10 @@ def train(opt, logger=None):
                 torch.save(model, save_fh)
 
     # Doing evaluation on test data
-    test_loss = evaluation(test_iter)
-    test_ppl = math.exp(test_loss)
+    test_loss = evaluation_similarity(test_iter)
+    test_ppl = test_loss
+    #  test_loss = evaluation(test_iter)
+    #  test_ppl = math.exp(test_loss)
     if logger:
         logger.info("test_ppl: {:5.1f}".format(test_ppl))
 
@@ -156,6 +173,7 @@ def train(opt, logger=None):
 if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
+    logger.info("-------------")
     logger.info("Start training...")
     logger.info(opt)
     train(opt, logger)
