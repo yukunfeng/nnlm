@@ -58,7 +58,7 @@ def train(opt, logger=None):
     ).to(device)
     model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.rnn_encoder.embeddings.weight.requries_grad =\
-        bool(opt.input_embeddings_trainable)
+        not opt.not_update_input_emb
 
     model.out.weight.data.copy_(TEXT.vocab.vectors)
     model.out.weight.requries_grad = False

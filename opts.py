@@ -37,9 +37,9 @@ def preprocess_opts(parser):
     # Model options
     group = parser.add_argument_group('Model')
     group.add_argument(
-        '-input_embeddings_trainable',
-        default=1,
-        type=int,
+        '-not_update_input_emb',
+        default=False,
+        action='store_true',
         help="whether train inputembeddings 1 to train 0 to not train"
     )
     group.add_argument('-save', default="nnlm.model", help="the saving path")
