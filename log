@@ -227,3 +227,20 @@ explanation: val_ppl and test_ppl are -consine. wiki2 trained cbow to fix out em
 [2018-08-04 16:41:42,629 INFO] | epoch   7 | train_loss  4.58 | val_ppl    -0.24 | time  23.5s
 [2018-08-04 16:42:05,937 INFO] | epoch   8 | train_loss  4.53 | val_ppl    -0.24 | time  23.3s
 [2018-08-04 16:42:06,589 INFO] test_ppl:  -0.2
+[2018-08-04 16:49:32,227 INFO] -------------
+(explanation: the same as above one. I changed the float point of cosine)
+[2018-08-04 16:49:32,227 INFO] Start training...
+[2018-08-04 16:49:32,227 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='log', lr=0.5, not_update_input_emb=False, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=False, vector_type='glove.6B.100d')
+[2018-08-04 16:49:43,473 INFO] train token: 2127402
+[2018-08-04 16:49:43,473 INFO] test token: 250140
+[2018-08-04 16:49:43,474 INFO] valid token: 221606
+[2018-08-04 16:49:43,619 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-04 16:50:10,367 INFO] | epoch   1 | train_loss  5.28 | val_ppl -0.21334 | time  23.3s
+[2018-08-04 16:50:33,777 INFO] | epoch   2 | train_loss  4.96 | val_ppl -0.22230 | time  23.4s
+[2018-08-04 16:50:56,918 INFO] | epoch   3 | train_loss  4.84 | val_ppl -0.22630 | time  23.1s
+[2018-08-04 16:51:20,258 INFO] | epoch   4 | train_loss  4.75 | val_ppl -0.22975 | time  23.3s
+[2018-08-04 16:51:43,789 INFO] | epoch   5 | train_loss  4.68 | val_ppl -0.23230 | time  23.5s
+[2018-08-04 16:52:07,929 INFO] | epoch   6 | train_loss  4.62 | val_ppl -0.23413 | time  24.1s
+[2018-08-04 16:52:31,161 INFO] | epoch   7 | train_loss  4.58 | val_ppl -0.23547 | time  23.2s
+[2018-08-04 16:52:54,546 INFO] | epoch   8 | train_loss  4.53 | val_ppl -0.23652 | time  23.4s
+[2018-08-04 16:52:55,215 INFO] test_ppl: -0.23469

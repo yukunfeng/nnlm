@@ -133,7 +133,7 @@ def train(opt, logger=None):
 
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
-                        '| val_ppl {:8.2f} | time {:5.1f}s'.format(
+                        '| val_ppl {:8.5f} | time {:5.1f}s'.format(
                             epoch,
                             train_loss,
                             val_ppl,
@@ -152,7 +152,7 @@ def train(opt, logger=None):
     #  test_loss = evaluation(test_iter)
     #  test_ppl = math.exp(test_loss)
     if logger:
-        logger.info("test_ppl: {:5.1f}".format(test_ppl))
+        logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
     #  save_word_embedding(
