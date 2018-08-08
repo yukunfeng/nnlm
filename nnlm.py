@@ -28,8 +28,9 @@ class NNLM(nn.Module):
             hidden_size,
             dropout=0.0
         )
+        self.out = nn.Linear(hidden_size, vocab_size)
 
-    def forward(self, src, target=None, lengths=None):
+    def forward(self, src, target=None, lengths=None, softmax=False):
         _, memory_bank = self.rnn_encoder(src, lengths)
         memory_bank = memory_bank.view(-1, self.hidden_size)
 
@@ -40,14 +41,13 @@ class NNLM(nn.Module):
         ).clamp(min=1e-12).expand_as(memory_bank).detach()
         memory_bank = memory_bank / memory_bank_norm
 
-        #  if self.training:
-        if True:
+        if softmax is False:
             if target is None:
                 raise Exception("target is none in training")
             indexs = target.view(-1)
 
             # Norm vector
-            target_embeddings = torch.index_select(self.rnn_encoder.embeddings.weight, 0, indexs)
+            target_embeddings = torch.index_select(self.out.weight, 0, indexs)
             target_embeddings_norm = target_embeddings.norm(
                 2, 1, True
             ).clamp(min=1e-12).expand_as(target_embeddings).detach()
@@ -60,16 +60,16 @@ class NNLM(nn.Module):
             out = out.view(-1)
             out = out.view(target.size(0), target.size(1))
             return out
-
-            #  normed_out_weight = F.normalize(self.rnn_encoder.embeddings.weight)
-            #  out = torch.mm(
-                #  memory_bank,
-                #  normed_out_weight.t()
-            #  )
-            #  out = out.view(
-                #  src.size(0),
-                #  src.size(1),
-                #  -1
-            #  )
-            #  return out
+        else:
+            normed_out_weight = F.normalize(self.out.weight)
+            out = torch.mm(
+                memory_bank,
+                normed_out_weight.t()
+            )
+            out = out.view(
+                src.size(0),
+                src.size(1),
+                -1
+            )
+            return out
 
