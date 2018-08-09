@@ -96,6 +96,19 @@ def train(opt, logger=None):
                 eval_total_loss += loss.item()
             return eval_total_loss / batch_count
 
+    def evaluation_on_batch(text, target):
+        """do evaluation on data_iter
+        return: average_word_loss"""
+        model.eval()
+        with torch.no_grad():
+            eval_total_loss = 0
+            prediction = model(text, softmax=True)
+            loss = criterion(
+                prediction.view(-1, vocab_size),
+                target.view(-1))
+            eval_total_loss += loss.item()
+        return eval_total_loss / batch_count
+
     # Keep track of history ppl on val dataset
     val_ppls = []
     for epoch in range(1, int(opt.epoch) + 1):
@@ -107,6 +120,13 @@ def train(opt, logger=None):
             model.zero_grad()
             text = batch_train.text.to(device)
             target = batch_train.target.to(device)
+
+            
+            # evaluate PPL on before train batch
+            #  pretrain_batch_loss = evaluation_on_batch(text.detach(), target.detach())
+            #  pretrain_batch_ppl = math.exp(pretrain_batch_loss)
+            #  model.train()
+
             loss = torch.mean(-model(text, target))
             loss.backward()
 
@@ -116,6 +136,11 @@ def train(opt, logger=None):
                 if param.grad is None:
                     continue
                 param.data.add_(-opt.lr, param.grad.data)
+            # evaluate PPL on trained batch
+            #  trained_batch_loss = evaluation_on_batch(text.detach(), target.detach())
+            #  trained_batch_ppl = math.exp(trained_batch_loss)
+            #  print(f"{batch_count} minus: {trained_batch_ppl - pretrain_batch_ppl:5.5f}")
+            #  model.train()
 
         # All xx_loss means loss per word on xx dataset
         train_loss = total_loss / batch_count
