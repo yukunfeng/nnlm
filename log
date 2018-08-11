@@ -153,3 +153,35 @@ full-softmax?
 643 trained: 1.0158206523952187 pre 1.0158214614549959
 644 trained: 1.0157842713699385 pre 1.0157849708394764
 
+[2018-08-10 11:42:14,015 INFO] train token: 2127402
+[2018-08-10 11:42:14,015 INFO] test token: 250140
+[2018-08-10 11:42:14,015 INFO] valid token: 221606
+[2018-08-10 11:42:14,155 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 11:49:21,253 INFO] train token: 2127402
+[2018-08-10 11:49:21,253 INFO] test token: 250140
+[2018-08-10 11:49:21,253 INFO] valid token: 221606
+[2018-08-10 11:49:21,396 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 11:54:50,850 INFO] train token: 2127402
+[2018-08-10 11:54:50,851 INFO] test token: 250140
+[2018-08-10 11:54:50,851 INFO] valid token: 221606
+[2018-08-10 11:54:50,989 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 11:55:56,481 INFO] train token: 2127402
+[2018-08-10 11:55:56,482 INFO] test token: 250140
+[2018-08-10 11:55:56,482 INFO] valid token: 221606
+[2018-08-10 11:55:56,720 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 12:04:14,609 INFO] train token: 2127402
+[2018-08-10 12:04:14,609 INFO] test token: 250140
+[2018-08-10 12:04:14,609 INFO] valid token: 221606
+[2018-08-10 12:04:14,752 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 12:04:52,064 INFO] train token: 2127402
+[2018-08-10 12:04:52,064 INFO] test token: 250140
+[2018-08-10 12:04:52,064 INFO] valid token: 221606
+[2018-08-10 12:04:52,302 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 12:07:39,252 INFO] train token: 2127402
+[2018-08-10 12:07:39,253 INFO] test token: 250140
+[2018-08-10 12:07:39,253 INFO] valid token: 221606
+[2018-08-10 12:07:39,480 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-10 12:08:45,669 INFO] train token: 2127402
+[2018-08-10 12:08:45,669 INFO] test token: 250140
+[2018-08-10 12:08:45,669 INFO] valid token: 221606
+[2018-08-10 12:08:45,864 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt

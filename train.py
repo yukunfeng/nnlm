@@ -84,12 +84,19 @@ def train(opt, logger=None):
         """do evaluation on data_iter
         return: average_word_loss"""
         model.eval()
+        from utils.utils import probability_lookup
+        from torch.nn.functional import cosine_similarity
         with torch.no_grad():
             eval_total_loss = 0
             for batch_count, batch_data in enumerate(data_iter, 1):
                 text = batch_data.text.to(device)
                 target = batch_data.target.to(device)
                 prediction = model(text, softmax=True)
+                strings = word_ids_to_sentence(
+                    text[:, 0:12], TEXT.vocab,
+                    word_len=12
+                )
+                import pdb; pdb.set_trace()
                 loss = criterion(
                     prediction.view(-1, vocab_size),
                     target.view(-1))
