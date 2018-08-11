@@ -244,3 +244,72 @@ explanation: val_ppl and test_ppl are -consine. wiki2 trained cbow to fix out em
 [2018-08-04 16:52:31,161 INFO] | epoch   7 | train_loss  4.58 | val_ppl -0.23547 | time  23.2s
 [2018-08-04 16:52:54,546 INFO] | epoch   8 | train_loss  4.53 | val_ppl -0.23652 | time  23.4s
 [2018-08-04 16:52:55,215 INFO] test_ppl: -0.23469
+
+
+(explanation: full-softmax norm hidden output and pretrained norm out emb from the start, all is same as before
+the result shows it performs a slightly bad than non-norm one. But note fixing out emb, still works)
+[2018-08-11 10:11:52,834 INFO] -------------
+[2018-08-11 10:11:52,834 INFO] Start training...
+[2018-08-11 10:11:52,834 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='', lr=0.5, not_update_input_emb=False, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=False, vector_type='glove.6B.100d')
+[2018-08-11 10:12:03,779 INFO] train token: 2127402
+[2018-08-11 10:12:03,779 INFO] test token: 250140
+[2018-08-11 10:12:03,779 INFO] valid token: 221606
+[2018-08-11 10:12:03,918 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-11 10:12:31,943 INFO] | epoch   1 | train_loss  5.69 | val_ppl 212.15373 | time  24.6s
+[2018-08-11 10:12:56,157 INFO] | epoch   2 | train_loss  5.32 | val_ppl 180.26816 | time  24.2s
+[2018-08-11 10:13:21,018 INFO] | epoch   3 | train_loss  5.18 | val_ppl 164.25467 | time  24.9s
+[2018-08-11 10:13:45,154 INFO] | epoch   4 | train_loss  5.10 | val_ppl 154.49554 | time  24.1s
+[2018-08-11 10:14:09,838 INFO] | epoch   5 | train_loss  5.03 | val_ppl 147.72783 | time  24.7s
+[2018-08-11 10:14:35,549 INFO] | epoch   6 | train_loss  4.98 | val_ppl 142.51899 | time  25.7s
+[2018-08-11 10:15:00,965 INFO] | epoch   7 | train_loss  4.94 | val_ppl 138.56315 | time  25.4s
+[2018-08-11 10:15:25,451 INFO] | epoch   8 | train_loss  4.91 | val_ppl 135.48768 | time  24.5s
+[2018-08-11 10:15:26,474 INFO] test_ppl: 131.53229
+
+
+(explanation: randomly out emb, updating. this is the PPL result)
+[2018-08-11 10:40:34,481 INFO] -------------
+[2018-08-11 10:40:34,481 INFO] Start training...
+[2018-08-11 10:40:34,481 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='', lr=0.5, not_update_input_emb=False, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=False, vector_type='glove.6B.100d')
+[2018-08-11 10:40:45,832 INFO] train token: 2127402
+[2018-08-11 10:40:45,832 INFO] test token: 250140
+[2018-08-11 10:40:45,832 INFO] valid token: 221606
+[2018-08-11 10:40:45,972 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-11 10:41:13,416 INFO] | epoch   1 | train_loss  5.21 | val_ppl 154.21461 | time  23.9s
+[2018-08-11 10:41:37,165 INFO] | epoch   2 | train_loss  4.85 | val_ppl 134.51386 | time  23.7s
+[2018-08-11 10:42:01,007 INFO] | epoch   3 | train_loss  4.73 | val_ppl 124.98321 | time  23.8s
+[2018-08-11 10:42:25,112 INFO] | epoch   4 | train_loss  4.64 | val_ppl 119.01536 | time  24.1s
+[2018-08-11 10:42:48,558 INFO] | epoch   5 | train_loss  4.58 | val_ppl 115.04513 | time  23.4s
+[2018-08-11 10:43:12,139 INFO] | epoch   6 | train_loss  4.53 | val_ppl 112.35071 | time  23.6s
+[2018-08-11 10:43:35,855 INFO] | epoch   7 | train_loss  4.49 | val_ppl 110.55550 | time  23.7s
+[2018-08-11 10:43:59,139 INFO] | epoch   8 | train_loss  4.45 | val_ppl 109.30011 | time  23.3s
+[2018-08-11 10:44:00,116 INFO] test_ppl: 105.30712
+
+
+(explanation: randomly out emb, fixed, the totally same result!. any bug? how it could be!)
+[2018-08-11 10:52:13,115 INFO] -------------
+[2018-08-11 10:52:13,115 INFO] Start training...
+[2018-08-11 10:52:13,116 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='', lr=0.5, not_update_input_emb=False, num_layers=1, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=0, tied=False, vector_type='glove.6B.100d')
+[2018-08-11 10:52:24,324 INFO] train token: 2127402
+[2018-08-11 10:52:24,324 INFO] test token: 250140
+[2018-08-11 10:52:24,324 INFO] valid token: 221606
+[2018-08-11 10:52:24,464 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-11 10:52:51,258 INFO] | epoch   1 | train_loss  5.21 | val_ppl 154.21461 | time  23.8s
+[2018-08-11 10:53:14,410 INFO] | epoch   2 | train_loss  4.85 | val_ppl 134.51386 | time  23.2s
+[2018-08-11 10:53:37,993 INFO] | epoch   3 | train_loss  4.73 | val_ppl 124.98321 | time  23.6s
+[2018-08-11 10:54:01,673 INFO] | epoch   4 | train_loss  4.64 | val_ppl 119.01536 | time  23.7s
+[2018-08-11 10:54:25,475 INFO] | epoch   5 | train_loss  4.58 | val_ppl 115.04513 | time  23.8s
+[2018-08-11 10:54:48,660 INFO] | epoch   6 | train_loss  4.53 | val_ppl 112.35071 | time  23.2s
+[2018-08-11 10:55:12,417 INFO] | epoch   7 | train_loss  4.49 | val_ppl 110.55550 | time  23.8s
+[2018-08-11 10:55:35,869 INFO] | epoch   8 | train_loss  4.45 | val_ppl 109.30011 | time  23.5s
+[2018-08-11 10:55:36,836 INFO] test_ppl: 105.30712
+
+
+----------------
+-  Split line  -
+----------------
+
+After I found the reason of a bug in my program. The above result have to be ignored for
+non-updating setting.
+------------------------------------------
+-----------------------------------------
+
