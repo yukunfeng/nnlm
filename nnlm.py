@@ -27,7 +27,7 @@ class NNLM(nn.Module):
             hidden_size,
             dropout=0.0
         )
-        self.out = nn.Linear(hidden_size, vocab_size)
+        self.out = nn.Linear(hidden_size, vocab_size, bias=False)
 
     def forward(self, src, lengths=None):
         _, memory_bank = self.rnn_encoder(src, lengths)

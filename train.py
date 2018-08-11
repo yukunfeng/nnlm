@@ -57,16 +57,20 @@ def train(opt, logger=None):
         dropout=opt.dropout
     ).to(device)
     model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
-    model.rnn_encoder.embeddings.weight.requries_grad =\
+    model.rnn_encoder.embeddings.weight.requires_grad =\
         not opt.not_update_input_emb
 
     model.out.weight.data.copy_(TEXT.vocab.vectors)
-    model.out.weight.requries_grad = False
+    model.out.weight.requires_grad = True
     if opt.tied:
         model.out.weight = model.rnn_encoder.embeddings.weight
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
+    #  optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
+    optimizer = optim.SGD(filter(
+        lambda p: p.requires_grad,
+        model.parameters()
+    ), lr=float(opt.lr))
 
     def evaluation_similarity(data_iter):
         """do evaluation on data_iter
@@ -122,10 +126,10 @@ def train(opt, logger=None):
         train_loss = total_loss / batch_count
 
         # Doing validation
-        val_loss = evaluation_similarity(val_iter)
-        val_ppl = val_loss
-        #  val_loss = evaluation(val_iter)
-        #  val_ppl = math.exp(val_loss)
+        #  val_loss = evaluation_similarity(val_iter)
+        #  val_ppl = val_loss
+        val_loss = evaluation(val_iter)
+        val_ppl = math.exp(val_loss)
         val_ppls.append(val_ppl)
 
         elapsed = time.time() - start_time
@@ -147,10 +151,10 @@ def train(opt, logger=None):
                 torch.save(model, save_fh)
 
     # Doing evaluation on test data
-    test_loss = evaluation_similarity(test_iter)
-    test_ppl = test_loss
-    #  test_loss = evaluation(test_iter)
-    #  test_ppl = math.exp(test_loss)
+    #  test_loss = evaluation_similarity(test_iter)
+    #  test_ppl = test_loss
+    test_loss = evaluation(test_iter)
+    test_ppl = math.exp(test_loss)
     if logger:
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
