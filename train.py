@@ -60,8 +60,12 @@ def train(opt, logger=None):
     model.rnn_encoder.embeddings.weight.requires_grad =\
         not opt.not_update_input_emb
 
-    model.out.weight.data.copy_(TEXT.vocab.vectors)
-    model.out.weight.requires_grad = True
+    #  model.out.weight.data.copy_(model.norm_tensor(TEXT.vocab.vectors))
+    #  model.out.weight.data.copy_(TEXT.vocab.vectors)
+
+    out_emb = load_word_embedding("./trained_output_emb.txt")
+    model.out.weight.data.copy_(model.norm_tensor(out_emb))
+    model.out.weight.requires_grad = False
     if opt.tied:
         model.out.weight = model.rnn_encoder.embeddings.weight
 
