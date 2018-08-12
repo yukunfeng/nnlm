@@ -14,8 +14,7 @@ import opts
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from utils.utils import get_logger
-from utils.utils import word_ids_to_sentence
+from utils.utils import *
 from nnlm import NNLM
 import dataset
 
@@ -41,7 +40,8 @@ def train(opt, logger=None):
         vector_type=opt.vector_type,
         batch_size=opt.batch_size,
         bptt_len=opt.bptt_len,
-        device=opt.device
+        device=opt.device,
+        logger=logger
     )
     device = torch.device(opt.device)
 
@@ -57,10 +57,38 @@ def train(opt, logger=None):
         dropout=opt.dropout
     ).to(device)
     model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
-    model.rnn_encoder.embeddings.weight.requries_grad =\
-        bool(opt.input_embeddings_trainable)
+    model.rnn_encoder.embeddings.weight.requires_grad =\
+        not opt.not_update_input_emb
+
+    #  model.out.weight.data.copy_(model.norm_tensor(TEXT.vocab.vectors))
+    #  model.out.weight.data.copy_(TEXT.vocab.vectors)
+
+    out_emb = load_word_embedding("../nnlm/trained_output_emb.txt")
+    model.out.weight.data.copy_(out_emb)
+    #  model.out.weight.data.copy_(model.norm_tensor(out_emb))
+    model.out.weight.requires_grad = False
+    if opt.tied:
+        model.out.weight = model.rnn_encoder.embeddings.weight
 
     criterion = nn.CrossEntropyLoss()
+    #  optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
+    optimizer = optim.SGD(filter(
+        lambda p: p.requires_grad,
+        model.parameters()
+    ), lr=float(opt.lr))
+
+    def evaluation_similarity(data_iter):
+        """do evaluation on data_iter
+        return: average_word_cosine"""
+        model.eval()
+        with torch.no_grad():
+            eval_total_loss = 0
+            for batch_count, batch_data in enumerate(data_iter, 1):
+                text = batch_data.text.to(device)
+                target = batch_data.target.to(device)
+                loss = torch.mean(-model.forward_similarity(text, target))
+                eval_total_loss += loss.item()
+            return eval_total_loss / batch_count
 
     def evaluation(data_iter):
         """do evaluation on data_iter
@@ -76,7 +104,7 @@ def train(opt, logger=None):
                     prediction.view(-1, vocab_size),
                     target.view(-1))
                 eval_total_loss += loss.item()
-            return (eval_total_loss / batch_count)
+            return eval_total_loss / batch_count
 
     # Keep track of history ppl on val dataset
     val_ppls = []
@@ -86,21 +114,22 @@ def train(opt, logger=None):
         model.train()
         total_loss = 0
         for batch_count, batch_train in enumerate(train_iter, 1):
-            model.zero_grad()
+            optimizer.zero_grad()
             text = batch_train.text.to(device)
             target = batch_train.target.to(device)
-            loss = torch.mean(-model(text, target))
+            #  prediction = model(text)
+            loss = torch.mean(-model.forward_dot(text, target))
             loss.backward()
 
             total_loss += loss.item()
-            for param in model.parameters():
-                # see doc torch.add
-                param.data.add_(-opt.lr, param.grad.data)
+            optimizer.step()
 
         # All xx_loss means loss per word on xx dataset
         train_loss = total_loss / batch_count
 
         # Doing validation
+        #  val_loss = evaluation_similarity(val_iter)
+        #  val_ppl = val_loss
         val_loss = evaluation(val_iter)
         val_ppl = math.exp(val_loss)
         val_ppls.append(val_ppl)
@@ -110,7 +139,7 @@ def train(opt, logger=None):
 
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
-                        '| val_ppl {:8.2f} | time {:5.1f}s'.format(
+                        '| val_ppl {:8.5f} | time {:5.1f}s'.format(
                             epoch,
                             train_loss,
                             val_ppl,
@@ -124,16 +153,33 @@ def train(opt, logger=None):
                 torch.save(model, save_fh)
 
     # Doing evaluation on test data
+    #  test_loss = evaluation_similarity(test_iter)
+    #  test_ppl = test_loss
     test_loss = evaluation(test_iter)
     test_ppl = math.exp(test_loss)
-    
     if logger:
-        logger.info("test_ppl: {:5.1f}".format(test_ppl)) 
+        logger.info("test_ppl: {:5.5f}".format(test_ppl))
+
+    # saving output embeddings
+    #  save_word_embedding(
+        #  TEXT.vocab.itos,
+        #  model.out.weight.data,
+        #  "random_start_output_emb.txt"
+    #  )
+
+    # saving input embeddings
+    #  save_word_embedding(
+        #  TEXT.vocab.itos,
+        #  model.rnn_encoder.embeddings.weight.data,
+        #  "random_start_input_emb.txt"
+    #  )
+
 
 
 if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
+    logger.info("-------------")
     logger.info("Start training...")
     logger.info(opt)
     train(opt, logger)
