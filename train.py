@@ -64,8 +64,8 @@ def train(opt, logger=None):
     #  model.out.weight.data.copy_(TEXT.vocab.vectors)
 
     out_emb = load_word_embedding("../nnlm/trained_output_emb.txt")
-    model.out.weight.data.copy_(out_emb)
-    #  model.out.weight.data.copy_(model.norm_tensor(out_emb))
+    #  model.out.weight.data.copy_(out_emb)
+    model.out.weight.data.copy_(model.norm_tensor(out_emb))
     model.out.weight.requires_grad = False
     if opt.tied:
         model.out.weight = model.rnn_encoder.embeddings.weight
@@ -118,7 +118,8 @@ def train(opt, logger=None):
             text = batch_train.text.to(device)
             target = batch_train.target.to(device)
             #  prediction = model(text)
-            loss = torch.mean(-model.forward_dot(text, target))
+            #  loss = torch.mean(-model.forward_dot(text, target))
+            loss = torch.mean(-model.forward_minus(text, target))
             loss.backward()
 
             total_loss += loss.item()

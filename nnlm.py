@@ -29,6 +29,16 @@ class NNLM(nn.Module):
         )
         self.out = nn.Linear(hidden_size, vocab_size, bias=False)
 
+    def forward_minus(self, src, target, lengths=None):
+        _, memory_bank = self.rnn_encoder(src, lengths)
+        memory_bank = memory_bank.view(-1, self.hidden_size)
+        indexs = target.view(-1)
+        target_embeddings = torch.index_select(self.out.weight, 0, indexs)
+        out = (memory_bank - target_embeddings) ** 2
+        out = out.sum(dim=1)
+        out = out.view(target.size(0), target.size(1))
+        return out
+
     def forward_dot(self, src, target, lengths=None):
         _, memory_bank = self.rnn_encoder(src, lengths)
         memory_bank = memory_bank.view(-1, self.hidden_size)
