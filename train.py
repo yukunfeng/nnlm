@@ -57,15 +57,18 @@ def train(opt, logger=None):
         dropout=opt.dropout
     ).to(device)
     model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
-    model.rnn_encoder.embeddings.weight.requires_grad =\
-        not opt.not_update_input_emb
+    model.rnn_encoder.embeddings.weight.requires_grad = opt.update_inputemb
 
-    #  model.out.weight.data.copy_(model.norm_tensor(TEXT.vocab.vectors))
-    #  model.out.weight.data.copy_(TEXT.vocab.vectors)
+    if not opt.random_outemb:
+        out_emb = load_word_embedding(opt.out_emb_path)
+        model.out.weight.data.copy_(out_emb)
 
-    out_emb = load_word_embedding("./trained_output_emb.txt")
-    model.out.weight.data.copy_(model.norm_tensor(out_emb))
-    model.out.weight.requires_grad = False
+    if opt.norm_out_emb:
+        model.out.weight.data =\
+            model.norm_tensor(model.out.weight.data).detach()
+
+    model.out.weight.requires_grad = opt.update_out_emb
+
     if opt.tied:
         model.out.weight = model.rnn_encoder.embeddings.weight
 
@@ -163,11 +166,11 @@ def train(opt, logger=None):
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
-    #  save_word_embedding(
-        #  TEXT.vocab.itos,
-        #  model.out.weight.data,
-        #  "random_start_output_emb.txt"
-    #  )
+    save_word_embedding(
+        TEXT.vocab.itos,
+        model.out.weight.data,
+        f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
+    )
 
     # saving input embeddings
     #  save_word_embedding(

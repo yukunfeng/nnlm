@@ -37,10 +37,31 @@ def preprocess_opts(parser):
     # Model options
     group = parser.add_argument_group('Model')
     group.add_argument(
-        '-not_update_input_emb',
-        default=False,
+        '-update_inputemb',
+        default=True,
         action='store_true',
         help="whether train inputembeddings 1 to train 0 to not train"
+    )
+    group.add_argument(
+        '-random_outemb',
+        default=False,
+        action='store_true',
+        help="whether randomly init outemb"
+    )
+    group.add_argument('-out_emb_path',
+                       default='./10bptt_8epoch_outemb.txt',
+                       help="out emb path")
+    group.add_argument(
+        '-update_out_emb',
+        default=False,
+        action='store_true',
+        help="whether train input embeddings 1 to train 0 to not train"
+    )
+    group.add_argument(
+        '-norm_out_emb',
+        default=False,
+        action='store_true',
+        help="whether norm out emb"
     )
     group.add_argument('-save', default="nnlm.model", help="the saving path")
     group.add_argument(
