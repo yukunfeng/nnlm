@@ -17,26 +17,13 @@ class NNLM(nn.Module):
     def __init__(self, rnn_type, bidirectional,
                  num_layers, vocab_size, word_dim, hidden_size, dropout=0.0):
         super(NNLM, self).__init__()
+        self.embeddings = nn.Embedding(vocab_size, word_dim)
         self.hidden_size = hidden_size
-        self.rnn_encoder = RNNEncoder(
-            rnn_type,
-            bidirectional,
-            num_layers,
-            vocab_size,
-            word_dim,
-            hidden_size,
-            dropout=0.0
-        )
         self.out = nn.Linear(hidden_size, vocab_size, bias=False)
 
     def forward(self, src, lengths=None):
-        _, memory_bank = self.rnn_encoder(src, lengths)
-        out = self.out(memory_bank.view(-1, self.hidden_size))
-        out = out.view(
-            memory_bank.size(0),
-            memory_bank.size(1),
-            -1
-        )
+        memory_bank = self.embeddings(src).view(src.size(0), -1)
+        out = self.out(memory_bank)
         return out
 
     def norm_tensor(self, tensor):

@@ -52,25 +52,24 @@ def train(opt, logger=None):
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
         vocab_size=vocab_size,
-        word_dim=word_dim,
-        hidden_size=word_dim,
+        word_dim=opt.word_dim,
+        hidden_size=opt.word_dim * opt.window_len,
         dropout=opt.dropout
     ).to(device)
-    model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
-    model.rnn_encoder.embeddings.weight.requires_grad = opt.update_inputemb
+    model.embeddings.weight.data.copy_(TEXT.vocab.vectors)
+    model.embeddings.weight.requires_grad = opt.update_inputemb
 
     if not opt.random_outemb:
         out_emb = load_word_embedding(opt.out_emb_path)
-        model.out.weight.data.copy_(out_emb)
+        #  model.out.weight.data.copy_(out_emb)
+        # special case. to remove
+        model.out.weight.data.copy_(TEXT.vocab.vectors)
 
     if opt.norm_out_emb:
         model.out.weight.data =\
             model.norm_tensor(model.out.weight.data).detach()
 
     model.out.weight.requires_grad = opt.update_out_emb
-
-    if opt.tied:
-        model.out.weight = model.rnn_encoder.embeddings.weight
 
     criterion = nn.CrossEntropyLoss()
     #  optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
@@ -98,15 +97,21 @@ def train(opt, logger=None):
         model.eval()
         with torch.no_grad():
             eval_total_loss = 0
+            count = 0
             for batch_count, batch_data in enumerate(data_iter, 1):
-                text = batch_data.text.to(device)
-                target = batch_data.target.to(device)
-                prediction = model(text)
-                loss = criterion(
-                    prediction.view(-1, vocab_size),
-                    target.view(-1))
-                eval_total_loss += loss.item()
-            return eval_total_loss / batch_count
+                text = batch_data.text.t().contiguous()
+                target = batch_data.target.t().contiguous()
+                for i in range(text.size(1) - opt.window_len + 1):
+                    text_ = text[:, i:i+opt.window_len]
+                    target_ = target[:, i+opt.window_len-1]
+                    prediction = model(text_)
+                    loss = criterion(
+                        prediction, target_
+                    )
+
+                    eval_total_loss += loss.item()
+                    count += 1
+            return eval_total_loss / count
 
     # Keep track of history ppl on val dataset
     val_ppls = []
@@ -115,22 +120,29 @@ def train(opt, logger=None):
         # Turn on training mode which enables dropout.
         model.train()
         total_loss = 0
+        count = 0
         for batch_count, batch_train in enumerate(train_iter, 1):
             optimizer.zero_grad()
-            text = batch_train.text.to(device)
-            target = batch_train.target.to(device)
-            prediction = model(text)
-            loss = criterion(
-                prediction.view(-1, vocab_size),
-                target.view(-1)
-            )
-            loss.backward()
+            text = batch_train.text.t().contiguous()
+            target = batch_train.target.t().contiguous()
+            for i in range(text.size(1) - opt.window_len + 1):
+                text_ = text[:, i:i+opt.window_len]
+                target_ = target[:, i+opt.window_len-1]
+                prediction = model(text_)
+                loss = criterion(
+                    prediction, target_
+                )
+                loss.backward()
+                #  print(f"{loss.item()}-------")
+                #  print(f"text:{text_}")
+                #  print(f"target:{target_}")
 
-            total_loss += loss.item()
-            optimizer.step()
+                total_loss += loss.item()
+                count += 1
+                optimizer.step()
 
         # All xx_loss means loss per word on xx dataset
-        train_loss = total_loss / batch_count
+        train_loss = total_loss / count
 
         # Doing validation
         #  val_loss = evaluation_similarity(val_iter)
@@ -169,7 +181,7 @@ def train(opt, logger=None):
     save_word_embedding(
         TEXT.vocab.itos,
         model.out.weight.data,
-        f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
+        f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
     )
 
     # saving input embeddings

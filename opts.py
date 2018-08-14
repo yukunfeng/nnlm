@@ -76,6 +76,16 @@ def preprocess_opts(parser):
         help="tied input and output embedding",
         action='store_true'
     )
+    group.add_argument(
+        '-window_len', default=5,
+        help="window_len",
+        type=int
+    )
+    group.add_argument(
+        '-word_dim', default=50,
+        help="window_len",
+        type=int
+    )
     group.add_argument('-epoch', default=8, help="epoch", type=int)
     group.add_argument('-lr', default=0.5, help="learning rate", type=float)
     group.add_argument('-rnn_type', default='GRU', help="type", type=str)

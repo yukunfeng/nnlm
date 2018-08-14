@@ -104,8 +104,8 @@ if __name__ == "__main__":
     )
 
     for batch_count, batch_data in enumerate(train_iter, 1):
-        text = batch_data.text
-        target = batch_data.target
+        text = batch_data.text.t().contiguous()
+        target = batch_data.target.t().contiguous()
         strings = word_ids_to_sentence(
             text[:, 0:10], TEXT.vocab,
             word_len=12

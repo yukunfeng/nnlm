@@ -914,3 +914,99 @@ changed. pretrained out emb is still usefull)
 [2018-08-14 02:13:19,718 INFO] | epoch   7 | train_loss  4.43 | val_ppl 101.95085 | time  16.1s
 [2018-08-14 02:13:35,734 INFO] | epoch   8 | train_loss  4.40 | val_ppl 100.97340 | time  16.0s
 [2018-08-14 02:13:36,403 INFO] test_ppl: 98.82227
+[2018-08-14 13:07:20,974 INFO] train token: 2127402
+[2018-08-14 13:07:20,974 INFO] test token: 250140
+[2018-08-14 13:07:20,974 INFO] valid token: 221606
+[2018-08-14 13:07:21,117 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-14 13:43:39,181 INFO] -------------
+
+(for generating)
+[2018-08-14 16:53:25,357 INFO] -------------
+[2018-08-14 16:53:25,357 INFO] Start training...
+[2018-08-14 16:53:25,357 INFO] Namespace(batch_size=200, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=19, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=4, word_dim=50)
+[2018-08-14 16:53:36,116 INFO] train token: 2127402
+[2018-08-14 16:53:36,117 INFO] test token: 250140
+[2018-08-14 16:53:36,117 INFO] valid token: 221606
+[2018-08-14 16:53:36,337 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-14 16:53:53,367 INFO] | epoch   1 | train_loss  6.08 | val_ppl 296.34668 | time  13.7s
+[2018-08-14 16:54:07,007 INFO] | epoch   2 | train_loss  5.45 | val_ppl 257.77884 | time  13.6s
+[2018-08-14 16:54:20,718 INFO] | epoch   3 | train_loss  5.22 | val_ppl 241.62983 | time  13.7s
+[2018-08-14 16:54:34,448 INFO] | epoch   4 | train_loss  5.07 | val_ppl 229.50040 | time  13.7s
+[2018-08-14 16:54:48,184 INFO] | epoch   5 | train_loss  4.95 | val_ppl 223.17870 | time  13.7s
+[2018-08-14 16:55:02,032 INFO] | epoch   6 | train_loss  4.86 | val_ppl 219.85915 | time  13.8s
+[2018-08-14 16:55:15,830 INFO] | epoch   7 | train_loss  4.78 | val_ppl 218.06179 | time  13.8s
+[2018-08-14 16:55:29,699 INFO] | epoch   8 | train_loss  4.71 | val_ppl 217.23845 | time  13.9s
+[2018-08-14 16:55:30,211 INFO] test_ppl: 212.89048
+[2018-08-14 17:10:25,937 INFO] -------------
+
+(for generating)
+[2018-08-14 17:10:25,937 INFO] Start training...
+[2018-08-14 17:10:25,938 INFO] Namespace(batch_size=200, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=19, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=2, word_dim=50)
+[2018-08-14 17:10:37,508 INFO] train token: 2127402
+[2018-08-14 17:10:37,509 INFO] test token: 250140
+[2018-08-14 17:10:37,509 INFO] valid token: 221606
+[2018-08-14 17:10:37,653 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-14 17:10:54,366 INFO] | epoch   1 | train_loss  6.03 | val_ppl 279.12409 | time  13.4s
+[2018-08-14 17:11:07,728 INFO] | epoch   2 | train_loss  5.42 | val_ppl 230.86703 | time  13.4s
+[2018-08-14 17:11:21,170 INFO] | epoch   3 | train_loss  5.22 | val_ppl 208.32609 | time  13.4s
+[2018-08-14 17:11:34,810 INFO] | epoch   4 | train_loss  5.10 | val_ppl 193.75914 | time  13.6s
+[2018-08-14 17:11:48,304 INFO] | epoch   5 | train_loss  5.01 | val_ppl 184.75959 | time  13.5s
+[2018-08-14 17:12:02,034 INFO] | epoch   6 | train_loss  4.95 | val_ppl 180.54095 | time  13.7s
+[2018-08-14 17:12:15,727 INFO] | epoch   7 | train_loss  4.89 | val_ppl 178.02165 | time  13.7s
+[2018-08-14 17:12:29,287 INFO] | epoch   8 | train_loss  4.85 | val_ppl 176.16627 | time  13.6s
+[2018-08-14 17:12:29,775 INFO] test_ppl: 172.82621
+[2018-08-14 17:15:55,489 INFO] -------------
+
+(use cbow as input)
+[2018-08-14 17:15:55,489 INFO] Start training...
+[2018-08-14 17:15:55,489 INFO] Namespace(batch_size=200, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=19, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=2, word_dim=100)
+[2018-08-14 17:16:06,567 INFO] train token: 2127402
+[2018-08-14 17:16:06,567 INFO] test token: 250140
+[2018-08-14 17:16:06,567 INFO] valid token: 221606
+[2018-08-14 17:16:06,711 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-14 17:16:27,837 INFO] | epoch   1 | train_loss  5.42 | val_ppl 169.07991 | time  17.7s
+[2018-08-14 17:16:45,582 INFO] | epoch   2 | train_loss  4.96 | val_ppl 157.48142 | time  17.7s
+[2018-08-14 17:17:03,461 INFO] | epoch   3 | train_loss  4.82 | val_ppl 152.67345 | time  17.9s
+[2018-08-14 17:17:21,363 INFO] | epoch   4 | train_loss  4.73 | val_ppl 147.81433 | time  17.9s
+[2018-08-14 17:17:39,296 INFO] | epoch   5 | train_loss  4.66 | val_ppl 142.18499 | time  17.9s
+[2018-08-14 17:17:57,318 INFO] | epoch   6 | train_loss  4.60 | val_ppl 141.89540 | time  18.0s
+[2018-08-14 17:18:15,344 INFO] | epoch   7 | train_loss  4.55 | val_ppl 143.53074 | time  18.0s
+[2018-08-14 17:18:33,383 INFO] | epoch   8 | train_loss  4.51 | val_ppl 145.59608 | time  18.0s
+[2018-08-14 17:18:33,993 INFO] test_ppl: 143.01214
+[2018-08-14 17:23:23,479 INFO] -------------
+
+(only one token similar to skip-gram with all noises)
+[2018-08-14 17:23:23,479 INFO] Start training...
+[2018-08-14 17:23:23,479 INFO] Namespace(batch_size=400, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=19, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1, word_dim=100)
+[2018-08-14 17:23:34,958 INFO] train token: 2127402
+[2018-08-14 17:23:34,958 INFO] test token: 250140
+[2018-08-14 17:23:34,958 INFO] valid token: 221606
+[2018-08-14 17:23:35,102 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-14 17:23:50,259 INFO] | epoch   1 | train_loss  5.60 | val_ppl 200.64726 | time  11.8s
+[2018-08-14 17:24:02,056 INFO] | epoch   2 | train_loss  5.22 | val_ppl 174.21698 | time  11.8s
+[2018-08-14 17:24:13,945 INFO] | epoch   3 | train_loss  5.11 | val_ppl 165.95055 | time  11.9s
+[2018-08-14 17:24:25,817 INFO] | epoch   4 | train_loss  5.04 | val_ppl 161.84225 | time  11.9s
+[2018-08-14 17:24:37,743 INFO] | epoch   5 | train_loss  4.99 | val_ppl 158.92914 | time  11.9s
+[2018-08-14 17:24:49,659 INFO] | epoch   6 | train_loss  4.95 | val_ppl 157.17144 | time  11.9s
+[2018-08-14 17:25:01,579 INFO] | epoch   7 | train_loss  4.92 | val_ppl 156.18770 | time  11.9s
+[2018-08-14 17:25:13,535 INFO] | epoch   8 | train_loss  4.89 | val_ppl 155.74281 | time  12.0s
+[2018-08-14 17:25:14,070 INFO] test_ppl: 152.89515
+[2018-08-14 17:29:09,232 INFO] -------------
+[2018-08-14 17:31:43,699 INFO] -------------
+
+(outemb and inputemb both use cbow and updating)
+[2018-08-14 17:31:43,699 INFO] Start training...
+[2018-08-14 17:31:43,699 INFO] Namespace(batch_size=400, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./wiki.train.tokens.100d.cbow.txt', random_outemb=False, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=19, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1, word_dim=100)
+[2018-08-14 17:31:54,700 INFO] train token: 2127402
+[2018-08-14 17:31:54,700 INFO] test token: 250140
+[2018-08-14 17:31:54,700 INFO] valid token: 221606
+[2018-08-14 17:31:54,843 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-14 17:32:10,819 INFO] | epoch   1 | train_loss  6.45 | val_ppl 198.50339 | time  11.8s
+[2018-08-14 17:32:22,721 INFO] | epoch   2 | train_loss  5.21 | val_ppl 171.10911 | time  11.9s
+[2018-08-14 17:32:34,548 INFO] | epoch   3 | train_loss  5.08 | val_ppl 161.58858 | time  11.8s
+[2018-08-14 17:32:46,423 INFO] | epoch   4 | train_loss  5.01 | val_ppl 156.94727 | time  11.9s
+[2018-08-14 17:32:58,306 INFO] | epoch   5 | train_loss  4.97 | val_ppl 154.79554 | time  11.9s
+[2018-08-14 17:33:10,196 INFO] | epoch   6 | train_loss  4.93 | val_ppl 153.86024 | time  11.9s
+[2018-08-14 17:33:22,102 INFO] | epoch   7 | train_loss  4.90 | val_ppl 153.54663 | time  11.9s
+[2018-08-14 17:33:34,023 INFO] | epoch   8 | train_loss  4.88 | val_ppl 153.57180 | time  11.9s
+[2018-08-14 17:33:34,503 INFO] test_ppl: 150.47444
