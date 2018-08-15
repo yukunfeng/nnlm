@@ -46,7 +46,8 @@ def train(opt, logger=None):
     device = torch.device(opt.device)
 
     vocab_size = TEXT.vocab.vectors.size(0)
-    word_dim = TEXT.vocab.vectors.size(1)
+    #  word_dim = TEXT.vocab.vectors.size(1)
+    word_dim = 200  # to remove
     model = NNLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
@@ -56,12 +57,15 @@ def train(opt, logger=None):
         hidden_size=word_dim,
         dropout=opt.dropout
     ).to(device)
-    model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
+    # to uncomment
+    #  model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.rnn_encoder.embeddings.weight.requires_grad = opt.update_inputemb
 
     if not opt.random_outemb:
         out_emb = load_word_embedding(opt.out_emb_path)
         model.out.weight.data.copy_(out_emb)
+        # To remove
+        model.rnn_encoder.embeddings.weight.data.copy_(out_emb)
 
     if opt.norm_out_emb:
         model.out.weight.data =\
@@ -154,8 +158,18 @@ def train(opt, logger=None):
         if epoch % opt.every_n_epoch_save == 0:
             if logger:
                 logger.info("start to save model on {}".format(opt.save))
-            with open(opt.save, 'wb') as save_fh:
-                torch.save(model, save_fh)
+            opt.word_dim = word_dim
+            opt.hidden_size = word_dim
+            opt.vocab_size = vocab_size
+            save_dict = {
+                'epoch': epoch,
+                'state_dict': model.state_dict(),
+                'opt': opt,
+            }
+            torch.save(
+                save_dict,
+                opt.save
+            )
 
     # Doing evaluation on test data
     #  test_loss = evaluation_similarity(test_iter)
@@ -166,11 +180,11 @@ def train(opt, logger=None):
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
-    save_word_embedding(
-        TEXT.vocab.itos,
-        model.out.weight.data,
-        f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
-    )
+    #  save_word_embedding(
+        #  TEXT.vocab.itos,
+        #  model.out.weight.data,
+        #  f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
+    #  )
 
     # saving input embeddings
     #  save_word_embedding(
@@ -178,7 +192,6 @@ def train(opt, logger=None):
         #  model.rnn_encoder.embeddings.weight.data,
         #  "random_start_input_emb.txt"
     #  )
-
 
 
 if __name__ == "__main__":
