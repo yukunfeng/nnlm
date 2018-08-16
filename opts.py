@@ -63,7 +63,7 @@ def preprocess_opts(parser):
         action='store_true',
         help="whether norm out emb"
     )
-    group.add_argument('-save', default="nnlm.model", help="the saving path")
+    group.add_argument('-save', default="mlp.model", help="the saving path")
     group.add_argument(
         '-every_n_epoch_save',
         default=40,
