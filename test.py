@@ -13,11 +13,11 @@ import math
 import torch
 import torch.nn as nn
 from utils.utils import *
-from nnlm import NNLM
+from mlplm import MLPLM
 import dataset
 
 
-def load_nnlm(checkpoint_path):
+def load_mlplm(checkpoint_path):
     checkpoint = torch.load(checkpoint_path)
     opt = checkpoint['opt']
     TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
@@ -30,7 +30,7 @@ def load_nnlm(checkpoint_path):
     )
     device = torch.device(opt.device)
 
-    model = NNLM(
+    model = MLPLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
@@ -58,7 +58,7 @@ def parse_args():
 
 
 def main():
-    model, opt = load_nnlm("./mlp.model")
+    model, opt = load_mlplm("./mlp.model")
     TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
         resources_dir=opt.resources_dir,
         vector_type=opt.vector_type,

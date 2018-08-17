@@ -9,14 +9,13 @@ Description : NN-based LM
 from __future__ import division
 import torch
 import torch.nn as nn
-from rnn_encoder import RNNEncoder
 
 
-class NNLM(nn.Module):
-    """NNLM class"""
+class MLPLM(nn.Module):
+    """MLPLM class"""
     def __init__(self, rnn_type, bidirectional,
                  num_layers, vocab_size, word_dim, hidden_size, dropout=0.0):
-        super(NNLM, self).__init__()
+        super(MLPLM, self).__init__()
         self.embeddings = nn.Embedding(vocab_size, word_dim)
         self.hidden_size = hidden_size
         self.out = nn.Linear(hidden_size, vocab_size, bias=False)

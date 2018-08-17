@@ -15,7 +15,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from utils.utils import *
-from nnlm import NNLM
+from mlplm import MLPLM
 import dataset
 
 
@@ -46,8 +46,8 @@ def train(opt, logger=None):
     device = torch.device(opt.device)
 
     vocab_size = TEXT.vocab.vectors.size(0)
-    word_dim = TEXT.vocab.vectors.size(1)
-    model = NNLM(
+    #  word_dim = TEXT.vocab.vectors.size(1)
+    model = MLPLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
@@ -197,7 +197,6 @@ def train(opt, logger=None):
         #  model.rnn_encoder.embeddings.weight.data,
         #  "random_start_input_emb.txt"
     #  )
-
 
 
 if __name__ == "__main__":
