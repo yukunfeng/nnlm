@@ -1049,3 +1049,19 @@ changed. pretrained out emb is still usefull)
 [2018-08-16 16:54:39,153 INFO] | epoch   8 | train_loss  4.71 | val_ppl 134.80460 | time  12.8s
 [2018-08-16 16:54:39,154 INFO] start to save model on mlp.model
 [2018-08-16 16:54:40,039 INFO] test_ppl: 133.11336
+[2018-08-16 17:31:01,331 INFO] -------------
+[2018-08-16 17:31:01,331 INFO] Start training...
+[2018-08-16 17:31:01,331 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, device='cuda:0', dropout=0.0, epoch=7, every_n_epoch_save=7, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=9099, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=2, word_dim=100)
+[2018-08-16 17:31:12,810 INFO] train token: 2127402
+[2018-08-16 17:31:12,810 INFO] test token: 250140
+[2018-08-16 17:31:12,810 INFO] valid token: 221606
+[2018-08-16 17:31:12,954 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-16 17:31:28,966 INFO] | epoch   1 | train_loss  5.55 | val_ppl 189.27845 | time  12.5s
+[2018-08-16 17:31:41,465 INFO] | epoch   2 | train_loss  5.13 | val_ppl 159.12781 | time  12.5s
+[2018-08-16 17:31:54,031 INFO] | epoch   3 | train_loss  4.99 | val_ppl 149.05304 | time  12.6s
+[2018-08-16 17:32:06,740 INFO] | epoch   4 | train_loss  4.90 | val_ppl 143.65452 | time  12.7s
+[2018-08-16 17:32:19,442 INFO] | epoch   5 | train_loss  4.84 | val_ppl 140.26069 | time  12.7s
+[2018-08-16 17:32:32,135 INFO] | epoch   6 | train_loss  4.79 | val_ppl 137.98615 | time  12.7s
+[2018-08-16 17:32:44,952 INFO] | epoch   7 | train_loss  4.75 | val_ppl 136.14842 | time  12.8s
+[2018-08-16 17:32:44,953 INFO] start to save model on mlp.model
+[2018-08-16 17:32:45,867 INFO] test_ppl: 134.46331
