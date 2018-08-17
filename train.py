@@ -19,6 +19,15 @@ from nnlm import NNLM
 import dataset
 
 
+def adjust_learning_rate(optimizer, epoch, init_lr, every_n_epoch_decay):
+    """Sets the learning rate to the initial
+    LR decayed by 10 every 30 epochs"""
+    lr = init_lr * (0.3 ** (epoch // every_n_epoch_decay))
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return lr
+
+
 def parse_args():
     """ Parsing arguments """
     parser = argparse.ArgumentParser(
@@ -47,7 +56,7 @@ def train(opt, logger=None):
 
     vocab_size = TEXT.vocab.vectors.size(0)
     #  word_dim = TEXT.vocab.vectors.size(1)
-    word_dim = 200  # to remove
+    word_dim = 350  # to remove
     model = NNLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
@@ -145,6 +154,13 @@ def train(opt, logger=None):
 
         elapsed = time.time() - start_time
         start_time = time.time()
+        if epoch % opt.every_n_epoch_decay == 0:
+            new_lr = adjust_learning_rate(
+                optimizer, epoch,
+                opt.lr, opt.every_n_epoch_decay
+            )
+            if logger:
+                logger.info(f"learning rate has been changed to {new_lr}")
 
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
@@ -180,11 +196,11 @@ def train(opt, logger=None):
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
-    #  save_word_embedding(
-        #  TEXT.vocab.itos,
-        #  model.out.weight.data,
-        #  f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
-    #  )
+    save_word_embedding(
+        TEXT.vocab.itos,
+        model.out.weight.data,
+        f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
+    )
 
     # saving input embeddings
     #  save_word_embedding(

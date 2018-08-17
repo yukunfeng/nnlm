@@ -1118,3 +1118,117 @@ input and output using cbow 200d. still bad. now i have a idea
 [2018-08-15 16:50:05,840 INFO] | epoch  19 | train_loss  4.37 | val_ppl 101.47360 | time  19.1s
 [2018-08-15 16:50:24,871 INFO] | epoch  20 | train_loss  4.35 | val_ppl 100.38955 | time  19.0s
 [2018-08-15 16:50:25,579 INFO] test_ppl: 96.62703
+[2018-08-17 15:58:09,339 INFO] -------------
+[2018-08-17 16:05:33,164 INFO] -------------
+
+
+(add learning rate decay. and tries to achieve the limit of the model)
+[2018-08-17 16:05:33,164 INFO] Start training...
+[2018-08-17 16:05:33,164 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=35, device='cuda:0', dropout=0.0, epoch=40, every_n_epoch_decay=15, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='../nnlm/2mlplen_8epoch_outemb.txt', random_outemb=False, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=231, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d')
+[2018-08-17 16:05:44,956 INFO] train token: 2127402
+[2018-08-17 16:05:44,957 INFO] test token: 250140
+[2018-08-17 16:05:44,957 INFO] valid token: 221606
+[2018-08-17 16:05:45,117 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-17 16:06:08,487 INFO] | epoch   1 | train_loss  4.94 | val_ppl 133.24670 | time  18.6s
+[2018-08-17 16:06:27,327 INFO] | epoch   2 | train_loss  4.58 | val_ppl 115.62567 | time  18.8s
+[2018-08-17 16:06:46,035 INFO] | epoch   3 | train_loss  4.46 | val_ppl 107.71218 | time  18.7s
+[2018-08-17 16:07:04,972 INFO] | epoch   4 | train_loss  4.39 | val_ppl 102.94732 | time  18.9s
+[2018-08-17 16:07:23,901 INFO] | epoch   5 | train_loss  4.33 | val_ppl 99.58792 | time  18.9s
+[2018-08-17 16:07:42,808 INFO] | epoch   6 | train_loss  4.28 | val_ppl 97.14991 | time  18.9s
+[2018-08-17 16:08:01,639 INFO] | epoch   7 | train_loss  4.24 | val_ppl 95.26966 | time  18.8s
+[2018-08-17 16:08:20,492 INFO] | epoch   8 | train_loss  4.20 | val_ppl 93.74459 | time  18.9s
+[2018-08-17 16:08:39,498 INFO] | epoch   9 | train_loss  4.17 | val_ppl 92.47227 | time  19.0s
+[2018-08-17 16:08:58,584 INFO] | epoch  10 | train_loss  4.14 | val_ppl 91.39952 | time  19.1s
+[2018-08-17 16:09:17,681 INFO] | epoch  11 | train_loss  4.11 | val_ppl 90.49338 | time  19.1s
+[2018-08-17 16:09:36,498 INFO] | epoch  12 | train_loss  4.09 | val_ppl 89.72923 | time  18.8s
+[2018-08-17 16:09:55,488 INFO] | epoch  13 | train_loss  4.07 | val_ppl 89.08651 | time  19.0s
+[2018-08-17 16:10:14,445 INFO] | epoch  14 | train_loss  4.04 | val_ppl 88.54802 | time  19.0s
+[2018-08-17 16:10:33,340 INFO] learning rate has been changed to 0.05
+[2018-08-17 16:10:33,341 INFO] | epoch  15 | train_loss  4.02 | val_ppl 88.09980 | time  18.9s
+[2018-08-17 16:10:52,383 INFO] | epoch  16 | train_loss  4.00 | val_ppl 81.10210 | time  19.0s
+[2018-08-17 16:11:11,426 INFO] | epoch  17 | train_loss  3.99 | val_ppl 80.94908 | time  19.0s
+[2018-08-17 16:11:30,281 INFO] | epoch  18 | train_loss  3.98 | val_ppl 80.88628 | time  18.9s
+[2018-08-17 16:11:49,328 INFO] | epoch  19 | train_loss  3.98 | val_ppl 80.84831 | time  19.0s
+[2018-08-17 16:12:08,309 INFO] | epoch  20 | train_loss  3.98 | val_ppl 80.82070 | time  19.0s
+[2018-08-17 16:12:27,234 INFO] | epoch  21 | train_loss  3.97 | val_ppl 80.79836 | time  18.9s
+[2018-08-17 16:12:46,223 INFO] | epoch  22 | train_loss  3.97 | val_ppl 80.77912 | time  19.0s
+[2018-08-17 16:13:05,234 INFO] | epoch  23 | train_loss  3.97 | val_ppl 80.76189 | time  19.0s
+[2018-08-17 16:13:24,262 INFO] | epoch  24 | train_loss  3.97 | val_ppl 80.74611 | time  19.0s
+[2018-08-17 16:13:43,361 INFO] | epoch  25 | train_loss  3.96 | val_ppl 80.73145 | time  19.1s
+[2018-08-17 16:14:02,400 INFO] | epoch  26 | train_loss  3.96 | val_ppl 80.71772 | time  19.0s
+[2018-08-17 16:14:21,416 INFO] | epoch  27 | train_loss  3.96 | val_ppl 80.70480 | time  19.0s
+[2018-08-17 16:14:40,325 INFO] | epoch  28 | train_loss  3.96 | val_ppl 80.69260 | time  18.9s
+[2018-08-17 16:14:59,284 INFO] | epoch  29 | train_loss  3.95 | val_ppl 80.68109 | time  19.0s
+[2018-08-17 16:15:18,459 INFO] learning rate has been changed to 0.005000000000000001
+[2018-08-17 16:15:18,459 INFO] | epoch  30 | train_loss  3.95 | val_ppl 80.67021 | time  19.2s
+[2018-08-17 16:15:37,381 INFO] | epoch  31 | train_loss  3.95 | val_ppl 79.76065 | time  18.9s
+[2018-08-17 16:15:56,530 INFO] | epoch  32 | train_loss  3.95 | val_ppl 79.69372 | time  19.1s
+[2018-08-17 16:16:15,570 INFO] | epoch  33 | train_loss  3.95 | val_ppl 79.66838 | time  19.0s
+[2018-08-17 16:16:34,552 INFO] | epoch  34 | train_loss  3.95 | val_ppl 79.65570 | time  19.0s
+[2018-08-17 16:16:53,511 INFO] | epoch  35 | train_loss  3.95 | val_ppl 79.64816 | time  19.0s
+[2018-08-17 16:17:12,475 INFO] | epoch  36 | train_loss  3.95 | val_ppl 79.64305 | time  19.0s
+[2018-08-17 16:17:31,550 INFO] | epoch  37 | train_loss  3.95 | val_ppl 79.63924 | time  19.1s
+[2018-08-17 16:17:50,706 INFO] | epoch  38 | train_loss  3.95 | val_ppl 79.63617 | time  19.2s
+[2018-08-17 16:18:09,646 INFO] | epoch  39 | train_loss  3.95 | val_ppl 79.63356 | time  18.9s
+[2018-08-17 16:18:28,659 INFO] | epoch  40 | train_loss  3.95 | val_ppl 79.63125 | time  19.0s
+[2018-08-17 16:18:28,660 INFO] start to save model on nnlm.model
+[2018-08-17 16:18:30,009 INFO] test_ppl: 77.59396
+[2018-08-17 16:27:43,713 INFO] -------------
+[2018-08-17 16:41:52,692 INFO] -------------
+[2018-08-17 16:45:42,428 INFO] -------------
+
+(long epoch test)
+[2018-08-17 16:45:42,429 INFO] Start training...
+[2018-08-17 16:45:42,429 INFO] Namespace(batch_size=20, bidirectional=False, bptt_len=35, device='cuda:0', dropout=0.0, epoch=40, every_n_epoch_decay=8, every_n_epoch_save=40, log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./35bptt_40epoch_outemb1st.txt', random_outemb=False, resources_dir='~/common_corpus/', rnn_type='GRU', save='nnlm.model', seed=500, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d')
+[2018-08-17 16:45:53,563 INFO] train token: 2127402
+[2018-08-17 16:45:53,563 INFO] test token: 250140
+[2018-08-17 16:45:53,563 INFO] valid token: 221606
+[2018-08-17 16:45:53,704 INFO] Loading vectors from /home/lr/yukun/common_corpus/glove.6B.100d.txt.pt
+[2018-08-17 16:46:16,840 INFO] | epoch   1 | train_loss  4.81 | val_ppl 121.35807 | time  18.6s
+[2018-08-17 16:46:35,611 INFO] | epoch   2 | train_loss  4.40 | val_ppl 104.97451 | time  18.8s
+[2018-08-17 16:46:54,430 INFO] | epoch   3 | train_loss  4.29 | val_ppl 98.56207 | time  18.8s
+[2018-08-17 16:47:13,273 INFO] | epoch   4 | train_loss  4.22 | val_ppl 94.98923 | time  18.8s
+[2018-08-17 16:47:32,150 INFO] | epoch   5 | train_loss  4.17 | val_ppl 92.61660 | time  18.9s
+[2018-08-17 16:47:50,936 INFO] | epoch   6 | train_loss  4.13 | val_ppl 90.89218 | time  18.8s
+[2018-08-17 16:48:09,786 INFO] | epoch   7 | train_loss  4.09 | val_ppl 89.56602 | time  18.8s
+[2018-08-17 16:48:28,834 INFO] learning rate has been changed to 0.15
+[2018-08-17 16:48:28,835 INFO] | epoch   8 | train_loss  4.06 | val_ppl 88.51720 | time  19.0s
+[2018-08-17 16:48:47,791 INFO] | epoch   9 | train_loss  4.03 | val_ppl 81.91565 | time  19.0s
+[2018-08-17 16:49:06,774 INFO] | epoch  10 | train_loss  4.02 | val_ppl 81.71901 | time  19.0s
+[2018-08-17 16:49:25,769 INFO] | epoch  11 | train_loss  4.01 | val_ppl 81.56188 | time  19.0s
+[2018-08-17 16:49:44,774 INFO] | epoch  12 | train_loss  4.00 | val_ppl 81.42170 | time  19.0s
+[2018-08-17 16:50:03,815 INFO] | epoch  13 | train_loss  3.99 | val_ppl 81.29376 | time  19.0s
+[2018-08-17 16:50:22,832 INFO] | epoch  14 | train_loss  3.98 | val_ppl 81.17623 | time  19.0s
+[2018-08-17 16:50:41,777 INFO] | epoch  15 | train_loss  3.98 | val_ppl 81.06814 | time  18.9s
+[2018-08-17 16:51:00,739 INFO] learning rate has been changed to 0.045
+[2018-08-17 16:51:00,739 INFO] | epoch  16 | train_loss  3.97 | val_ppl 80.96885 | time  19.0s
+[2018-08-17 16:51:19,761 INFO] | epoch  17 | train_loss  3.97 | val_ppl 79.12312 | time  19.0s
+[2018-08-17 16:51:38,702 INFO] | epoch  18 | train_loss  3.96 | val_ppl 79.06699 | time  18.9s
+[2018-08-17 16:51:57,584 INFO] | epoch  19 | train_loss  3.96 | val_ppl 79.03215 | time  18.9s
+[2018-08-17 16:52:16,461 INFO] | epoch  20 | train_loss  3.96 | val_ppl 79.00258 | time  18.9s
+[2018-08-17 16:52:35,425 INFO] | epoch  21 | train_loss  3.95 | val_ppl 78.97524 | time  19.0s
+[2018-08-17 16:52:54,359 INFO] | epoch  22 | train_loss  3.95 | val_ppl 78.94937 | time  18.9s
+[2018-08-17 16:53:13,357 INFO] | epoch  23 | train_loss  3.95 | val_ppl 78.92454 | time  19.0s
+[2018-08-17 16:53:32,303 INFO] learning rate has been changed to 0.013499999999999998
+[2018-08-17 16:53:32,304 INFO] | epoch  24 | train_loss  3.95 | val_ppl 78.90067 | time  18.9s
+[2018-08-17 16:53:51,235 INFO] | epoch  25 | train_loss  3.95 | val_ppl 78.13881 | time  18.9s
+[2018-08-17 16:54:10,230 INFO] | epoch  26 | train_loss  3.95 | val_ppl 78.10903 | time  19.0s
+[2018-08-17 16:54:29,295 INFO] | epoch  27 | train_loss  3.95 | val_ppl 78.09381 | time  19.1s
+[2018-08-17 16:54:48,255 INFO] | epoch  28 | train_loss  3.95 | val_ppl 78.08252 | time  19.0s
+[2018-08-17 16:55:07,324 INFO] | epoch  29 | train_loss  3.94 | val_ppl 78.07256 | time  19.1s
+[2018-08-17 16:55:26,395 INFO] | epoch  30 | train_loss  3.94 | val_ppl 78.06372 | time  19.1s
+[2018-08-17 16:55:45,332 INFO] | epoch  31 | train_loss  3.94 | val_ppl 78.05518 | time  18.9s
+[2018-08-17 16:56:04,219 INFO] learning rate has been changed to 0.00405
+[2018-08-17 16:56:04,220 INFO] | epoch  32 | train_loss  3.94 | val_ppl 78.04722 | time  18.9s
+[2018-08-17 16:56:23,350 INFO] | epoch  33 | train_loss  3.94 | val_ppl 77.68514 | time  19.1s
+[2018-08-17 16:56:42,291 INFO] | epoch  34 | train_loss  3.94 | val_ppl 77.66894 | time  18.9s
+[2018-08-17 16:57:01,289 INFO] | epoch  35 | train_loss  3.94 | val_ppl 77.66148 | time  19.0s
+[2018-08-17 16:57:20,209 INFO] | epoch  36 | train_loss  3.94 | val_ppl 77.65647 | time  18.9s
+[2018-08-17 16:57:39,209 INFO] | epoch  37 | train_loss  3.94 | val_ppl 77.65245 | time  19.0s
+[2018-08-17 16:57:58,054 INFO] | epoch  38 | train_loss  3.94 | val_ppl 77.64892 | time  18.8s
+[2018-08-17 16:58:16,947 INFO] | epoch  39 | train_loss  3.94 | val_ppl 77.64568 | time  18.9s
+[2018-08-17 16:58:35,989 INFO] learning rate has been changed to 0.0012149999999999997
+[2018-08-17 16:58:35,990 INFO] | epoch  40 | train_loss  3.94 | val_ppl 77.64261 | time  19.0s
+[2018-08-17 16:58:35,990 INFO] start to save model on nnlm.model
+[2018-08-17 16:58:37,282 INFO] test_ppl: 75.71181
+[2018-08-17 17:18:54,613 INFO] -------------
