@@ -43,6 +43,11 @@ def preprocess_opts(parser):
         help="whether train inputembeddings 1 to train 0 to not train"
     )
     group.add_argument(
+        '-input_vector',
+        default=None,
+        help="input_vector path. None means using random vectors"
+    )
+    group.add_argument(
         '-random_outemb',
         default=False,
         action='store_true',

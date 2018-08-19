@@ -10,6 +10,7 @@ Description : training
 import argparse
 import math
 import time
+import os
 import opts
 import torch
 import torch.nn as nn
@@ -22,7 +23,7 @@ import dataset
 def adjust_learning_rate(optimizer, epoch, init_lr, every_n_epoch_decay):
     """Sets the learning rate to the initial
     LR decayed by 10 every 30 epochs"""
-    lr = init_lr * (0.3 ** (epoch // every_n_epoch_decay))
+    lr = init_lr * (0.5 ** (epoch // every_n_epoch_decay))
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr
@@ -45,18 +46,12 @@ def parse_args():
 def train(opt, logger=None):
     """training given opt"""
     TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
-        resources_dir=opt.resources_dir,
-        vector_type=opt.vector_type,
-        batch_size=opt.batch_size,
-        bptt_len=opt.bptt_len,
-        device=opt.device,
-        logger=logger
+        opt, logger=logger
     )
     device = torch.device(opt.device)
 
     vocab_size = TEXT.vocab.vectors.size(0)
-    #  word_dim = TEXT.vocab.vectors.size(1)
-    word_dim = 350  # to remove
+    word_dim = TEXT.vocab.vectors.size(1)
     model = NNLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
@@ -66,15 +61,16 @@ def train(opt, logger=None):
         hidden_size=word_dim,
         dropout=opt.dropout
     ).to(device)
-    # to uncomment
-    #  model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
+
+    model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.rnn_encoder.embeddings.weight.requires_grad = opt.update_inputemb
 
     if not opt.random_outemb:
+        opt.out_emb_path = os.path.expanduser(opt.out_emb_path)
         out_emb = load_word_embedding(opt.out_emb_path)
-        model.out.weight.data.copy_(out_emb)
-        # To remove
-        model.rnn_encoder.embeddings.weight.data.copy_(out_emb)
+        # to remove
+        model.out.weight.data.copy_(TEXT.vocab.vectors)
+        #  model.out.weight.data.copy_(out_emb)
 
     if opt.norm_out_emb:
         model.out.weight.data =\
