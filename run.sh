@@ -23,5 +23,11 @@
 
 
 # Generate out emb and whole model saved
-python ./train.py  -device "cuda:0" -seed 9099 -bptt_len 10 -batch_size 800 -update_out_emb -window_len 2 -word_dim 100 -random_outemb -every_n_epoch_save 7 -epoch 7
+python ./train.py  -device "cuda:0" -seed 9089 -bptt_len 10 -batch_size 800 -update_out_emb \
+-input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.325d.cbow.txt" \
+-window_len 2 -random_outemb 
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.100d.cbow.lower.txt" \
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.100d.cbow.txt" \
+
+# python ./train.py  -device "cuda:0" -seed 9099 -bptt_len 10 -batch_size 800 -update_out_emb -window_len 2 -word_dim 100 -random_outemb -every_n_epoch_save 7 -epoch 7
 # python ./train.py  -device "cuda:0" -seed 99 -bptt_len 10 -batch_size 200 -update_out_emb -window_len 2 -word_dim 100 -out_emb_path "../common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.200d.cbow.txt" -every_n_epoch_save 8

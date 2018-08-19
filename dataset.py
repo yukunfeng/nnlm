@@ -30,7 +30,7 @@ def parse_args():
     return opt
 
 
-def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device, logger=None):
+def create_lm_dataset(opt, logger=None):
     """create language modeling dataset.
     :returns: iterators for train, test and valid dataset
 
@@ -50,7 +50,7 @@ def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device, 
         lower=True
     )
 
-    wikitext_dir = os.path.expanduser(resources_dir)
+    wikitext_dir = os.path.expanduser(opt.resources_dir)
     train, valid, test = torchtext.datasets.WikiText2.splits(
         text_field=TEXT,
         root=wikitext_dir
@@ -61,30 +61,24 @@ def create_lm_dataset(resources_dir, vector_type, batch_size, bptt_len, device, 
         logger.info(f"test token: {len(test.examples[0].text)}")
         logger.info(f"valid token: {len(valid.examples[0].text)}")
 
-    vectors_dir = os.path.expanduser(resources_dir)
-
-    vectors_path = "{}/{}.txt".format(vectors_dir, vector_type)
-    vocab_from_vectors = []
-    with open(vectors_path, 'r') as fh:
-        for line in fh:
-            line = line.strip()
-            # Skip empty lines
-            if line == "":
-                continue
-            word = [line[0:line.find(" ")]]
-            vocab_from_vectors.append(word)
-
-    TEXT.build_vocab(
-        vocab_from_vectors,
-        vectors=vector_type,
-        vectors_cache=vectors_dir
-    )
+    if opt.input_vector is not None:
+        opt.input_vector = os.path.expanduser(opt.input_vector)
+        head, tail = os.path.split(opt.input_vector)
+        torchtext_vectors = torchtext.vocab.Vectors(name=tail, cache=head)
+        #  print(f"len: {len(torchtext_vectors.stoi)}")
+        #  print(f"size: {torchtext_vectors.vectors.size()}")
+        # Here the list of list is to simulate the real dataset
+        # where first dim is sentence and second is word.
+        limited_train = [[word] for word in torchtext_vectors.stoi.keys()]
+        TEXT.build_vocab(limited_train, vectors=torchtext_vectors)
+    else:
+        TEXT.build_vocab(train)
 
     train_iter, val_iter, test_iter = torchtext.data.BPTTIterator.splits(
         (train, valid, test),
-        batch_size=batch_size,
-        bptt_len=bptt_len,
-        device=device,
+        batch_size=opt.batch_size,
+        bptt_len=opt.bptt_len,
+        device=opt.device,
         repeat=False
     )
     return (TEXT, train_iter, test_iter, val_iter)
@@ -95,20 +89,18 @@ if __name__ == "__main__":
     opt = parse_args()
     logger = get_logger(opt.log_file)
     TEXT, train_iter, test_iter, val_iter = create_lm_dataset(
-        resources_dir=opt.resources_dir,
-        vector_type=opt.vector_type,
-        batch_size=opt.batch_size,
-        bptt_len=opt.bptt_len,
-        device=opt.device,
-        logger=logger
+        opt, logger=logger
     )
+    print(f"{TEXT.vocab.vectors.size()}")
+    print(f"{len(TEXT.vocab.itos)}")
 
     for batch_count, batch_data in enumerate(train_iter, 1):
-        text = batch_data.text.t().contiguous()
-        target = batch_data.target.t().contiguous()
+        text = batch_data.text
+        target = batch_data.target
         strings = word_ids_to_sentence(
             text[:, 0:10], TEXT.vocab,
             word_len=12
         )
         print(strings)
-        break
+        if batch_count == 2:
+            break

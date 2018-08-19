@@ -43,6 +43,11 @@ def preprocess_opts(parser):
         help="whether train inputembeddings 1 to train 0 to not train"
     )
     group.add_argument(
+        '-input_vector',
+        default=None,
+        help="input_vector path. None means using random vectors"
+    )
+    group.add_argument(
         '-random_outemb',
         default=False,
         action='store_true',
@@ -70,6 +75,12 @@ def preprocess_opts(parser):
         type=int,
         help="every this epoch saving model"
     )
+    group.add_argument(
+        '-every_n_epoch_decay',
+        default=8,
+        help="lr decay",
+        type=int
+    )
     group.add_argument('-seed', default=0, help="random seed", type=int)
     group.add_argument(
         '-tied', default=False,
@@ -78,11 +89,6 @@ def preprocess_opts(parser):
     )
     group.add_argument(
         '-window_len', default=5,
-        help="window_len",
-        type=int
-    )
-    group.add_argument(
-        '-word_dim', default=50,
         help="window_len",
         type=int
     )

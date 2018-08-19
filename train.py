@@ -10,6 +10,7 @@ Description : training
 import argparse
 import math
 import time
+import os
 import opts
 import torch
 import torch.nn as nn
@@ -17,6 +18,15 @@ import torch.optim as optim
 from utils.utils import *
 from mlplm import MLPLM
 import dataset
+
+
+def adjust_learning_rate(optimizer, epoch, init_lr, every_n_epoch_decay):
+    """Sets the learning rate to the initial
+    LR decayed by 10 every 30 epochs"""
+    lr = init_lr * (0.5 ** (epoch // every_n_epoch_decay))
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return lr
 
 
 def parse_args():
@@ -36,30 +46,27 @@ def parse_args():
 def train(opt, logger=None):
     """training given opt"""
     TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
-        resources_dir=opt.resources_dir,
-        vector_type=opt.vector_type,
-        batch_size=opt.batch_size,
-        bptt_len=opt.bptt_len,
-        device=opt.device,
-        logger=logger
+        opt, logger=logger
     )
     device = torch.device(opt.device)
 
     vocab_size = TEXT.vocab.vectors.size(0)
-    #  word_dim = TEXT.vocab.vectors.size(1)
+    word_dim = TEXT.vocab.vectors.size(1)
     model = MLPLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
         vocab_size=vocab_size,
-        word_dim=opt.word_dim,
-        hidden_size=opt.word_dim * opt.window_len,
+        word_dim=word_dim,
+        hidden_size=word_dim * opt.window_len,
         dropout=opt.dropout
     ).to(device)
+
     model.embeddings.weight.data.copy_(TEXT.vocab.vectors)
     model.embeddings.weight.requires_grad = opt.update_inputemb
 
     if not opt.random_outemb:
+        opt.out_emb_path = os.path.expanduser(opt.out_emb_path)
         out_emb = load_word_embedding(opt.out_emb_path)
         model.out.weight.data.copy_(out_emb)
 
@@ -69,6 +76,8 @@ def train(opt, logger=None):
 
     model.out.weight.requires_grad = opt.update_out_emb
 
+    if opt.tied:
+        model.out.weight = model.embeddings.weight
     criterion = nn.CrossEntropyLoss()
     #  optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
     optimizer = optim.SGD(filter(
@@ -151,6 +160,13 @@ def train(opt, logger=None):
 
         elapsed = time.time() - start_time
         start_time = time.time()
+        if epoch % opt.every_n_epoch_decay == 0:
+            new_lr = adjust_learning_rate(
+                optimizer, epoch,
+                opt.lr, opt.every_n_epoch_decay
+            )
+            if logger:
+                logger.info(f"learning rate has been changed to {new_lr}")
 
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
@@ -185,11 +201,11 @@ def train(opt, logger=None):
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
-    #  save_word_embedding(
-        #  TEXT.vocab.itos,
-        #  model.out.weight.data,
-        #  f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
-    #  )
+    save_word_embedding(
+        TEXT.vocab.itos,
+        model.out.weight.data,
+        f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
+    )
 
     # saving input embeddings
     #  save_word_embedding(

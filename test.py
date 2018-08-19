@@ -57,7 +57,7 @@ def parse_args():
     return opt
 
 
-def main():
+def load_test():
     model, opt = load_mlplm("./mlp.model")
     TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
         resources_dir=opt.resources_dir,
@@ -100,4 +100,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    load_test()
