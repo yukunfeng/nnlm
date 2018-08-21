@@ -52,13 +52,19 @@ def train(opt, logger=None):
 
     vocab_size = TEXT.vocab.vectors.size(0)
     word_dim = TEXT.vocab.vectors.size(1)
+
+    if not opt.random_outemb:
+        opt.out_emb_path = os.path.expanduser(opt.out_emb_path)
+        out_emb = load_word_embedding(opt.out_emb_path)
+        hidden_size = out_emb.size(1)
+
     model = NNLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
         vocab_size=vocab_size,
         word_dim=word_dim,
-        hidden_size=word_dim,
+        hidden_size=hidden_size,
         dropout=opt.dropout
     ).to(device)
 
@@ -66,11 +72,7 @@ def train(opt, logger=None):
     model.rnn_encoder.embeddings.weight.requires_grad = opt.update_inputemb
 
     if not opt.random_outemb:
-        opt.out_emb_path = os.path.expanduser(opt.out_emb_path)
-        out_emb = load_word_embedding(opt.out_emb_path)
-        # to remove
-        model.out.weight.data.copy_(TEXT.vocab.vectors)
-        #  model.out.weight.data.copy_(out_emb)
+        model.out.weight.data.copy_(out_emb)
 
     if opt.norm_out_emb:
         model.out.weight.data =\
@@ -87,6 +89,8 @@ def train(opt, logger=None):
         lambda p: p.requires_grad,
         model.parameters()
     ), lr=float(opt.lr))
+
+    best_val_loss = 1000000
 
     def evaluation_similarity(data_iter):
         """do evaluation on data_iter
@@ -136,6 +140,13 @@ def train(opt, logger=None):
             loss.backward()
 
             total_loss += loss.item()
+            # `clip_grad_norm` helps prevent the exploding gradient
+            #  if epoch >= 14:
+                #  torch.nn.utils.clip_grad_norm_(filter(
+                    #  lambda p: p.requires_grad,
+                    #  model.parameters()
+                #  ), opt.clip)
+                #  torch.nn.utils.clip_grad_norm(model.parameters(), opt.clip)
             optimizer.step()
 
         # All xx_loss means loss per word on xx dataset
@@ -150,14 +161,6 @@ def train(opt, logger=None):
 
         elapsed = time.time() - start_time
         start_time = time.time()
-        if epoch % opt.every_n_epoch_decay == 0:
-            new_lr = adjust_learning_rate(
-                optimizer, epoch,
-                opt.lr, opt.every_n_epoch_decay
-            )
-            if logger:
-                logger.info(f"learning rate has been changed to {new_lr}")
-
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
                         '| val_ppl {:8.5f} | time {:5.1f}s'.format(
@@ -165,6 +168,26 @@ def train(opt, logger=None):
                             train_loss,
                             val_ppl,
                             elapsed))
+
+        #  if epoch >= opt.decay_after_n_epoch and \
+                #  epoch % opt.every_n_epoch_decay == 0:
+            #  new_lr = adjust_learning_rate(
+                #  optimizer, epoch,
+                #  opt.lr, opt.every_n_epoch_decay
+            #  )
+            #  if logger:
+                #  logger.info(f"learning rate has been changed to {new_lr}")
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+        else:
+            new_lr = adjust_learning_rate(
+                optimizer, epoch,
+                opt.lr, opt.every_n_epoch_decay
+            )
+            if logger:
+                logger.info(f"learning rate has been changed to {new_lr}")
+
+
 
         # Saving model
         if epoch % opt.every_n_epoch_save == 0:

@@ -28,10 +28,35 @@
 # python ./train.py  -device "cuda:0" -seed 131 -bptt_len 35 -batch_size 20 -update_out_emb -epoch 20 -random_outemb
 
 # new opt including input vector
-python ./train.py  -device "cuda:0" -seed 0 -bptt_len 10 -batch_size 20 -update_out_emb \
--input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.100d.cbow.txt" \
--out_emb_path "~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.100d.cbow.txt"
+# python ./train.py  -device "cuda:0" -seed 0 -bptt_len 10 -batch_size 20 -update_out_emb \
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.100d.cbow.txt" \
+# -out_emb_path "~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.100d.cbow.txt"
 # python ./train.py  -device "cuda:0" -seed 0 -bptt_len 10 -batch_size 20 -update_out_emb \
 # -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.100d.cbow.lower.txt" \
 # -out_emb_path "~/common_corpus/wikitext-2/wikitext-2/wiki.train.100d.cbow.lower.txt"
 
+# big training
+# python ./train.py  -device "cuda:1" -seed 104 -bptt_len 35 -batch_size 20 -update_out_emb -epoch 40 \
+# -input_vector "~/common_corpus/2mlplen_8epoch_650d_outemb.txt" \
+# -out_emb_path "~/common_corpus/2mlplen_8epoch_650d_outemb.txt"
+
+# big training
+# python ./train.py  -device "cuda:1" -seed 1000 -bptt_len 20 -batch_size 20 -update_out_emb -epoch 25 \
+# -input_vector "~/common_corpus/2mlplen_8epoch_650d_outemb.txt" \
+# -out_emb_path "~/common_corpus/2mlplen_8epoch_650d_outemb.txt"
+# python ./train.py  -device "cuda:1" -seed 1050 -bptt_len 45 -batch_size 20 -update_out_emb -epoch 25  \
+# -input_vector "~/common_corpus/2mlplen_8epoch_650d_outemb.txt" \
+# -out_emb_path "~/common_corpus/2mlplen_8epoch_650d_outemb.txt"
+
+# python ./train.py  -device "cuda:1" -seed 1050 -bptt_len 65 -batch_size 20 -update_out_emb -epoch 25 \
+# -input_vector "~/common_corpus/2mlplen_8epoch_650d_outemb.txt" \
+# -out_emb_path "~/common_corpus/2mlplen_8epoch_650d_outemb.txt"
+# tied
+# python ./train.py -tied  -device "cuda:1" -seed 205 -bptt_len 80 -batch_size 20 -update_out_emb -epoch 40 \
+# -input_vector "~/common_corpus/2mlplen_8epoch_650d_outemb.txt" \
+# -out_emb_path "~/common_corpus/2mlplen_8epoch_650d_outemb.txt"
+
+# using generated out emb by rnn
+python ./train.py -tied  -device "cuda:1" -seed 125 -bptt_len 80 -batch_size 20 -epoch 40 \
+-input_vector "./80bptt_40epoch_850d.2st.outemb.txt" \
+-out_emb_path "./80bptt_40epoch_850d.2st.outemb.txt"

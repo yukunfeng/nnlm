@@ -87,20 +87,24 @@ def create_lm_dataset(opt, logger=None):
 if __name__ == "__main__":
     #  unit test
     opt = parse_args()
-    logger = get_logger(opt.log_file)
+    #  logger = get_logger(opt.log_file)
+    logger = None
     TEXT, train_iter, test_iter, val_iter = create_lm_dataset(
         opt, logger=logger
     )
-    print(f"{TEXT.vocab.vectors.size()}")
-    print(f"{len(TEXT.vocab.itos)}")
+    #  print(f"{TEXT.vocab.vectors.size()}")
+    #  print(f"{len(TEXT.vocab.itos)}")
 
     for batch_count, batch_data in enumerate(train_iter, 1):
         text = batch_data.text
         target = batch_data.target
         strings = word_ids_to_sentence(
-            text[:, 0:10], TEXT.vocab,
+            text, TEXT.vocab,
+            #  text[:, 0:10], TEXT.vocab,
             word_len=12
         )
         print(strings)
-        if batch_count == 2:
+        print("---------")
+        print(text)
+        if batch_count == 1:
             break

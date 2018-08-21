@@ -77,7 +77,13 @@ def preprocess_opts(parser):
     )
     group.add_argument(
         '-every_n_epoch_decay',
-        default=8,
+        default=3,
+        help="lr decay",
+        type=int
+    )
+    group.add_argument(
+        '-decay_after_n_epoch',
+        default=7,
         help="lr decay",
         type=int
     )
@@ -87,6 +93,7 @@ def preprocess_opts(parser):
         help="tied input and output embedding",
         action='store_true'
     )
+    group.add_argument('-clip', default=None, help="clip", type=float)
     group.add_argument('-epoch', default=8, help="epoch", type=int)
     group.add_argument('-lr', default=0.5, help="learning rate", type=float)
     group.add_argument('-rnn_type', default='GRU', help="type", type=str)
