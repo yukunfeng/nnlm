@@ -57,6 +57,26 @@
 # -out_emb_path "~/common_corpus/2mlplen_8epoch_650d_outemb.txt"
 
 # using generated out emb by rnn
-python ./train.py -tied  -device "cuda:1" -seed 125 -bptt_len 80 -batch_size 20 -epoch 40 \
--input_vector "./80bptt_40epoch_850d.2st.outemb.txt" \
--out_emb_path "./80bptt_40epoch_850d.2st.outemb.txt"
+# python ./train.py -tied  -device "cuda:1" -seed 2 -bptt_len 80 -batch_size 20 -epoch 40 \
+# -input_vector "~/common_corpus/1mlplen_8epoch_10529v.850d.outemb.txt" \
+# -out_emb_path "~/common_corpus/1mlplen_8epoch_10529v.850d.outemb.txt"
+
+# using cbow 200 may intrig gradient explode
+emb="~/common_corpus/wikitext-103/wikitext-103/wiki.train.tokens.preprocessed.cbow.850d"
+python ./train.py -tied  -device "cuda:0" -seed 1 -bptt_len 80 -batch_size 20 -epoch 40 \
+-input_vector $emb \
+-out_emb_path $emb -every_n_epoch_save 8 -data_type "wiki3"
+
+# ptb for random
+# emb="~/common_corpus/1mlplen_8epoch_outemb.ptb.850d.txt"
+# emb="~/common_corpus/1mlplen_8epoch_outemb.100d.ptb.txt"
+# python ./train.py -update_out_emb  -device "cuda:0" -seed 240 -bptt_len 22 -batch_size 1 -epoch 30 -data_type "ptb" \
+# -input_vector $emb -tied -out_emb_path $emb
+
+# for random
+# python ./train.py -random_outemb -update_out_emb  -device "cuda:0" -seed 1 -bptt_len 80 -batch_size 20 -epoch 40 \
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.numupper.freq3.preprocessed.850d.cbow.txt" \
+
+# python ./train.py -tied  -device "cuda:0" -seed 1 -bptt_len 80 -batch_size 20 -epoch 20 \
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.numupper.freq3.preprocessed.850d.cbow.txt" \
+# -out_emb_path "~/common_corpus/wikitext-2/wikitext-2/wiki.train.numupper.freq3.preprocessed.850d.cbow.txt"

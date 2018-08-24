@@ -24,6 +24,9 @@ def preprocess_opts(parser):
     group.add_argument('-resources_dir',
                        default='~/common_corpus/',
                        help="where wiki.. glove are")
+    group.add_argument('-data_type',
+                       default='wiki2',
+                       help="wiki2, ptb, or one billion")
     group.add_argument('-vector_type',
                        default="glove.6B.100d",
                        help="E.g., glove.6b.300d")
@@ -76,16 +79,10 @@ def preprocess_opts(parser):
         help="every this epoch saving model"
     )
     group.add_argument(
-        '-every_n_epoch_decay',
-        default=3,
+        '-decay',
+        default=0.75,
         help="lr decay",
-        type=int
-    )
-    group.add_argument(
-        '-decay_after_n_epoch',
-        default=7,
-        help="lr decay",
-        type=int
+        type=float
     )
     group.add_argument('-seed', default=0, help="random seed", type=int)
     group.add_argument(
