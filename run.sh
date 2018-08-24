@@ -23,9 +23,18 @@
 
 
 # Generate out emb and whole model saved
-python ./train.py  -device "cuda:0" -seed 9089 -bptt_len 10 -batch_size 800 -update_out_emb \
--input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.325d.cbow.txt" \
--window_len 2 -random_outemb 
+# python ./train.py  -device "cuda:0" -seed 90 -bptt_len 10 -batch_size 800 -update_out_emb \
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.numupper.freq3.preprocessed.850d.cbow.txt" \
+# -window_len 1 -random_outemb 
+
+# Generate out emb and whole model saved for ptb
+python ./train.py  -device "cuda:0" -seed 1000 -bptt_len 10 -batch_size 800 -update_out_emb -data_type "ptb" \
+-input_vector "~/common_corpus/penn-treebank/ptb.train.txt.cbow.850d" \
+-window_len 1 -random_outemb 
+
+# python ./train.py  -device "cuda:0" -seed 9089 -bptt_len 10 -batch_size 800 -update_out_emb \
+# -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.325d.cbow.txt" \
+# -window_len 2 -random_outemb 
 # -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.100d.cbow.lower.txt" \
 # -input_vector "~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.100d.cbow.txt" \
 
