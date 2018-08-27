@@ -17,7 +17,7 @@ import torch.nn as nn
 import torch.optim as optim
 from utils.utils import *
 from mlplm import MLPLM
-import dataset
+from co_matrix import matrix_make
 
 
 def adjust_learning_rate(optimizer, lr, decay):
@@ -45,13 +45,11 @@ def parse_args():
 
 def train(opt, logger=None):
     """training given opt"""
-    TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
-        opt, logger=logger
-    )
     device = torch.device(opt.device)
 
-    vocab_size = TEXT.vocab.vectors.size(0)
-    word_dim = TEXT.vocab.vectors.size(1)
+    matrix = matrix_make(opt)
+    vocab_size = 0
+    word_dim = 0
     model = MLPLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
@@ -74,9 +72,6 @@ def train(opt, logger=None):
         model.out.weight.data =\
             model.norm_tensor(model.out.weight.data).detach()
 
-    # to remove
-    out_emb_init = model.out.weight.data.clone()
-    out_emb_init.requires_grad = False
     model.out.weight.requires_grad = opt.update_out_emb
 
     if opt.tied:
@@ -87,19 +82,6 @@ def train(opt, logger=None):
         lambda p: p.requires_grad,
         model.parameters()
     ), lr=float(opt.lr))
-
-    def evaluation_similarity(data_iter):
-        """do evaluation on data_iter
-        return: average_word_cosine"""
-        model.eval()
-        with torch.no_grad():
-            eval_total_loss = 0
-            for batch_count, batch_data in enumerate(data_iter, 1):
-                text = batch_data.text.to(device)
-                target = batch_data.target.to(device)
-                loss = torch.mean(-model.forward_similarity(text, target))
-                eval_total_loss += loss.item()
-            return eval_total_loss / batch_count
 
     def evaluation(data_iter):
         """do evaluation on data_iter
@@ -132,25 +114,18 @@ def train(opt, logger=None):
         model.train()
         total_loss = 0
         count = 0
-        for batch_count, batch_train in enumerate(train_iter, 1):
+        words = matrix.keys()
+        for word in words:
+            context_words = matrix[word]
             optimizer.zero_grad()
-            text = batch_train.text.t().contiguous()
-            target = batch_train.target.t().contiguous()
-            for i in range(text.size(1) - opt.window_len + 1):
-                text_ = text[:, i:i+opt.window_len]
-                target_ = target[:, i+opt.window_len-1]
-                prediction = model(text_)
-                loss = criterion(
-                    prediction, target_
-                )
-                loss.backward()
-                #  print(f"{loss.item()}-------")
-                #  print(f"text:{text_}")
-                #  print(f"target:{target_}")
-
-                total_loss += loss.item()
-                count += 1
-                optimizer.step()
+            prediction = model(text_)
+            loss = criterion(
+                prediction, target_
+            )
+            loss.backward()
+            total_loss += loss.item()
+            count += 1
+            optimizer.step()
 
         # All xx_loss means loss per word on xx dataset
         train_loss = total_loss / count
@@ -198,33 +173,8 @@ def train(opt, logger=None):
                 save_dict,
                 opt.save
             )
-            #  if logger:
-                #  logger.info(
-                    #  "now using outemb init inemb and reset outemb and lr"
-                #  )
-            # saving output embeddings
-            #  outemb_path = f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
-            #  os.system(f"rm -f {outemb_path}")
-            #  save_word_embedding(
-                #  TEXT.vocab.itos,
-                #  model.out.weight.data,
-                #  outemb_path
-            #  )
-            #  if logger:
-                #  logger.info(f"now saving outemb to {outemb_path}")
-            #  model.embeddings.weight.data.copy_(
-                #  model.out.weight.data
-            #  )
-            #  model.out.weight.data.copy_(out_emb_init)
-            #  new_lr = adjust_learning_rate(
-                #  optimizer, init_lr, 1
-            #  )
-            #  if logger:
-                #  logger.info(f"learning rate has been changed to {new_lr}")
 
     # Doing evaluation on test data
-    #  test_loss = evaluation_similarity(test_iter)
-    #  test_ppl = test_loss
     test_loss = evaluation(test_iter)
     test_ppl = math.exp(test_loss)
     if logger:
