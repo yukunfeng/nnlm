@@ -1,4 +1,30 @@
 #!/usr/bin/env python3
+"""
+Author      : Yukun Feng
+Date        : 2018/08/27
+Email       : yukunfg@gmail.com
+Description : Train word vectors based on co-matrix
+"""
+
+import argparse
+from utils.utils import *
+
+
+def parse_args():
+    """ Parsing arguments """
+    parser = argparse.ArgumentParser(
+        description='preprocess.py',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument(
+        '-file', help='file path', required=True
+    )
+    parser.add_argument(
+        '-log', default='log.matrix', help='log file'
+    )
+    parser.add_argument('-w', action='store_true')
+    opt = parser.parse_args()
+    return opt
+
 
 def matrix_make(opt):
     "build matrix"
@@ -21,10 +47,20 @@ def matrix_make(opt):
 
 
 def print_matrix(matrix):
+    words = matrix.keys()
+    for word in words:
+        out_line = f"{word}: "
+        context_words = matrix[word]
+        for context_word, freq in context_words:
+            out_line += f"({context_word} {freq} )"
+        print(out_line) 
 
 
-def main():
-    pass
+def main(opt, logger=None):
+    matrix = matrix_make(opt)
+    print_matrix(matrix)
+
 
 if __name__ == "__main__":
-    main()
+    opt = parse_args()
+    logger = get_logger(opt.log_file)
