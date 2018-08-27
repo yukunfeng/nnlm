@@ -20,10 +20,10 @@ from mlplm import MLPLM
 import dataset
 
 
-def adjust_learning_rate(optimizer, epoch, init_lr, every_n_epoch_decay):
-    """Sets the learning rate to the initial
-    LR decayed by 10 every 30 epochs"""
-    lr = init_lr * (0.5 ** (epoch // every_n_epoch_decay))
+def adjust_learning_rate(optimizer, lr, decay):
+    "adjust_learning_rate"
+    #  lr = init_lr * (0.5 ** (epoch // every_n_epoch_decay))
+    lr = lr * decay
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr
@@ -74,6 +74,9 @@ def train(opt, logger=None):
         model.out.weight.data =\
             model.norm_tensor(model.out.weight.data).detach()
 
+    # to remove
+    out_emb_init = model.out.weight.data.clone()
+    out_emb_init.requires_grad = False
     model.out.weight.requires_grad = opt.update_out_emb
 
     if opt.tied:
@@ -122,6 +125,7 @@ def train(opt, logger=None):
 
     # Keep track of history ppl on val dataset
     val_ppls = []
+    last_val_ppl = 1000000
     for epoch in range(1, int(opt.epoch) + 1):
         start_time = time.time()
         # Turn on training mode which enables dropout.
@@ -160,13 +164,15 @@ def train(opt, logger=None):
 
         elapsed = time.time() - start_time
         start_time = time.time()
-        if epoch % opt.every_n_epoch_decay == 0:
+
+        if (last_val_ppl - val_ppl) <= 0.5:
             new_lr = adjust_learning_rate(
-                optimizer, epoch,
-                opt.lr, opt.every_n_epoch_decay
+                optimizer, opt.lr, opt.decay
             )
+            opt.lr = new_lr
             if logger:
                 logger.info(f"learning rate has been changed to {new_lr}")
+        last_val_ppl = val_ppl
 
         if logger:
             logger.info('| epoch {:3d} | train_loss {:5.2f} '
@@ -178,6 +184,7 @@ def train(opt, logger=None):
 
         # Saving model
         if epoch % opt.every_n_epoch_save == 0:
+            os.system(f"rm -f {opt.save}")
             if logger:
                 logger.info("start to save model on {}".format(opt.save))
             opt.hidden_size = opt.word_dim * opt.window_len
@@ -191,6 +198,29 @@ def train(opt, logger=None):
                 save_dict,
                 opt.save
             )
+            #  if logger:
+                #  logger.info(
+                    #  "now using outemb init inemb and reset outemb and lr"
+                #  )
+            # saving output embeddings
+            #  outemb_path = f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
+            #  os.system(f"rm -f {outemb_path}")
+            #  save_word_embedding(
+                #  TEXT.vocab.itos,
+                #  model.out.weight.data,
+                #  outemb_path
+            #  )
+            #  if logger:
+                #  logger.info(f"now saving outemb to {outemb_path}")
+            #  model.embeddings.weight.data.copy_(
+                #  model.out.weight.data
+            #  )
+            #  model.out.weight.data.copy_(out_emb_init)
+            #  new_lr = adjust_learning_rate(
+                #  optimizer, init_lr, 1
+            #  )
+            #  if logger:
+                #  logger.info(f"learning rate has been changed to {new_lr}")
 
     # Doing evaluation on test data
     #  test_loss = evaluation_similarity(test_iter)
@@ -201,16 +231,18 @@ def train(opt, logger=None):
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
+    outemb_path = f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
+    os.system(f"rm -f {outemb_path}")
     save_word_embedding(
         TEXT.vocab.itos,
         model.out.weight.data,
-        f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
+        outemb_path
     )
+
 
     # saving input embeddings
     #  save_word_embedding(
         #  TEXT.vocab.itos,
-        #  model.rnn_encoder.embeddings.weight.data,
         #  "random_start_input_emb.txt"
     #  )
 

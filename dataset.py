@@ -105,13 +105,10 @@ def create_lm_dataset(opt, logger=None):
         """tokenize sentence"""
         return [item.text for item in spacy_en.tokenizer(text)]
 
-    is_lower = True
-    if opt.data_type == "ptb":
-        is_lower = False
     TEXT = torchtext.data.Field(
         sequential=True,
         tokenize=tokenize,
-        lower=is_lower
+        lower=False
     )
 
     resources_dir = os.path.expanduser(opt.resources_dir)
@@ -122,11 +119,6 @@ def create_lm_dataset(opt, logger=None):
         )
     if opt.data_type == "wiki2":
         train, valid, test = torchtext.datasets.WikiText2.splits(
-            text_field=TEXT,
-            root=resources_dir
-        )
-    if opt.data_type == "ptb":
-        train, valid, test = torchtext.datasets.PennTreebank.splits(
             text_field=TEXT,
             root=resources_dir
         )
@@ -166,14 +158,14 @@ if __name__ == "__main__":
     opt = parse_args()
     #  logger = get_logger(opt.log_file)
     logger = None
-    #  TEXT, train_iter, test_iter, val_iter = create_lm_dataset(
-        #  opt, logger=logger
-    #  )
-    TEXT, train_iter, test_iter, val_iter = create_lm_dataset_for_ptb(
-        opt, logger=logger
-    )
-    #  print(f"{TEXT.vocab.vectors.size()}")
-    #  print(f"{len(TEXT.vocab.itos)}")
+    if opt.data_type == "ptb":
+        TEXT, train_iter, test_iter, val_iter = create_lm_dataset_for_ptb(
+            opt, logger=logger
+        )
+    else:
+        TEXT, train_iter, test_iter, val_iter = create_lm_dataset(
+            opt, logger=logger
+        )
 
     for batch_count, batch_data in enumerate(val_iter, 1):
         if opt.data_type == "ptb":
@@ -192,7 +184,7 @@ if __name__ == "__main__":
         print(text)
         print("target number")
         print(target)
-        print("length")
-        print(lengths)
+        #  print("length")
+        #  print(lengths)
         if batch_count == 10:
             break

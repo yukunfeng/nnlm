@@ -1335,3 +1335,459 @@ here it is the same. lowered cbow is not so good as non-lowered one.
 [2018-08-23 00:52:55,388 INFO] learning rate has been changed to 0.25
 [2018-08-23 00:52:55,388 INFO] | epoch   8 | train_loss  5.05 | val_ppl 158.25242 | time   8.7s
 [2018-08-23 00:52:55,620 INFO] test_ppl: 157.68299
+[2018-08-24 13:02:07,511 INFO] -------------
+
+-----------------------
+-  full vocab starts  -
+-----------------------
+
+[2018-08-24 13:02:07,511 INFO] Start training...
+[2018-08-24 13:02:07,511 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', device='cuda:1', dropout=0.0, epoch=8, every_n_epoch_decay=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.850d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=100, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-24 13:02:17,242 INFO] train token: 2127402
+[2018-08-24 13:02:17,243 INFO] test token: 250140
+[2018-08-24 13:02:17,243 INFO] valid token: 221606
+[2018-08-24 13:02:17,244 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.850d.pt
+[2018-08-24 13:04:29,762 INFO] | epoch   1 | train_loss  6.56 | val_ppl 457.00117 | time 122.9s
+[2018-08-24 13:06:33,019 INFO] | epoch   2 | train_loss  6.10 | val_ppl 378.43139 | time 123.3s
+[2018-08-24 13:08:36,703 INFO] | epoch   3 | train_loss  5.93 | val_ppl 347.88141 | time 123.7s
+[2018-08-24 13:10:40,207 INFO] | epoch   4 | train_loss  5.82 | val_ppl 328.74346 | time 123.5s
+[2018-08-24 13:12:43,684 INFO] | epoch   5 | train_loss  5.74 | val_ppl 316.33085 | time 123.5s
+[2018-08-24 13:14:46,804 INFO] | epoch   6 | train_loss  5.68 | val_ppl 308.22302 | time 123.1s
+[2018-08-24 13:16:49,925 INFO] | epoch   7 | train_loss  5.63 | val_ppl 303.70589 | time 123.1s
+[2018-08-24 13:18:53,458 INFO] learning rate has been changed to 0.25
+[2018-08-24 13:18:53,459 INFO] | epoch   8 | train_loss  5.59 | val_ppl 301.72105 | time 123.5s
+[2018-08-24 13:18:57,573 INFO] test_ppl: 283.67013
+[2018-08-24 14:03:21,578 INFO] -------------
+[2018-08-24 14:03:21,578 INFO] Start training...
+[2018-08-24 14:03:21,578 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', device='cuda:1', dropout=0.0, epoch=8, every_n_epoch_decay=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.850d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=100, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-24 14:03:27,363 INFO] train token: 2090069
+[2018-08-24 14:03:27,363 INFO] test token: 250140
+[2018-08-24 14:03:27,363 INFO] valid token: 221606
+[2018-08-24 14:03:27,364 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.850d.pt
+[2018-08-24 14:04:29,627 INFO] | epoch   1 | train_loss  5.13 | val_ppl 1671.77968 | time  53.7s
+[2018-08-24 14:05:25,821 INFO] | epoch   2 | train_loss  4.77 | val_ppl 1768.07372 | time  56.2s
+[2018-08-24 14:06:23,370 INFO] | epoch   3 | train_loss  4.67 | val_ppl 1774.15546 | time  57.5s
+[2018-08-24 14:07:21,278 INFO] | epoch   4 | train_loss  4.60 | val_ppl 1804.01759 | time  57.9s
+[2018-08-24 14:08:19,165 INFO] | epoch   5 | train_loss  4.55 | val_ppl 1773.69079 | time  57.9s
+[2018-08-24 14:09:17,138 INFO] | epoch   6 | train_loss  4.51 | val_ppl 1768.00244 | time  58.0s
+[2018-08-24 14:10:15,119 INFO] | epoch   7 | train_loss  4.48 | val_ppl 1759.00467 | time  58.0s
+[2018-08-24 14:11:13,125 INFO] learning rate has been changed to 0.25
+[2018-08-24 14:11:13,126 INFO] | epoch   8 | train_loss  4.46 | val_ppl 1747.12039 | time  58.0s
+[2018-08-24 14:11:15,113 INFO] test_ppl: 1579.75889
+[2018-08-26 18:11:31,487 INFO] -------------
+
+reset outemb first step to experiment
+[2018-08-26 18:11:31,487 INFO] Start training...
+[2018-08-26 18:11:31,487 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', device='cuda:1', dropout=0.0, epoch=8, every_n_epoch_decay=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 18:11:41,412 INFO] train token: 2127402
+[2018-08-26 18:11:41,412 INFO] test token: 250140
+[2018-08-26 18:11:41,412 INFO] valid token: 221606
+[2018-08-26 18:11:41,468 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d
+[2018-08-26 18:11:41,471 WARNING] Skipping token 33278 with 1-dimensional vector ['200']; likely a header
+[2018-08-26 18:11:43,511 INFO] Saving vectors to /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 18:12:11,743 INFO] | epoch   1 | train_loss  7.68 | val_ppl 1056.21538 | time  20.1s
+[2018-08-26 18:12:31,977 INFO] | epoch   2 | train_loss  6.70 | val_ppl 722.62112 | time  20.2s
+[2018-08-26 18:12:52,341 INFO] | epoch   3 | train_loss  6.32 | val_ppl 602.56225 | time  20.4s
+[2018-08-26 18:13:12,819 INFO] | epoch   4 | train_loss  6.10 | val_ppl 546.81295 | time  20.5s
+[2018-08-26 18:13:12,819 INFO] now reset outemb
+[2018-08-26 18:13:33,374 INFO] | epoch   5 | train_loss  6.67 | val_ppl 538.05337 | time  20.6s
+[2018-08-26 18:13:53,960 INFO] | epoch   6 | train_loss  6.15 | val_ppl 482.68114 | time  20.6s
+[2018-08-26 18:14:14,566 INFO] | epoch   7 | train_loss  5.96 | val_ppl 456.84279 | time  20.6s
+[2018-08-26 18:14:35,185 INFO] learning rate has been changed to 0.25
+[2018-08-26 18:14:35,185 INFO] | epoch   8 | train_loss  5.84 | val_ppl 442.93367 | time  20.6s
+[2018-08-26 18:14:35,933 INFO] test_ppl: 411.41154
+[2018-08-26 18:19:33,972 INFO] -------------
+
+there is lr decay factor. so i have to re-run
+[2018-08-26 18:19:33,972 INFO] Start training...
+[2018-08-26 18:19:33,972 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', device='cuda:1', dropout=0.0, epoch=40, every_n_epoch_decay=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 18:19:43,960 INFO] train token: 2127402
+[2018-08-26 18:19:43,960 INFO] test token: 250140
+[2018-08-26 18:19:43,960 INFO] valid token: 221606
+[2018-08-26 18:19:43,961 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 18:20:11,892 INFO] | epoch   1 | train_loss  7.68 | val_ppl 1056.21538 | time  20.1s
+[2018-08-26 18:20:32,189 INFO] | epoch   2 | train_loss  6.70 | val_ppl 722.62112 | time  20.3s
+[2018-08-26 18:20:52,646 INFO] | epoch   3 | train_loss  6.32 | val_ppl 602.56225 | time  20.5s
+[2018-08-26 18:21:13,198 INFO] | epoch   4 | train_loss  6.10 | val_ppl 546.81295 | time  20.6s
+[2018-08-26 18:21:33,900 INFO] | epoch   5 | train_loss  5.95 | val_ppl 512.75138 | time  20.7s
+[2018-08-26 18:21:54,535 INFO] | epoch   6 | train_loss  5.84 | val_ppl 490.70159 | time  20.6s
+[2018-08-26 18:22:15,369 INFO] | epoch   7 | train_loss  5.76 | val_ppl 475.72023 | time  20.8s
+[2018-08-26 18:22:36,304 INFO] learning rate has been changed to 0.25
+[2018-08-26 18:22:36,304 INFO] | epoch   8 | train_loss  5.69 | val_ppl 465.17705 | time  20.9s
+[2018-08-26 18:22:57,229 INFO] | epoch   9 | train_loss  5.55 | val_ppl 443.73262 | time  20.9s
+[2018-08-26 18:23:18,210 INFO] | epoch  10 | train_loss  5.51 | val_ppl 435.04413 | time  21.0s
+[2018-08-26 18:23:39,308 INFO] | epoch  11 | train_loss  5.49 | val_ppl 428.38411 | time  21.1s
+[2018-08-26 18:24:00,436 INFO] | epoch  12 | train_loss  5.46 | val_ppl 424.91416 | time  21.1s
+[2018-08-26 18:24:21,509 INFO] | epoch  13 | train_loss  5.44 | val_ppl 421.14155 | time  21.1s
+[2018-08-26 18:24:42,633 INFO] | epoch  14 | train_loss  5.42 | val_ppl 418.18006 | time  21.1s
+[2018-08-26 18:25:03,902 INFO] | epoch  15 | train_loss  5.41 | val_ppl 415.85570 | time  21.3s
+[2018-08-26 18:25:25,098 INFO] learning rate has been changed to 0.125
+[2018-08-26 18:25:25,098 INFO] | epoch  16 | train_loss  5.39 | val_ppl 413.89124 | time  21.2s
+[2018-08-26 18:25:46,376 INFO] | epoch  17 | train_loss  5.33 | val_ppl 408.85842 | time  21.3s
+[2018-08-26 18:26:07,580 INFO] | epoch  18 | train_loss  5.32 | val_ppl 407.52841 | time  21.2s
+[2018-08-26 18:26:28,772 INFO] | epoch  19 | train_loss  5.31 | val_ppl 406.96290 | time  21.2s
+[2018-08-26 18:26:50,132 INFO] | epoch  20 | train_loss  5.30 | val_ppl 406.68266 | time  21.4s
+[2018-08-26 18:27:11,351 INFO] | epoch  21 | train_loss  5.30 | val_ppl 406.52002 | time  21.2s
+[2018-08-26 18:27:32,665 INFO] | epoch  22 | train_loss  5.29 | val_ppl 406.41822 | time  21.3s
+[2018-08-26 18:27:54,024 INFO] | epoch  23 | train_loss  5.28 | val_ppl 406.34881 | time  21.4s
+[2018-08-26 18:45:32,094 INFO] -------------
+[2018-08-26 18:51:06,760 INFO] -------------
+[2018-08-26 18:51:06,760 INFO] Start training...
+[2018-08-26 18:51:06,760 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.75, device='cuda:1', dropout=0.0, epoch=40, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 18:51:16,523 INFO] train token: 2127402
+[2018-08-26 18:51:16,524 INFO] test token: 250140
+[2018-08-26 18:51:16,524 INFO] valid token: 221606
+[2018-08-26 18:51:16,525 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 18:51:44,289 INFO] | epoch   1 | train_loss  7.68 | val_ppl 1056.21538 | time  20.1s
+[2018-08-26 18:51:44,289 INFO] now using outemb init inemb and reset outemb and lr
+[2018-08-26 18:52:57,372 INFO] now saving outemb to 1mlplen_40epoch_outemb.txt
+[2018-08-26 18:52:57,373 INFO] learning rate has been changed to 0.5
+[2018-08-26 18:53:17,683 INFO] | epoch   2 | train_loss  7.31 | val_ppl 633.01069 | time  20.3s
+[2018-08-26 18:53:17,684 INFO] now using outemb init inemb and reset outemb and lr
+[2018-08-26 18:54:30,375 INFO] now saving outemb to 1mlplen_40epoch_outemb.txt
+[2018-08-26 18:54:30,376 INFO] learning rate has been changed to 0.5
+[2018-08-26 18:55:03,946 INFO] -------------
+[2018-08-26 18:55:03,947 INFO] Start training...
+[2018-08-26 18:55:03,947 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.75, device='cuda:1', dropout=0.0, epoch=40, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 18:55:14,054 INFO] train token: 2127402
+[2018-08-26 18:55:14,054 INFO] test token: 250140
+[2018-08-26 18:55:14,054 INFO] valid token: 221606
+[2018-08-26 18:55:14,055 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 18:55:41,184 INFO] | epoch   1 | train_loss  7.68 | val_ppl 1056.21538 | time  20.4s
+[2018-08-26 18:56:01,684 INFO] | epoch   2 | train_loss  6.70 | val_ppl 722.62112 | time  20.5s
+[2018-08-26 18:56:22,293 INFO] | epoch   3 | train_loss  6.32 | val_ppl 602.56225 | time  20.6s
+[2018-08-26 18:56:43,028 INFO] | epoch   4 | train_loss  6.10 | val_ppl 546.81295 | time  20.7s
+[2018-08-26 18:57:03,770 INFO] | epoch   5 | train_loss  5.95 | val_ppl 512.75138 | time  20.7s
+[2018-08-26 18:57:24,696 INFO] | epoch   6 | train_loss  5.84 | val_ppl 490.70159 | time  20.9s
+[2018-08-26 18:57:45,671 INFO] | epoch   7 | train_loss  5.76 | val_ppl 475.72023 | time  21.0s
+[2018-08-26 18:58:06,694 INFO] | epoch   8 | train_loss  5.69 | val_ppl 465.17705 | time  21.0s
+[2018-08-26 18:58:27,720 INFO] | epoch   9 | train_loss  5.63 | val_ppl 457.52229 | time  21.0s
+[2018-08-26 18:58:48,894 INFO] | epoch  10 | train_loss  5.58 | val_ppl 451.79900 | time  21.2s
+[2018-08-26 18:59:10,044 INFO] | epoch  11 | train_loss  5.54 | val_ppl 447.32551 | time  21.1s
+[2018-08-26 18:59:31,217 INFO] | epoch  12 | train_loss  5.50 | val_ppl 443.63457 | time  21.2s
+[2018-08-26 18:59:52,565 INFO] | epoch  13 | train_loss  5.47 | val_ppl 440.48137 | time  21.3s
+[2018-08-26 19:00:13,720 INFO] | epoch  14 | train_loss  5.44 | val_ppl 437.76013 | time  21.2s
+[2018-08-26 19:00:34,887 INFO] | epoch  15 | train_loss  5.42 | val_ppl 435.42652 | time  21.2s
+[2018-08-26 19:00:56,248 INFO] | epoch  16 | train_loss  5.39 | val_ppl 433.45119 | time  21.4s
+[2018-08-26 19:01:17,592 INFO] | epoch  17 | train_loss  5.37 | val_ppl 431.80253 | time  21.3s
+[2018-08-26 19:01:38,838 INFO] | epoch  18 | train_loss  5.35 | val_ppl 430.44467 | time  21.2s
+[2018-08-26 19:02:00,127 INFO] | epoch  19 | train_loss  5.33 | val_ppl 429.34248 | time  21.3s
+[2018-08-26 19:02:21,520 INFO] | epoch  20 | train_loss  5.32 | val_ppl 428.46194 | time  21.4s
+[2018-08-26 19:02:42,780 INFO] | epoch  21 | train_loss  5.30 | val_ppl 427.77049 | time  21.3s
+[2018-08-26 19:03:04,176 INFO] | epoch  22 | train_loss  5.28 | val_ppl 427.22153 | time  21.4s
+[2018-08-26 19:03:25,555 INFO] learning rate has been changed to 0.375
+[2018-08-26 19:03:25,556 INFO] | epoch  23 | train_loss  5.27 | val_ppl 426.75495 | time  21.4s
+[2018-08-26 19:03:47,038 INFO] | epoch  24 | train_loss  5.21 | val_ppl 410.00710 | time  21.5s
+[2018-08-26 19:04:08,427 INFO] learning rate has been changed to 0.28125
+[2018-08-26 19:04:08,428 INFO] | epoch  25 | train_loss  5.20 | val_ppl 410.43072 | time  21.4s
+[2018-08-26 19:04:29,796 INFO] | epoch  26 | train_loss  5.16 | val_ppl 399.84725 | time  21.4s
+[2018-08-26 19:04:51,252 INFO] learning rate has been changed to 0.2109375
+[2018-08-26 19:04:51,252 INFO] | epoch  27 | train_loss  5.15 | val_ppl 399.94777 | time  21.5s
+[2018-08-26 19:05:12,559 INFO] learning rate has been changed to 0.158203125
+[2018-08-26 19:05:12,560 INFO] | epoch  28 | train_loss  5.12 | val_ppl 405.72375 | time  21.3s
+[2018-08-26 19:05:33,915 INFO] | epoch  29 | train_loss  5.10 | val_ppl 401.30284 | time  21.4s
+[2018-08-26 19:05:55,329 INFO] learning rate has been changed to 0.11865234375
+[2018-08-26 19:05:55,331 INFO] | epoch  30 | train_loss  5.10 | val_ppl 402.00457 | time  21.4s
+[2018-08-26 19:06:16,768 INFO] | epoch  31 | train_loss  5.08 | val_ppl 389.44680 | time  21.4s
+[2018-08-26 19:06:38,052 INFO] learning rate has been changed to 0.0889892578125
+[2018-08-26 19:06:38,052 INFO] | epoch  32 | train_loss  5.07 | val_ppl 390.25833 | time  21.3s
+[2018-08-26 19:06:59,510 INFO] | epoch  33 | train_loss  5.06 | val_ppl 386.09207 | time  21.5s
+[2018-08-26 19:07:20,893 INFO] learning rate has been changed to 0.066741943359375
+[2018-08-26 19:07:20,894 INFO] | epoch  34 | train_loss  5.05 | val_ppl 386.74155 | time  21.4s
+[2018-08-26 19:07:42,307 INFO] | epoch  35 | train_loss  5.04 | val_ppl 384.80626 | time  21.4s
+[2018-08-26 19:08:03,634 INFO] learning rate has been changed to 0.05005645751953125
+[2018-08-26 19:08:03,635 INFO] | epoch  36 | train_loss  5.04 | val_ppl 385.25446 | time  21.3s
+[2018-08-26 19:08:24,990 INFO] | epoch  37 | train_loss  5.04 | val_ppl 383.84555 | time  21.4s
+[2018-08-26 19:08:46,297 INFO] learning rate has been changed to 0.03754234313964844
+[2018-08-26 19:08:46,298 INFO] | epoch  38 | train_loss  5.03 | val_ppl 384.15094 | time  21.3s
+[2018-08-26 19:09:07,690 INFO] | epoch  39 | train_loss  5.03 | val_ppl 383.45541 | time  21.4s
+[2018-08-26 19:09:29,057 INFO] learning rate has been changed to 0.028156757354736328
+[2018-08-26 19:09:29,057 INFO] | epoch  40 | train_loss  5.03 | val_ppl 383.67766 | time  21.4s
+[2018-08-26 19:09:29,057 INFO] start to save model on mlp.model
+[2018-08-26 19:15:35,856 INFO] -------------
+[2018-08-26 19:15:35,857 INFO] Start training...
+[2018-08-26 19:15:35,857 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.75, device='cuda:1', dropout=0.0, epoch=40, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 19:15:45,544 INFO] train token: 2127402
+[2018-08-26 19:15:45,545 INFO] test token: 250140
+[2018-08-26 19:15:45,545 INFO] valid token: 221606
+[2018-08-26 19:15:45,546 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 19:16:13,275 INFO] | epoch   1 | train_loss  7.68 | val_ppl 1056.21538 | time  20.2s
+[2018-08-26 19:16:33,599 INFO] | epoch   2 | train_loss  6.70 | val_ppl 722.62112 | time  20.3s
+[2018-08-26 19:16:54,167 INFO] | epoch   3 | train_loss  6.32 | val_ppl 602.56225 | time  20.6s
+[2018-08-26 19:17:14,731 INFO] | epoch   4 | train_loss  6.10 | val_ppl 546.81295 | time  20.6s
+[2018-08-26 19:17:35,363 INFO] | epoch   5 | train_loss  5.95 | val_ppl 512.75138 | time  20.6s
+[2018-08-26 19:17:56,084 INFO] | epoch   6 | train_loss  5.84 | val_ppl 490.70159 | time  20.7s
+[2018-08-26 19:18:16,862 INFO] | epoch   7 | train_loss  5.76 | val_ppl 475.72023 | time  20.8s
+[2018-08-26 19:18:37,775 INFO] | epoch   8 | train_loss  5.69 | val_ppl 465.17705 | time  20.9s
+[2018-08-26 19:18:58,744 INFO] | epoch   9 | train_loss  5.63 | val_ppl 457.52229 | time  21.0s
+[2018-08-26 19:19:19,848 INFO] | epoch  10 | train_loss  5.58 | val_ppl 451.79900 | time  21.1s
+[2018-08-26 19:19:40,934 INFO] | epoch  11 | train_loss  5.54 | val_ppl 447.32551 | time  21.1s
+[2018-08-26 19:20:02,108 INFO] | epoch  12 | train_loss  5.50 | val_ppl 443.63457 | time  21.2s
+[2018-08-26 19:20:23,364 INFO] | epoch  13 | train_loss  5.47 | val_ppl 440.48137 | time  21.3s
+[2018-08-26 19:20:44,642 INFO] | epoch  14 | train_loss  5.44 | val_ppl 437.76013 | time  21.3s
+[2018-08-26 19:21:05,801 INFO] | epoch  15 | train_loss  5.42 | val_ppl 435.42652 | time  21.2s
+[2018-08-26 19:21:27,133 INFO] | epoch  16 | train_loss  5.39 | val_ppl 433.45119 | time  21.3s
+[2018-08-26 19:21:48,433 INFO] | epoch  17 | train_loss  5.37 | val_ppl 431.80253 | time  21.3s
+[2018-08-26 19:22:09,756 INFO] | epoch  18 | train_loss  5.35 | val_ppl 430.44467 | time  21.3s
+[2018-08-26 19:22:31,170 INFO] | epoch  19 | train_loss  5.33 | val_ppl 429.34248 | time  21.4s
+[2018-08-26 19:22:52,501 INFO] | epoch  20 | train_loss  5.32 | val_ppl 428.46194 | time  21.3s
+[2018-08-26 19:23:13,822 INFO] | epoch  21 | train_loss  5.30 | val_ppl 427.77049 | time  21.3s
+[2018-08-26 19:23:35,208 INFO] | epoch  22 | train_loss  5.28 | val_ppl 427.22153 | time  21.4s
+[2018-08-26 19:23:56,547 INFO] learning rate has been changed to 0.375
+[2018-08-26 19:23:56,548 INFO] | epoch  23 | train_loss  5.27 | val_ppl 426.75495 | time  21.3s
+[2018-08-26 19:24:17,976 INFO] | epoch  24 | train_loss  5.21 | val_ppl 410.00710 | time  21.4s
+[2018-08-26 19:24:39,352 INFO] learning rate has been changed to 0.28125
+[2018-08-26 19:24:39,352 INFO] | epoch  25 | train_loss  5.20 | val_ppl 410.43072 | time  21.4s
+[2018-08-26 19:25:00,726 INFO] | epoch  26 | train_loss  5.16 | val_ppl 399.84725 | time  21.4s
+[2018-08-26 19:25:22,215 INFO] learning rate has been changed to 0.2109375
+[2018-08-26 19:25:22,216 INFO] | epoch  27 | train_loss  5.15 | val_ppl 399.94777 | time  21.5s
+[2018-08-26 19:25:43,616 INFO] learning rate has been changed to 0.158203125
+[2018-08-26 19:25:43,616 INFO] | epoch  28 | train_loss  5.12 | val_ppl 405.72375 | time  21.4s
+[2018-08-26 19:25:43,616 INFO] now using outemb init inemb and reset outemb and lr
+[2018-08-26 19:27:02,863 INFO] now saving outemb to 1mlplen_40epoch_outemb.txt
+[2018-08-26 19:27:02,863 INFO] learning rate has been changed to 0.5
+[2018-08-26 19:27:23,372 INFO] learning rate has been changed to 0.11865234375
+[2018-08-26 19:27:23,373 INFO] | epoch  29 | train_loss  7.09 | val_ppl 585.34238 | time  20.5s
+[2018-08-26 19:27:43,971 INFO] | epoch  30 | train_loss  6.46 | val_ppl 520.73660 | time  20.6s
+[2018-08-26 19:28:04,913 INFO] | epoch  31 | train_loss  6.36 | val_ppl 488.48905 | time  20.9s
+[2018-08-26 19:28:26,453 INFO] | epoch  32 | train_loss  6.27 | val_ppl 464.65080 | time  21.5s
+[2018-08-26 19:28:47,896 INFO] | epoch  33 | train_loss  6.21 | val_ppl 445.29695 | time  21.4s
+[2018-08-26 19:29:09,355 INFO] | epoch  34 | train_loss  6.15 | val_ppl 428.95976 | time  21.5s
+[2018-08-26 19:29:31,036 INFO] | epoch  35 | train_loss  6.09 | val_ppl 413.65588 | time  21.7s
+[2018-08-26 19:29:52,666 INFO] | epoch  36 | train_loss  6.05 | val_ppl 400.87092 | time  21.6s
+[2018-08-26 19:30:14,349 INFO] | epoch  37 | train_loss  6.00 | val_ppl 390.24220 | time  21.7s
+[2018-08-26 19:30:36,325 INFO] | epoch  38 | train_loss  5.96 | val_ppl 379.74656 | time  22.0s
+[2018-08-26 19:30:58,499 INFO] | epoch  39 | train_loss  5.92 | val_ppl 363.98370 | time  22.2s
+[2018-08-26 19:31:20,728 INFO] | epoch  40 | train_loss  5.89 | val_ppl 353.40263 | time  22.2s
+[2018-08-26 19:31:20,729 INFO] start to save model on mlp.model
+[2018-08-26 19:54:56,796 INFO] -------------
+[2018-08-26 19:54:56,796 INFO] Start training...
+[2018-08-26 19:54:56,797 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.75, device='cuda:1', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 19:55:08,147 INFO] train token: 2127402
+[2018-08-26 19:55:08,147 INFO] test token: 250140
+[2018-08-26 19:55:08,147 INFO] valid token: 221606
+[2018-08-26 19:55:08,148 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 19:55:36,012 INFO] | epoch   1 | train_loss  6.56 | val_ppl 456.32410 | time  20.2s
+[2018-08-26 19:55:56,406 INFO] | epoch   2 | train_loss  6.10 | val_ppl 377.87249 | time  20.4s
+[2018-08-26 19:56:16,953 INFO] | epoch   3 | train_loss  5.92 | val_ppl 347.70355 | time  20.5s
+[2018-08-26 19:56:37,669 INFO] | epoch   4 | train_loss  5.81 | val_ppl 328.98145 | time  20.7s
+[2018-08-26 19:56:58,979 INFO] | epoch   5 | train_loss  5.74 | val_ppl 316.74240 | time  21.3s
+[2018-08-26 19:57:20,368 INFO] | epoch   6 | train_loss  5.68 | val_ppl 308.73318 | time  21.4s
+[2018-08-26 19:57:41,960 INFO] | epoch   7 | train_loss  5.63 | val_ppl 304.24098 | time  21.6s
+[2018-08-26 19:58:03,627 INFO] | epoch   8 | train_loss  5.59 | val_ppl 301.88336 | time  21.7s
+[2018-08-26 19:58:04,381 INFO] test_ppl: 283.50044
+[2018-08-26 23:13:25,139 INFO] -------------
+[2018-08-26 23:13:25,139 INFO] Start training...
+[2018-08-26 23:13:25,139 INFO] Namespace(batch_size=1000, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=20.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:13:35,507 INFO] train token: 2127402
+[2018-08-26 23:13:35,507 INFO] test token: 250140
+[2018-08-26 23:13:35,507 INFO] valid token: 221606
+[2018-08-26 23:13:35,508 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:14:02,295 INFO] | epoch   1 | train_loss   nan | val_ppl      nan | time  21.9s
+[2018-08-26 23:14:24,253 INFO] | epoch   2 | train_loss   nan | val_ppl      nan | time  22.0s
+[2018-08-26 23:15:48,947 INFO] -------------
+[2018-08-26 23:15:48,947 INFO] Start training...
+[2018-08-26 23:15:48,948 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=10.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:15:59,613 INFO] train token: 2127402
+[2018-08-26 23:15:59,614 INFO] test token: 250140
+[2018-08-26 23:15:59,614 INFO] valid token: 221606
+[2018-08-26 23:15:59,615 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:16:27,422 INFO] | epoch   1 | train_loss   nan | val_ppl      nan | time  23.3s
+[2018-08-26 23:16:59,883 INFO] -------------
+[2018-08-26 23:16:59,883 INFO] Start training...
+[2018-08-26 23:16:59,883 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=0.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:17:10,351 INFO] train token: 2127402
+[2018-08-26 23:17:10,351 INFO] test token: 250140
+[2018-08-26 23:17:10,351 INFO] valid token: 221606
+[2018-08-26 23:17:10,352 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:17:38,944 INFO] | epoch   1 | train_loss  7.68 | val_ppl 1056.21538 | time  23.7s
+[2018-08-26 23:18:02,731 INFO] | epoch   2 | train_loss  6.70 | val_ppl 722.62112 | time  23.8s
+[2018-08-26 23:18:39,399 INFO] -------------
+[2018-08-26 23:18:39,399 INFO] Start training...
+[2018-08-26 23:18:39,399 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=2.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:18:50,239 INFO] train token: 2127402
+[2018-08-26 23:18:50,239 INFO] test token: 250140
+[2018-08-26 23:18:50,239 INFO] valid token: 221606
+[2018-08-26 23:18:50,240 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:19:19,053 INFO] | epoch   1 | train_loss  7.46 | val_ppl 906.11021 | time  23.7s
+[2018-08-26 23:19:42,938 INFO] | epoch   2 | train_loss  6.43 | val_ppl 689.80960 | time  23.9s
+[2018-08-26 23:20:07,047 INFO] | epoch   3 | train_loss  6.11 | val_ppl 621.66891 | time  24.1s
+[2018-08-26 23:20:32,516 INFO] -------------
+[2018-08-26 23:20:32,516 INFO] Start training...
+[2018-08-26 23:20:32,517 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=5.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:20:43,211 INFO] train token: 2127402
+[2018-08-26 23:20:43,212 INFO] test token: 250140
+[2018-08-26 23:20:43,212 INFO] valid token: 221606
+[2018-08-26 23:20:43,212 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:21:11,105 INFO] | epoch   1 | train_loss   nan | val_ppl      nan | time  23.4s
+[2018-08-26 23:21:34,596 INFO] | epoch   2 | train_loss   nan | val_ppl      nan | time  23.5s
+[2018-08-26 23:22:24,698 INFO] -------------
+[2018-08-26 23:22:24,699 INFO] Start training...
+[2018-08-26 23:22:24,699 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=3.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:22:35,099 INFO] train token: 2127402
+[2018-08-26 23:22:35,099 INFO] test token: 250140
+[2018-08-26 23:22:35,099 INFO] valid token: 221606
+[2018-08-26 23:22:35,100 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:23:03,021 INFO] | epoch   1 | train_loss  7.64 | val_ppl 1076.21028 | time  23.7s
+[2018-08-26 23:23:26,900 INFO] | epoch   2 | train_loss  6.56 | val_ppl 811.50425 | time  23.9s
+[2018-08-26 23:23:50,871 INFO] | epoch   3 | train_loss  6.21 | val_ppl 721.66976 | time  24.0s
+[2018-08-26 23:24:15,120 INFO] | epoch   4 | train_loss  6.00 | val_ppl 710.44974 | time  24.2s
+[2018-08-26 23:24:39,405 INFO] | epoch   5 | train_loss  5.87 | val_ppl 651.97904 | time  24.3s
+[2018-08-26 23:25:03,791 INFO] learning rate has been changed to 1.5
+[2018-08-26 23:25:03,792 INFO] | epoch   6 | train_loss  5.77 | val_ppl 659.43760 | time  24.4s
+[2018-08-26 23:25:28,167 INFO] | epoch   7 | train_loss  5.39 | val_ppl 467.26789 | time  24.4s
+[2018-08-26 23:25:52,570 INFO] learning rate has been changed to 0.75
+[2018-08-26 23:25:52,571 INFO] | epoch   8 | train_loss  5.33 | val_ppl 466.80759 | time  24.4s
+[2018-08-26 23:25:53,436 INFO] test_ppl: 430.98361
+[2018-08-26 23:28:30,203 INFO] -------------
+[2018-08-26 23:28:30,203 INFO] Start training...
+[2018-08-26 23:28:30,203 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=10.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:28:40,473 INFO] train token: 2127402
+[2018-08-26 23:28:40,473 INFO] test token: 250140
+[2018-08-26 23:28:40,473 INFO] valid token: 221606
+[2018-08-26 23:28:40,474 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:29:08,208 INFO] | epoch   1 | train_loss   nan | val_ppl      nan | time  23.3s
+[2018-08-26 23:29:31,629 INFO] | epoch   2 | train_loss   nan | val_ppl      nan | time  23.4s
+[2018-08-26 23:29:55,221 INFO] | epoch   3 | train_loss   nan | val_ppl      nan | time  23.6s
+[2018-08-26 23:30:18,759 INFO] | epoch   4 | train_loss   nan | val_ppl      nan | time  23.5s
+[2018-08-26 23:30:42,368 INFO] | epoch   5 | train_loss   nan | val_ppl      nan | time  23.6s
+[2018-08-26 23:31:18,048 INFO] -------------
+[2018-08-26 23:31:18,048 INFO] Start training...
+[2018-08-26 23:31:18,048 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=2.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:31:28,184 INFO] train token: 2127402
+[2018-08-26 23:31:28,184 INFO] test token: 250140
+[2018-08-26 23:31:28,184 INFO] valid token: 221606
+[2018-08-26 23:31:28,185 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:31:56,474 INFO] | epoch   1 | train_loss  6.40 | val_ppl 383.49460 | time  23.8s
+[2018-08-26 23:32:20,393 INFO] | epoch   2 | train_loss  5.85 | val_ppl 335.16359 | time  23.9s
+[2018-08-26 23:32:44,454 INFO] | epoch   3 | train_loss  5.67 | val_ppl 309.92591 | time  24.1s
+[2018-08-26 23:33:08,761 INFO] | epoch   4 | train_loss  5.55 | val_ppl 300.35346 | time  24.3s
+[2018-08-26 23:33:33,110 INFO] | epoch   5 | train_loss  5.47 | val_ppl 296.90403 | time  24.3s
+[2018-08-26 23:33:57,498 INFO] learning rate has been changed to 1.25
+[2018-08-26 23:33:57,498 INFO] | epoch   6 | train_loss  5.40 | val_ppl 298.39763 | time  24.4s
+[2018-08-26 23:34:21,872 INFO] | epoch   7 | train_loss  5.25 | val_ppl 285.05532 | time  24.4s
+[2018-08-26 23:34:46,323 INFO] learning rate has been changed to 0.625
+[2018-08-26 23:34:46,323 INFO] | epoch   8 | train_loss  5.22 | val_ppl 286.98401 | time  24.5s
+[2018-08-26 23:34:47,170 INFO] test_ppl: 269.55226
+[2018-08-26 23:42:22,718 INFO] -------------
+[2018-08-26 23:42:22,718 INFO] Start training...
+[2018-08-26 23:42:22,718 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d', log_file='log', lr=3.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-26 23:42:32,873 INFO] train token: 2127402
+[2018-08-26 23:42:32,873 INFO] test token: 250140
+[2018-08-26 23:42:32,873 INFO] valid token: 221606
+[2018-08-26 23:42:32,874 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.200d.pt
+[2018-08-26 23:43:00,850 INFO] | epoch   1 | train_loss  6.40 | val_ppl 383.35231 | time  23.6s
+[2018-08-26 23:43:24,699 INFO] | epoch   2 | train_loss  5.83 | val_ppl 323.39559 | time  23.8s
+[2018-08-26 23:43:48,553 INFO] | epoch   3 | train_loss  5.65 | val_ppl 311.70384 | time  23.9s
+[2018-08-26 23:44:12,539 INFO] | epoch   4 | train_loss  5.54 | val_ppl 300.50115 | time  24.0s
+[2018-08-26 23:44:36,545 INFO] | epoch   5 | train_loss  5.45 | val_ppl 299.83763 | time  24.0s
+[2018-08-26 23:45:00,658 INFO] learning rate has been changed to 1.5
+[2018-08-26 23:45:00,658 INFO] | epoch   6 | train_loss  5.38 | val_ppl 304.08461 | time  24.1s
+[2018-08-26 23:45:24,865 INFO] | epoch   7 | train_loss  5.22 | val_ppl 293.78196 | time  24.2s
+[2018-08-26 23:45:49,142 INFO] learning rate has been changed to 0.75
+[2018-08-26 23:45:49,142 INFO] | epoch   8 | train_loss  5.18 | val_ppl 297.07118 | time  24.3s
+[2018-08-26 23:45:49,994 INFO] test_ppl: 278.41570
+[2018-08-27 11:17:16,508 INFO] -------------
+[2018-08-27 11:17:16,509 INFO] Start training...
+[2018-08-27 11:17:16,509 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d', log_file='log', lr=2.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 11:17:22,613 INFO] train token: 2089931
+[2018-08-27 11:17:22,613 INFO] test token: 250140
+[2018-08-27 11:17:22,613 INFO] valid token: 221606
+[2018-08-27 11:17:23,210 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d
+[2018-08-27 11:17:23,213 WARNING] Skipping token 8576 with 1-dimensional vector ['850']; likely a header
+[2018-08-27 11:17:25,682 INFO] Saving vectors to /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d.pt
+[2018-08-27 11:17:57,355 INFO] | epoch   1 | train_loss   nan | val_ppl      nan | time  27.0s
+[2018-08-27 11:18:24,260 INFO] | epoch   2 | train_loss   nan | val_ppl      nan | time  26.9s
+[2018-08-27 11:18:49,552 INFO] -------------
+[2018-08-27 11:18:49,552 INFO] Start training...
+[2018-08-27 11:18:49,552 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d', log_file='log', lr=1.5, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 11:18:55,819 INFO] train token: 2089931
+[2018-08-27 11:18:55,819 INFO] test token: 250140
+[2018-08-27 11:18:55,819 INFO] valid token: 221606
+[2018-08-27 11:18:55,820 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d.pt
+[2018-08-27 11:19:27,776 INFO] | epoch   1 | train_loss   nan | val_ppl      nan | time  27.4s
+[2018-08-27 11:19:46,693 INFO] -------------
+[2018-08-27 11:19:46,693 INFO] Start training...
+[2018-08-27 11:19:46,693 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d', log_file='log', lr=1.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 11:19:52,800 INFO] train token: 2089931
+[2018-08-27 11:19:52,800 INFO] test token: 250140
+[2018-08-27 11:19:52,800 INFO] valid token: 221606
+[2018-08-27 11:19:52,801 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.850d.pt
+[2018-08-27 11:20:27,685 INFO] | epoch   1 | train_loss  4.68 | val_ppl 76.32929 | time  30.0s
+[2018-08-27 11:20:57,458 INFO] | epoch   2 | train_loss  4.44 | val_ppl 71.53502 | time  29.8s
+[2018-08-27 11:21:27,396 INFO] | epoch   3 | train_loss  4.37 | val_ppl 69.34328 | time  29.9s
+[2018-08-27 11:21:57,310 INFO] | epoch   4 | train_loss  4.33 | val_ppl 67.77638 | time  29.9s
+[2018-08-27 11:22:27,124 INFO] | epoch   5 | train_loss  4.30 | val_ppl 66.60043 | time  29.8s
+[2018-08-27 11:22:57,116 INFO] | epoch   6 | train_loss  4.28 | val_ppl 65.75136 | time  30.0s
+[2018-08-27 11:23:26,783 INFO] | epoch   7 | train_loss  4.26 | val_ppl 65.24692 | time  29.7s
+[2018-08-27 11:23:58,750 INFO] learning rate has been changed to 0.5
+[2018-08-27 11:23:58,751 INFO] | epoch   8 | train_loss  4.24 | val_ppl 64.90251 | time  32.0s
+[2018-08-27 11:23:59,748 INFO] test_ppl: 66.69272
+[2018-08-27 13:18:38,627 INFO] -------------
+[2018-08-27 13:18:38,627 INFO] Start training...
+[2018-08-27 13:18:38,627 INFO] Namespace(batch_size=800, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d', log_file='log', lr=1.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 13:18:44,139 INFO] train token: 2089931
+[2018-08-27 13:18:44,139 INFO] test token: 250140
+[2018-08-27 13:18:44,139 INFO] valid token: 221606
+[2018-08-27 13:18:44,151 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d
+[2018-08-27 13:18:44,152 WARNING] Skipping token 8576 with 1-dimensional vector ['200']; likely a header
+[2018-08-27 13:18:44,677 INFO] Saving vectors to /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d.pt
+[2018-08-27 13:18:58,311 INFO] | epoch   1 | train_loss  4.69 | val_ppl 75.51125 | time   9.6s
+[2018-08-27 13:19:07,970 INFO] | epoch   2 | train_loss  4.44 | val_ppl 71.38092 | time   9.7s
+[2018-08-27 13:19:17,508 INFO] | epoch   3 | train_loss  4.37 | val_ppl 69.40390 | time   9.5s
+[2018-08-27 13:19:27,015 INFO] | epoch   4 | train_loss  4.33 | val_ppl 67.94165 | time   9.5s
+[2018-08-27 13:19:36,615 INFO] | epoch   5 | train_loss  4.30 | val_ppl 66.75578 | time   9.6s
+[2018-08-27 13:19:46,368 INFO] | epoch   6 | train_loss  4.28 | val_ppl 65.93858 | time   9.8s
+[2018-08-27 13:19:55,923 INFO] | epoch   7 | train_loss  4.26 | val_ppl 65.41687 | time   9.6s
+[2018-08-27 13:20:05,519 INFO] learning rate has been changed to 0.5
+[2018-08-27 13:20:05,519 INFO] | epoch   8 | train_loss  4.24 | val_ppl 65.06447 | time   9.6s
+[2018-08-27 13:20:06,118 INFO] test_ppl: 66.86458
+[2018-08-27 16:38:56,869 INFO] -------------
+[2018-08-27 16:38:56,869 INFO] Start training...
+[2018-08-27 16:38:56,869 INFO] Namespace(batch_size=5000, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d', log_file='log', lr=1.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 16:39:02,590 INFO] train token: 2089931
+[2018-08-27 16:39:02,590 INFO] test token: 250140
+[2018-08-27 16:39:02,590 INFO] valid token: 221606
+[2018-08-27 16:39:02,591 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d.pt
+[2018-08-27 16:39:12,252 INFO] | epoch   1 | train_loss  5.00 | val_ppl 96.83110 | time   5.5s
+[2018-08-27 16:39:17,644 INFO] | epoch   2 | train_loss  4.59 | val_ppl 84.54465 | time   5.4s
+[2018-08-27 16:39:23,061 INFO] | epoch   3 | train_loss  4.50 | val_ppl 81.79361 | time   5.4s
+[2018-08-27 16:39:28,433 INFO] | epoch   4 | train_loss  4.45 | val_ppl 79.64381 | time   5.4s
+[2018-08-27 16:39:33,802 INFO] | epoch   5 | train_loss  4.42 | val_ppl 77.77084 | time   5.4s
+[2018-08-27 16:39:39,203 INFO] | epoch   6 | train_loss  4.39 | val_ppl 76.84933 | time   5.4s
+[2018-08-27 16:39:44,604 INFO] | epoch   7 | train_loss  4.37 | val_ppl 75.17683 | time   5.4s
+[2018-08-27 16:39:49,998 INFO] learning rate has been changed to 0.5
+[2018-08-27 16:39:49,998 INFO] | epoch   8 | train_loss  4.36 | val_ppl 75.09147 | time   5.4s
+[2018-08-27 16:39:50,218 INFO] test_ppl: 77.73178
+[2018-08-27 16:40:59,462 INFO] -------------
+[2018-08-27 16:40:59,462 INFO] Start training...
+[2018-08-27 16:40:59,462 INFO] Namespace(batch_size=9000, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d', log_file='log', lr=1.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 16:41:05,241 INFO] train token: 2089931
+[2018-08-27 16:41:05,242 INFO] test token: 250140
+[2018-08-27 16:41:05,242 INFO] valid token: 221606
+[2018-08-27 16:41:05,243 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d.pt
+[2018-08-27 16:41:14,521 INFO] | epoch   1 | train_loss  5.15 | val_ppl 89.56550 | time   5.3s
+[2018-08-27 16:41:19,833 INFO] | epoch   2 | train_loss  4.64 | val_ppl 80.00552 | time   5.3s
+[2018-08-27 16:41:24,988 INFO] | epoch   3 | train_loss  4.56 | val_ppl 75.99751 | time   5.2s
+[2018-08-27 16:41:30,235 INFO] | epoch   4 | train_loss  4.51 | val_ppl 73.65986 | time   5.2s
+[2018-08-27 16:41:35,480 INFO] | epoch   5 | train_loss  4.47 | val_ppl 71.27518 | time   5.2s
+[2018-08-27 16:41:40,688 INFO] | epoch   6 | train_loss  4.44 | val_ppl 69.76682 | time   5.2s
+[2018-08-27 16:41:45,935 INFO] | epoch   7 | train_loss  4.42 | val_ppl 68.55516 | time   5.2s
+[2018-08-27 16:41:51,193 INFO] | epoch   8 | train_loss  4.40 | val_ppl 67.63496 | time   5.3s
+[2018-08-27 16:41:51,411 INFO] test_ppl: 71.04861
+[2018-08-27 16:42:44,203 INFO] -------------
+[2018-08-27 16:42:44,204 INFO] Start training...
+[2018-08-27 16:42:44,204 INFO] Namespace(batch_size=15000, bidirectional=False, bptt_len=10, data_type='wiki2', decay=0.5, device='cuda:0', dropout=0.0, epoch=8, every_n_epoch_save=40, input_vector='~/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d', log_file='log', lr=1.0, norm_out_emb=False, num_layers=1, out_emb_path='./10bptt_8epoch_outemb.txt', random_outemb=True, resources_dir='~/common_corpus/', rnn_type='GRU', save='mlp.model', seed=200, tied=False, update_inputemb=True, update_out_emb=True, vector_type='glove.6B.100d', window_len=1)
+[2018-08-27 16:42:50,189 INFO] train token: 2089931
+[2018-08-27 16:42:50,189 INFO] test token: 250140
+[2018-08-27 16:42:50,189 INFO] valid token: 221606
+[2018-08-27 16:42:50,190 INFO] Loading vectors from /home/lr/yukun/common_corpus/wikitext-2/wikitext-2/wiki.train.tokens.cbow.8.5kvocab.200d.pt
+[2018-08-27 16:42:59,348 INFO] | epoch   1 | train_loss  5.37 | val_ppl 101.43546 | time   5.2s
+[2018-08-27 16:43:04,536 INFO] | epoch   2 | train_loss  4.72 | val_ppl 87.17142 | time   5.2s
+[2018-08-27 16:43:09,709 INFO] | epoch   3 | train_loss  4.62 | val_ppl 81.81468 | time   5.2s
+[2018-08-27 16:43:14,860 INFO] | epoch   4 | train_loss  4.56 | val_ppl 78.69221 | time   5.2s
+[2018-08-27 16:43:20,033 INFO] | epoch   5 | train_loss  4.53 | val_ppl 76.26686 | time   5.2s
+[2018-08-27 16:43:25,182 INFO] | epoch   6 | train_loss  4.50 | val_ppl 74.49466 | time   5.1s
+[2018-08-27 16:43:30,348 INFO] | epoch   7 | train_loss  4.47 | val_ppl 72.92554 | time   5.2s
+[2018-08-27 16:43:35,492 INFO] | epoch   8 | train_loss  4.46 | val_ppl 72.00785 | time   5.1s
+[2018-08-27 16:43:35,705 INFO] test_ppl: 72.07806

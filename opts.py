@@ -79,10 +79,10 @@ def preprocess_opts(parser):
         help="every this epoch saving model"
     )
     group.add_argument(
-        '-every_n_epoch_decay',
-        default=8,
+        '-decay',
+        default=0.75,
         help="lr decay",
-        type=int
+        type=float
     )
     group.add_argument('-seed', default=0, help="random seed", type=int)
     group.add_argument(
