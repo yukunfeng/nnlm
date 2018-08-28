@@ -17,7 +17,8 @@ import torch.nn as nn
 import torch.optim as optim
 from utils.utils import *
 from mlplm import MLPLM
-from co_matrix import matrix_make
+from co_matrix import WordMatrix
+import dataset
 
 
 def adjust_learning_rate(optimizer, lr, decay):
@@ -27,6 +28,17 @@ def adjust_learning_rate(optimizer, lr, decay):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr
+
+
+def multiple_weighted_ce(prediction, weight):
+    """
+    prediction: size input*softmax_size
+    weight: same as prediction
+    """
+    log_probs = nn.functional.log_softmax(prediction, dim=1)
+    loss = log_probs * weight
+    loss = -loss.sum()
+    return loss
 
 
 def parse_args():
@@ -45,28 +57,42 @@ def parse_args():
 
 def train(opt, logger=None):
     """training given opt"""
+    if opt.data_type == "ptb":
+        TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset_for_ptb(
+            opt, logger=logger
+        )
+    else:
+        TEXT, train_iter, test_iter, val_iter = dataset.create_lm_dataset(
+            opt, logger=logger
+        )
     device = torch.device(opt.device)
 
-    matrix = matrix_make(opt)
-    vocab_size = 0
-    word_dim = 0
+    vocab_size = TEXT.vocab.vectors.size(0)
+    word_dim = TEXT.vocab.vectors.size(1)
+    hidden_size = word_dim
+
+    if not opt.random_outemb:
+        pass
+        #  opt.out_emb_path = os.path.expanduser(opt.out_emb_path)
+        #  out_emb = load_word_embedding(opt.out_emb_path)
+        #  hidden_size = out_emb.size(1)
+
     model = MLPLM(
         rnn_type=opt.rnn_type,
         bidirectional=opt.bidirectional,
         num_layers=opt.num_layers,
         vocab_size=vocab_size,
         word_dim=word_dim,
-        hidden_size=word_dim * opt.window_len,
+        hidden_size=hidden_size,
         dropout=opt.dropout
     ).to(device)
 
-    model.embeddings.weight.data.copy_(TEXT.vocab.vectors)
-    model.embeddings.weight.requires_grad = opt.update_inputemb
+    model.rnn_encoder.embeddings.weight.data.copy_(TEXT.vocab.vectors)
+    model.rnn_encoder.embeddings.weight.requires_grad = opt.update_inputemb
 
     if not opt.random_outemb:
-        opt.out_emb_path = os.path.expanduser(opt.out_emb_path)
-        out_emb = load_word_embedding(opt.out_emb_path)
-        model.out.weight.data.copy_(out_emb)
+        pass
+        #  model.out.weight.data.copy_(out_emb)
 
     if opt.norm_out_emb:
         model.out.weight.data =\
@@ -75,7 +101,8 @@ def train(opt, logger=None):
     model.out.weight.requires_grad = opt.update_out_emb
 
     if opt.tied:
-        model.out.weight = model.embeddings.weight
+        model.out.weight = model.rnn_encoder.embeddings.weight
+
     criterion = nn.CrossEntropyLoss()
     #  optimizer = optim.SGD(model.parameters(), lr=float(opt.lr))
     optimizer = optim.SGD(filter(
@@ -83,52 +110,82 @@ def train(opt, logger=None):
         model.parameters()
     ), lr=float(opt.lr))
 
+    def evaluation_similarity(data_iter):
+        """do evaluation on data_iter
+        return: average_word_cosine"""
+        model.eval()
+        with torch.no_grad():
+            eval_total_loss = 0
+            for batch_count, batch_data in enumerate(data_iter, 1):
+                text = batch_data.text.to(device)
+                target = batch_data.target.to(device)
+                loss = torch.mean(-model.forward_similarity(text, target))
+                eval_total_loss += loss.item()
+            return eval_total_loss / batch_count
+
     def evaluation(data_iter):
         """do evaluation on data_iter
         return: average_word_loss"""
         model.eval()
         with torch.no_grad():
             eval_total_loss = 0
-            count = 0
+            encoder_final = None
             for batch_count, batch_data in enumerate(data_iter, 1):
-                text = batch_data.text.t().contiguous()
-                target = batch_data.target.t().contiguous()
-                for i in range(text.size(1) - opt.window_len + 1):
-                    text_ = text[:, i:i+opt.window_len]
-                    target_ = target[:, i+opt.window_len-1]
-                    prediction = model(text_)
+                #  text = batch_data.text.to(device)
+                #  target = batch_data.target.to(device)
+                if opt.data_type == "ptb":
+                    text, lengths = batch_data.text
+                    lengths -= 1
+                    target = text[1:, :]
+                    text = text[0:-1, :]
+                    prediction, encoder_final = model(text)
                     loss = criterion(
-                        prediction, target_
+                        prediction.view(-1, vocab_size),
+                        target.view(-1)
                     )
-
-                    eval_total_loss += loss.item()
-                    count += 1
-            return eval_total_loss / count
+                else:
+                    text = batch_data.text
+                    target = batch_data.target
+                    prediction, encoder_final = model(
+                        text, hidden=encoder_final
+                    )
+                    encoder_final = encoder_final.detach()
+                    loss = criterion(
+                        prediction.view(-1, vocab_size),
+                        target.view(-1)
+                    )
+                eval_total_loss += loss.item()
+            return eval_total_loss / batch_count
 
     # Keep track of history ppl on val dataset
     val_ppls = []
     last_val_ppl = 1000000
+
+    word_matrix = WordMatrix(opt.file_path)
+
     for epoch in range(1, int(opt.epoch) + 1):
         start_time = time.time()
         # Turn on training mode which enables dropout.
         model.train()
         total_loss = 0
-        count = 0
-        words = matrix.keys()
-        for word in words:
-            context_words = matrix[word]
-            optimizer.zero_grad()
-            prediction = model(text_)
-            loss = criterion(
-                prediction, target_
-            )
+
+        for word in range(word_matrix.vocab_size):
+            weight = word_matrix.matrix[word]
+            prediction = model(word)
+            loss = multiple_weighted_ce(prediction, weight)
+
             loss.backward()
             total_loss += loss.item()
-            count += 1
+            # `clip_grad_norm` helps prevent the exploding gradient
+            #  torch.nn.utils.clip_grad_norm_(filter(
+                #  lambda p: p.requires_grad,
+                #  model.parameters()
+            #  ), opt.clip)
+            #  torch.nn.utils.clip_grad_norm(model.parameters(), opt.clip)
             optimizer.step()
 
         # All xx_loss means loss per word on xx dataset
-        train_loss = total_loss / count
+        train_loss = total_loss / (word + 1)
 
         # Doing validation
         #  val_loss = evaluation_similarity(val_iter)
@@ -139,6 +196,13 @@ def train(opt, logger=None):
 
         elapsed = time.time() - start_time
         start_time = time.time()
+        if logger:
+            logger.info('| epoch {:3d} | train_loss {:5.2f} '
+                        '| val_ppl {:8.5f} | time {:5.1f}s'.format(
+                            epoch,
+                            train_loss,
+                            val_ppl,
+                            elapsed))
 
         if (last_val_ppl - val_ppl) <= 0.5:
             new_lr = adjust_learning_rate(
@@ -149,20 +213,13 @@ def train(opt, logger=None):
                 logger.info(f"learning rate has been changed to {new_lr}")
         last_val_ppl = val_ppl
 
-        if logger:
-            logger.info('| epoch {:3d} | train_loss {:5.2f} '
-                        '| val_ppl {:8.5f} | time {:5.1f}s'.format(
-                            epoch,
-                            train_loss,
-                            val_ppl,
-                            elapsed))
-
         # Saving model
         if epoch % opt.every_n_epoch_save == 0:
-            os.system(f"rm -f {opt.save}")
+            os.system(f"rm -rf {opt.save}")
             if logger:
                 logger.info("start to save model on {}".format(opt.save))
-            opt.hidden_size = opt.word_dim * opt.window_len
+            opt.word_dim = word_dim
+            opt.hidden_size = word_dim
             opt.vocab_size = vocab_size
             save_dict = {
                 'epoch': epoch,
@@ -175,24 +232,24 @@ def train(opt, logger=None):
             )
 
     # Doing evaluation on test data
+    #  test_loss = evaluation_similarity(test_iter)
+    #  test_ppl = test_loss
     test_loss = evaluation(test_iter)
     test_ppl = math.exp(test_loss)
     if logger:
         logger.info("test_ppl: {:5.5f}".format(test_ppl))
 
     # saving output embeddings
-    outemb_path = f"{opt.window_len}mlplen_{opt.epoch}epoch_outemb.txt"
-    os.system(f"rm -f {outemb_path}")
-    save_word_embedding(
-        TEXT.vocab.itos,
-        model.out.weight.data,
-        outemb_path
-    )
-
+    #  save_word_embedding(
+        #  TEXT.vocab.itos,
+        #  model.out.weight.data,
+        #  f"{opt.bptt_len}bptt_{opt.epoch}epoch_outemb.txt"
+    #  )
 
     # saving input embeddings
     #  save_word_embedding(
         #  TEXT.vocab.itos,
+        #  model.rnn_encoder.embeddings.weight.data,
         #  "random_start_input_emb.txt"
     #  )
 
@@ -204,3 +261,4 @@ if __name__ == "__main__":
     logger.info("Start training...")
     logger.info(opt)
     train(opt, logger)
+

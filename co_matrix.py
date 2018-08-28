@@ -7,6 +7,7 @@ Description : Train word vectors based on co-matrix
 """
 
 from collections import Counter
+import torch
 import torchtext
 from utils.utils import *
 
@@ -25,10 +26,12 @@ class WordMatrix(object):
                 tokens = line.split()
                 counter.update(tokens)
         self.vocab = torchtext.vocab.Vocab(counter, specials=[]) 
+        self.vocab_size = len(self.vocab.itos)
         self.matrix_make()
 
     def matrix_make(self):
-        matrix = {}
+        matrix = torch.zeros(self.vocab_size, self.vocab_size, dtype=torch.int32)
+        matrix.requires_grad = False
         with open(self.file_path, 'r') as fh:
             for line in fh:
                 line = line.strip()
@@ -39,30 +42,23 @@ class WordMatrix(object):
                 words = [self.vocab.stoi[word] for word in words]
                 for count, word in enumerate(words, 0):
                     if count == len(words) - 1:
-                        continue
-                    if word not in matrix:
-                        matrix[word] = {}
-                    if words[count + 1] not in matrix[word]:
-                        matrix[word][words[count + 1]] = 0
-                    matrix[word][words[count + 1]] += 1
+                        break
+                    context_word = words[count + 1]
+                    matrix[word][context_word] += 1
         self.matrix = matrix
 
     def print(self, num=10):
-        words = self.matrix.keys()
-        #  words = [self.vocab.itos[word] for word in words]
-        for count, word in enumerate(words, 1):
-            if count == num:
+        for word in range(self.vocab_size):
+            if word + 1 == num:
                 break
 
             out_line = f"{self.vocab.itos[word]}: "
-            context_words = self.matrix[word]
-            col_count = 0
-            for context_word, freq in context_words.items():
-                context_word_str = self.vocab.itos[context_word]
-                col_count += 1
-                out_line += f"({context_word_str} {freq} )"
-                if col_count == num:
+            freqs = self.matrix[word]
+            for freq_count, freq in enumerate(freqs, 1):
+                if freq_count == num:
                     break
+                context_word_str = self.vocab.itos[freq_count - 1]
+                out_line += f"({context_word_str} {freq} )"
             print(out_line) 
 
 
